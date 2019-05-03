@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		850BF3CA227BA504005EC3CF /* CardInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850BF3C9227BA504005EC3CF /* CardInfoView.swift */; };
+		850BF3CC227BB8DC005EC3CF /* MapCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850BF3CB227BB8DC005EC3CF /* MapCode.swift */; };
 		85A755D1227B5E5E001E8FCC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A755D0227B5E5E001E8FCC /* AppDelegate.swift */; };
 		85A755D3227B5E5E001E8FCC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A755D2227B5E5E001E8FCC /* ViewController.swift */; };
 		85A755D6227B5E5E001E8FCC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85A755D4227B5E5E001E8FCC /* Main.storyboard */; };
@@ -14,6 +16,9 @@
 		85A755DB227B5E5F001E8FCC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85A755D9227B5E5F001E8FCC /* LaunchScreen.storyboard */; };
 		85A755E6227B5E5F001E8FCC /* BMSTudentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A755E5227B5E5F001E8FCC /* BMSTudentTests.swift */; };
 		85A755F1227B5E5F001E8FCC /* BMSTudentUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A755F0227B5E5F001E8FCC /* BMSTudentUITests.swift */; };
+		85A755FF227B623B001E8FCC /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A755FE227B623B001E8FCC /* Place.swift */; };
+		85A75604227B7072001E8FCC /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85A75603227B7072001E8FCC /* MapKit.framework */; };
+		85A75606227B9608001E8FCC /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A75605227B9608001E8FCC /* Schedule.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +39,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		850BF3C9227BA504005EC3CF /* CardInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardInfoView.swift; sourceTree = "<group>"; };
+		850BF3CB227BB8DC005EC3CF /* MapCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCode.swift; sourceTree = "<group>"; };
 		85A755CD227B5E5E001E8FCC /* BMSTudent.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BMSTudent.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		85A755D0227B5E5E001E8FCC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		85A755D2227B5E5E001E8FCC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -47,6 +54,9 @@
 		85A755EC227B5E5F001E8FCC /* BMSTudentUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BMSTudentUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		85A755F0227B5E5F001E8FCC /* BMSTudentUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BMSTudentUITests.swift; sourceTree = "<group>"; };
 		85A755F2227B5E5F001E8FCC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		85A755FE227B623B001E8FCC /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
+		85A75603227B7072001E8FCC /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		85A75605227B9608001E8FCC /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +64,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				85A75604227B7072001E8FCC /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,6 +92,7 @@
 				85A755E4227B5E5F001E8FCC /* BMSTudentTests */,
 				85A755EF227B5E5F001E8FCC /* BMSTudentUITests */,
 				85A755CE227B5E5E001E8FCC /* Products */,
+				85A75602227B7072001E8FCC /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -103,6 +115,10 @@
 				85A755D7227B5E5F001E8FCC /* Assets.xcassets */,
 				85A755D9227B5E5F001E8FCC /* LaunchScreen.storyboard */,
 				85A755DC227B5E5F001E8FCC /* Info.plist */,
+				85A755FE227B623B001E8FCC /* Place.swift */,
+				85A75605227B9608001E8FCC /* Schedule.swift */,
+				850BF3C9227BA504005EC3CF /* CardInfoView.swift */,
+				850BF3CB227BB8DC005EC3CF /* MapCode.swift */,
 			);
 			path = BMSTudent;
 			sourceTree = "<group>";
@@ -123,6 +139,14 @@
 				85A755F2227B5E5F001E8FCC /* Info.plist */,
 			);
 			path = BMSTudentUITests;
+			sourceTree = "<group>";
+		};
+		85A75602227B7072001E8FCC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				85A75603227B7072001E8FCC /* MapKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -193,6 +217,11 @@
 				TargetAttributes = {
 					85A755CC227B5E5E001E8FCC = {
 						CreatedOnToolsVersion = 10.1;
+						SystemCapabilities = {
+							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					85A755E0227B5E5F001E8FCC = {
 						CreatedOnToolsVersion = 10.1;
@@ -256,8 +285,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				85A755FF227B623B001E8FCC /* Place.swift in Sources */,
 				85A755D3227B5E5E001E8FCC /* ViewController.swift in Sources */,
+				85A75606227B9608001E8FCC /* Schedule.swift in Sources */,
+				850BF3CC227BB8DC005EC3CF /* MapCode.swift in Sources */,
 				85A755D1227B5E5E001E8FCC /* AppDelegate.swift in Sources */,
+				850BF3CA227BA504005EC3CF /* CardInfoView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -442,7 +475,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = Sergei.BMSTudent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -460,7 +493,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = Sergei.BMSTudent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
