@@ -7,17 +7,24 @@
 //
 
 import UIKit
+import CoreLocation
+
+let allplaces : [String: Place] = ["GZ" : places.placeGZ, "ULK" : places.placeULK, "ESM" : places.placeESM, "IZM" : places.placeIZM, "SK" : places.placeSK, "OB" : places.placeOB, "Home" : places.placeHome]
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+    let locationManager = CLLocationManager()
+    var mytimer = Timer()
+    
     var window: UIWindow?
 
-
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        locationManager.delegate = self
+        locationManager.requestAlwaysAuthorization()
         return true
     }
+   
 
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -44,3 +51,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+extension AppDelegate: CLLocationManagerDelegate {
+    //Когда пользователь выходит из какого-то региона
+    func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
+        if region is CLCircularRegion {
+            
+            let myViewController = self.window?.rootViewController as? ViewController
+            myViewController?.setTimeZero()
+            mytimer.invalidate()
+            
+            //Для себя проверка
+            print("Exit")
+            print(region.identifier)
+        }
+    }
+    
+    //Когда пользователь входит в какой-то регион
+    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
+        if region is CLCircularRegion {
+            let myViewController = self.window?.rootViewController as? ViewController
+            
+            mytimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: {_ in
+                allplaces[region.identifier]?.time = allplaces[region.identifier]!.time + 1;
+                myViewController?.setTimeLabel(region: allplaces[region.identifier]!)})
+            
+            //Для себя проверка
+            print("Enter")
+            print(region.identifier)
+        }
+    }
+}

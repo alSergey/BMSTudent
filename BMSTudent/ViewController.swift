@@ -5,33 +5,6 @@
 //  Created by Sergei Petrenko on 02/05/2019.
 //  Copyright © 2019 Sergei. All rights reserved.
 //
-/*
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- */
 import UIKit
 import MapKit
 import CoreLocation
@@ -77,9 +50,38 @@ class ViewController: UIViewController {
         setExercice()
         
         mapView.addAnnotation(places.placeGZ)
+        mapView.addAnnotation(places.placeULK)
+        mapView.addAnnotation(places.placeESM)
+        mapView.addAnnotation(places.placeIZM)
+        mapView.addAnnotation(places.placeSK)
+        mapView.addAnnotation(places.placeOB)
+        mapView.addAnnotation(places.placeHome)
         
         mapView.delegate = self
         locationManager.delegate = self
+        
+        places.placeGZ.region.notifyOnEntry = true
+        places.placeGZ.region.notifyOnExit = true
+        places.placeULK.region.notifyOnEntry = true
+        places.placeULK.region.notifyOnExit = true
+        places.placeESM.region.notifyOnEntry = true
+        places.placeESM.region.notifyOnExit = true
+        places.placeIZM.region.notifyOnEntry = true
+        places.placeIZM.region.notifyOnExit = true
+        places.placeSK.region.notifyOnEntry = true
+        places.placeSK.region.notifyOnExit = true
+        places.placeOB.region.notifyOnEntry = true
+        places.placeOB.region.notifyOnExit = true
+        places.placeHome.region.notifyOnEntry = true
+        places.placeHome.region.notifyOnExit = true
+        
+        locationManager.startMonitoring(for: places.placeGZ.region)
+        locationManager.startMonitoring(for: places.placeULK.region)
+        locationManager.startMonitoring(for: places.placeESM.region)
+        locationManager.startMonitoring(for: places.placeIZM.region)
+        locationManager.startMonitoring(for: places.placeSK.region)
+        locationManager.startMonitoring(for: places.placeOB.region)
+        locationManager.startMonitoring(for: places.placeHome.region)
         
         locationManager.requestWhenInUseAuthorization()
         
@@ -111,6 +113,22 @@ class ViewController: UIViewController {
         else {
             currentTaskLabel.text = "Свобода"
         }
+    }
+    
+    func setTimeLabel(region:Place){
+        var h: Int = 0
+        var m: Int = 0
+        var s: Int = 0
+        
+        if region.time < 60 {s = region.time}
+        else if region.time < 3600 {m = region.time / 60; s = region.time - 60 * (region.time / 60)}
+        else {h = region.time / 3600; m = region.time / 60 - h * 60; s = region.time - 3600 * h - 60 * m}
+        
+        univercityTimerLabel.text = String(h) + ":" + String(m) + ":" + String(s)
+    }
+    
+    func setTimeZero(){
+        univercityTimerLabel.text = "00:00:00"
     }
 }
 
