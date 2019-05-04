@@ -16,12 +16,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     let locationManager = CLLocationManager()
     var mytimer = Timer()
+    var mytimer2 = Timer()
     
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        
+      locationManager.requestAlwaysAuthorization()
+
         locationManager.delegate = self
-        locationManager.requestAlwaysAuthorization()
+    
+        let myViewController = self.window?.rootViewController as? ViewController
+        
+        
+        mytimer.invalidate()
+        
+        mytimer2 = Timer.scheduledTimer(withTimeInterval: 10, repeats: true, block: {
+            _ in
+            myViewController?.inPolygon = false
+            myViewController?.setTravelTime()
+            
+            
+        })
+        
+        
         return true
     }
    
@@ -57,9 +75,17 @@ extension AppDelegate: CLLocationManagerDelegate {
         if region is CLCircularRegion {
             
             let myViewController = self.window?.rootViewController as? ViewController
+            myViewController?.sourceLocation = (locationManager.location?.coordinate)!
             myViewController?.setTimeZero()
+            
             mytimer.invalidate()
             
+            mytimer2 = Timer.scheduledTimer(withTimeInterval: 10, repeats: true, block: {
+                _ in
+                myViewController?.inPolygon = false
+                myViewController?.setTravelTime()
+                
+            })
             //Для себя проверка
             print("Exit")
             print(region.identifier)
@@ -68,16 +94,23 @@ extension AppDelegate: CLLocationManagerDelegate {
     
     //Когда пользователь входит в какой-то регион
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
+       
         if region is CLCircularRegion {
             let myViewController = self.window?.rootViewController as? ViewController
-            
-            mytimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: {_ in
-                allplaces[region.identifier]?.time = allplaces[region.identifier]!.time + 1;
-                myViewController?.setTimeLabel(region: allplaces[region.identifier]!)})
+            myViewController?.sourceLocation = (locationManager.location?.coordinate)!
+            myViewController!.mapView.removeOverlays(myViewController!.mapView.overlays)
+            mytimer2.invalidate()
+            mytimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: {
+                _ in allplaces[region.identifier]?.time = allplaces[region.identifier]!.time + 1
+                myViewController?.inPolygon = true
+                myViewController?.setTimeLabel(region: allplaces[region.identifier]!)
+                
+            })
             
             //Для себя проверка
             print("Enter")
             print(region.identifier)
         }
     }
+    
 }

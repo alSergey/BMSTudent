@@ -41,6 +41,7 @@
 /* Begin PBXFileReference section */
 		850BF3C9227BA504005EC3CF /* CardInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardInfoView.swift; sourceTree = "<group>"; };
 		850BF3CB227BB8DC005EC3CF /* MapCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCode.swift; sourceTree = "<group>"; };
+		855C24E4227CED9D00EB3323 /* kitai.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = kitai.gpx; path = ../../Desktop/GPX_GENERATOR/kitai.gpx; sourceTree = "<group>"; };
 		85A755CD227B5E5E001E8FCC /* BMSTudent.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BMSTudent.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		85A755D0227B5E5E001E8FCC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		85A755D2227B5E5E001E8FCC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -88,6 +89,7 @@
 		85A755C4227B5E5E001E8FCC = {
 			isa = PBXGroup;
 			children = (
+				855C24E4227CED9D00EB3323 /* kitai.gpx */,
 				85A755CF227B5E5E001E8FCC /* BMSTudent */,
 				85A755E4227B5E5F001E8FCC /* BMSTudentTests */,
 				85A755EF227B5E5F001E8FCC /* BMSTudentUITests */,

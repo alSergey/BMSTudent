@@ -9,6 +9,7 @@ import UIKit
 import MapKit
 import CoreLocation
 
+
 let mapCode = MapCode()
 let places = Places()
 let weekSh = [
@@ -30,6 +31,11 @@ let weekSh = [
  */
 
 class ViewController: UIViewController {
+    
+    var inPolygon = false
+    
+    var sourceLocation = CLLocationCoordinate2D(latitude:55.765790, longitude: 37.677132)
+    var destinationLocation = places.placeGZ.coordinate
 
     @IBOutlet var mapView: MKMapView!
     @IBOutlet var infoCard: CardInfoView!
@@ -43,6 +49,8 @@ class ViewController: UIViewController {
     @IBOutlet var locationStatusLabel: UILabel! // Если в зоне, то суммирует время к таймеру, иначе показыает сколько добираться (Вы в бауманке/До бауманки)
     
     let locationManager = CLLocationManager()
+    
+    let initialLocation = CLLocation(latitude:55.765790, longitude: 37.677132)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,6 +83,7 @@ class ViewController: UIViewController {
         places.placeHome.region.notifyOnEntry = true
         places.placeHome.region.notifyOnExit = true
         
+       
         locationManager.startMonitoring(for: places.placeGZ.region)
         locationManager.startMonitoring(for: places.placeULK.region)
         locationManager.startMonitoring(for: places.placeESM.region)
@@ -83,18 +92,35 @@ class ViewController: UIViewController {
         locationManager.startMonitoring(for: places.placeOB.region)
         locationManager.startMonitoring(for: places.placeHome.region)
         
+     
+       
+        locationManager.requestAlwaysAuthorization()
+        
+        locationManager.startMonitoringVisits()
+        // 1
+        locationManager.distanceFilter = 35
+        
+        // 2
+        locationManager.allowsBackgroundLocationUpdates = true
+        
+        // 3
+        locationManager.startUpdatingLocation()
+        
         locationManager.requestWhenInUseAuthorization()
         
-        let initialLocation = CLLocation(latitude:55.765790, longitude: 37.677132)
+        
+        
+        
         mapCode.centerMapOnLocation(location: locationManager.location ?? initialLocation,mapView: mapView)
         
         mapView.showsUserLocation = true
         mapView.showsTraffic = true
-        let sourceLocation = locationManager.location?.coordinate
-        let destinationLocation = places.placeGZ.coordinate
-        
-        mapCode.createRoute(sourceLocation: sourceLocation ?? initialLocation.coordinate,destinationLocation: destinationLocation,mapView: mapView)
+        sourceLocation = locationManager.location?.coordinate ?? initialLocation.coordinate
+        destinationLocation = places.placeGZ.coordinate
+    
          mapView.delegate = self
+        
+    
         
 }
     
@@ -105,7 +131,7 @@ class ViewController: UIViewController {
         return renderer
     }
     func setExercice(){
-        let sh = weekSh[Date().dayNumberOfWeek()!-2]
+        let sh = weekSh[Date().dayNumberOfWeek()!]
         let a = getNumberOfExercise()
         if a != -1{
             currentTaskLabel.text = sh.array[a].name
@@ -115,16 +141,75 @@ class ViewController: UIViewController {
         }
     }
     
-    func setTimeLabel(region:Place){
+    func timeToString(time : Int)->String{
         var h: Int = 0
         var m: Int = 0
         var s: Int = 0
         
-        if region.time < 60 {s = region.time}
-        else if region.time < 3600 {m = region.time / 60; s = region.time - 60 * (region.time / 60)}
-        else {h = region.time / 3600; m = region.time / 60 - h * 60; s = region.time - 3600 * h - 60 * m}
+        if time < 60 {s = time}
+        else if time < 3600 {
+            m = time / 60
+            s = time - 60 * (time / 60)
+            
+        }
+        else {
+            h = time / 3600
+            m = time / 60 - h * 60
+            s = time - 3600 * h - 60 * m
+        }
+        print(h, " ", m, " ", s )
+        return String(h) + ":" + String(m) + ":" + String(s)
         
-        univercityTimerLabel.text = String(h) + ":" + String(m) + ":" + String(s)
+    }
+    
+    func setTimeLabel(region:Place){
+        locationStatusLabel.text = "Вы в бауманке"
+        taskStatusLabel.text = "Вы успеваете на пару"
+        univercityTimerLabel.text = timeToString(time: region.time)
+    }
+    func setTravelTime(){
+        
+        mapView.removeOverlays(mapView.overlays)
+         mapCode.createRoute(sourceLocation: sourceLocation ?? initialLocation.coordinate,destinationLocation: destinationLocation,mapView: mapView)
+        
+        locationStatusLabel.text = "Время в пути"
+        sourceLocation = (locationManager.location?.coordinate)!
+        let time = mapCode.getRouteTime(sourceLocation: sourceLocation, destinationLocation: destinationLocation, mapView: mapView)
+        print("set time ",String(time))
+        univercityTimerLabel.text = timeToString(time: time)
+        //проверяем успевает ли юзер на пару
+        
+        let sh = weekSh[Date().dayNumberOfWeek()!]
+        let a = getNumberOfExercise()
+        
+        let date = Date()
+        let calendar = Calendar.current
+        let curtime = Int(calendar.component(.hour, from:date)*60*60+calendar.component(.minute, from:date)*60)
+        if(!inPolygon){
+        if a != -1{
+            if time + curtime < sh.array[a].time.getSeconds(){
+                taskStatusLabel.text = "Вы успеваете на пару"
+            }
+            else{
+                taskStatusLabel.text = "Вы опаздываете на пару"
+            }
+        }
+        else{
+            if time + curtime < sh.array[0].time.getSeconds(){
+                taskStatusLabel.text = "Вы успеваете на пару"
+            }
+            else{
+                taskStatusLabel.text = "Вы опаздываете на пару"
+            }
+            
+        }
+        }
+        else{
+            taskStatusLabel.text = "Вы успеваете на пару"
+        }
+        
+        
+        
     }
     
     func setTimeZero(){
@@ -183,7 +268,7 @@ func getNumberOfExercise()->Int{
     let calendar = Calendar.current
     let curtime = Int(calendar.component(.hour, from:date)*60*60+calendar.component(.minute, from:date)*60)
     
-    let sh = weekSh[Date().dayNumberOfWeek()!-2]
+    let sh = weekSh[Date().dayNumberOfWeek()!]
     
     for i in 0...sh.array.count-1 {
         if curtime < sh.array[i].time.getSeconds()+5400 && curtime > sh.array[i].time.getSeconds() {

@@ -9,11 +9,9 @@
 import Foundation
 import MapKit
 class MapCode{
-    init(){
-        
-    }
+    
 func createRoute(sourceLocation : CLLocationCoordinate2D, destinationLocation : CLLocationCoordinate2D, mapView: MKMapView){
-    let initialLocation = CLLocation(latitude:55.765790, longitude: 37.677132)
+    //let initialLocation = CLLocation(latitude:55.765790, longitude: 37.677132)
     
     let sourcePlaceMark = MKPlacemark(coordinate: sourceLocation )
     let destinationPlaceMark = MKPlacemark(coordinate: destinationLocation)
@@ -35,7 +33,7 @@ func createRoute(sourceLocation : CLLocationCoordinate2D, destinationLocation : 
         //get route and assign to our route variable
         let route = directionResonse.routes[0]
         
-        //add rout to our mapview
+        //add route to our mapview
         mapView.addOverlay(route.polyline, level: .aboveRoads)
         
         //setting rect of our mapview to fit the two locations
@@ -45,6 +43,39 @@ func createRoute(sourceLocation : CLLocationCoordinate2D, destinationLocation : 
     }
 
 }
+    var myTime : Int = 0
+    func getRouteTime(sourceLocation : CLLocationCoordinate2D, destinationLocation : CLLocationCoordinate2D, mapView: MKMapView)->Int{
+        let sourcePlaceMark = MKPlacemark(coordinate: sourceLocation )
+        let destinationPlaceMark = MKPlacemark(coordinate: destinationLocation)
+        
+       
+        
+        let directionRequest = MKDirections.Request()
+        directionRequest.source = MKMapItem(placemark: sourcePlaceMark)
+        directionRequest.destination = MKMapItem(placemark: destinationPlaceMark)
+        directionRequest.transportType = .walking
+        
+        let directions = MKDirections(request: directionRequest)
+        
+        directions.calculate{ (response, error) in
+            guard let directionResonse = response else {
+                if let error = error {
+                    print("we have error getting directions==\(error.localizedDescription)")
+                }
+                return
+            }
+            
+            //get route and assign to our route variable
+            let route = directionResonse.routes[0]
+            
+            print("res dbl ",route.expectedTravelTime)
+            let res =  Int(route.expectedTravelTime)
+            print("res ",res)
+            self.myTime = res
+            
+    }
+        return myTime
+    }
     
     let regionRadius: CLLocationDistance = 100
     
