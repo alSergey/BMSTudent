@@ -57,33 +57,12 @@ class ViewController: UIViewController {
         
         setExercice()
         
-        mapView.addAnnotation(places.placeGZ)
-        mapView.addAnnotation(places.placeULK)
-        mapView.addAnnotation(places.placeESM)
-        mapView.addAnnotation(places.placeIZM)
-        mapView.addAnnotation(places.placeSK)
-        mapView.addAnnotation(places.placeOB)
-        mapView.addAnnotation(places.placeHome)
+        addAnnotation()
+        notifyOn()
         
         mapView.delegate = self
         locationManager.delegate = self
         
-        places.placeGZ.region.notifyOnEntry = true
-        places.placeGZ.region.notifyOnExit = true
-        places.placeULK.region.notifyOnEntry = true
-        places.placeULK.region.notifyOnExit = true
-        places.placeESM.region.notifyOnEntry = true
-        places.placeESM.region.notifyOnExit = true
-        places.placeIZM.region.notifyOnEntry = true
-        places.placeIZM.region.notifyOnExit = true
-        places.placeSK.region.notifyOnEntry = true
-        places.placeSK.region.notifyOnExit = true
-        places.placeOB.region.notifyOnEntry = true
-        places.placeOB.region.notifyOnExit = true
-        places.placeHome.region.notifyOnEntry = true
-        places.placeHome.region.notifyOnExit = true
-        
-       
         locationManager.startMonitoring(for: places.placeGZ.region)
         locationManager.startMonitoring(for: places.placeULK.region)
         locationManager.startMonitoring(for: places.placeESM.region)
@@ -113,16 +92,13 @@ class ViewController: UIViewController {
         
         mapCode.centerMapOnLocation(location: locationManager.location ?? initialLocation,mapView: mapView)
         
+        mapView.showsScale = true
         mapView.showsUserLocation = true
         mapView.showsTraffic = true
         sourceLocation = locationManager.location?.coordinate ?? initialLocation.coordinate
         destinationLocation = places.placeGZ.coordinate
     
-         mapView.delegate = self
-        
-    
-        
-}
+    }
     
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         let renderer = MKPolylineRenderer(overlay: overlay)
@@ -157,7 +133,7 @@ class ViewController: UIViewController {
             m = time / 60 - h * 60
             s = time - 3600 * h - 60 * m
         }
-        print(h, " ", m, " ", s )
+        //print(h, " ", m, " ", s )
         return String(h) + ":" + String(m) + ":" + String(s)
         
     }
@@ -170,12 +146,12 @@ class ViewController: UIViewController {
     func setTravelTime(){
         
         mapView.removeOverlays(mapView.overlays)
-         mapCode.createRoute(sourceLocation: sourceLocation ?? initialLocation.coordinate,destinationLocation: destinationLocation,mapView: mapView)
+        mapCode.createRoute(sourceLocation: sourceLocation ,destinationLocation: destinationLocation,mapView: mapView)
         
         locationStatusLabel.text = "Время в пути"
         sourceLocation = (locationManager.location?.coordinate)!
         let time = mapCode.getRouteTime(sourceLocation: sourceLocation, destinationLocation: destinationLocation, mapView: mapView)
-        print("set time ",String(time))
+        //print("set time ",String(time))
         univercityTimerLabel.text = timeToString(time: time)
         //проверяем успевает ли юзер на пару
         
@@ -215,6 +191,35 @@ class ViewController: UIViewController {
     func setTimeZero(){
         univercityTimerLabel.text = "00:00:00"
     }
+    
+    
+    func addAnnotation() {
+        mapView.addAnnotation(places.placeGZ)
+        mapView.addAnnotation(places.placeULK)
+        mapView.addAnnotation(places.placeESM)
+        mapView.addAnnotation(places.placeIZM)
+        mapView.addAnnotation(places.placeSK)
+        mapView.addAnnotation(places.placeOB)
+        mapView.addAnnotation(places.placeHome)
+    }
+    
+    func notifyOn() {
+        places.placeGZ.region.notifyOnEntry = true
+        places.placeGZ.region.notifyOnExit = true
+        places.placeULK.region.notifyOnEntry = true
+        places.placeULK.region.notifyOnExit = true
+        places.placeESM.region.notifyOnEntry = true
+        places.placeESM.region.notifyOnExit = true
+        places.placeIZM.region.notifyOnEntry = true
+        places.placeIZM.region.notifyOnExit = true
+        places.placeSK.region.notifyOnEntry = true
+        places.placeSK.region.notifyOnExit = true
+        places.placeOB.region.notifyOnEntry = true
+        places.placeOB.region.notifyOnExit = true
+        places.placeHome.region.notifyOnEntry = true
+        places.placeHome.region.notifyOnExit = true
+    }
+    
 }
 
 extension ViewController: MKMapViewDelegate {
