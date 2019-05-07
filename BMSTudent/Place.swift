@@ -40,49 +40,49 @@ class Place: NSObject, MKAnnotation {
     }
 }
 class Places{
-    let placeGZ = Place(region: CLCircularRegion(center: CLLocationCoordinate2D(latitude: 55.765804, longitude: 37.685734), radius: 100, identifier: "GZ"),
+    let placeGZ = Place(region: CLCircularRegion(center: CLLocationCoordinate2D(latitude: 55.765804, longitude: 37.685734), radius: 40, identifier: "GZ"),
                         title: "Главное здание",
                         locationName: "2-я Бауманская",
                         discipline: "Корпус",
                         coordinate: CLLocationCoordinate2D(latitude: 55.765804, longitude: 37.685734),
                         time: 0)
     
-    let placeULK = Place(region: CLCircularRegion(center: CLLocationCoordinate2D(latitude: 55.771220, longitude:37.691521), radius: 100, identifier: "ULK"),
+    let placeULK = Place(region: CLCircularRegion(center: CLLocationCoordinate2D(latitude: 55.771220, longitude:37.691521), radius: 40, identifier: "ULK"),
                         title: "Учебно-лабораторный корпус",
                          locationName: "",
                          discipline: "Корпус",
                          coordinate: CLLocationCoordinate2D(latitude: 55.771220, longitude:37.691521),
                          time: 0)
     
-    let placeESM = Place(region: CLCircularRegion(center: CLLocationCoordinate2D(latitude: 55.769351, longitude:37.690162), radius: 100, identifier: "ESM"),
+    let placeESM = Place(region: CLCircularRegion(center: CLLocationCoordinate2D(latitude: 55.769351, longitude:37.690162), radius: 40, identifier: "ESM"),
                          title: "Корпус Э и СМ",
                          locationName: "2-я Бауманская",
                          discipline: "Корпус",
                          coordinate: CLLocationCoordinate2D(latitude: 55.769351, longitude:37.690162),
                          time: 0)
     
-    let placeIZM = Place(region: CLCircularRegion(center: CLLocationCoordinate2D(latitude: 55.787980, longitude: 37.783333), radius: 100, identifier: "IZM"),
+    let placeIZM = Place(region: CLCircularRegion(center: CLLocationCoordinate2D(latitude: 55.787980, longitude: 37.783333), radius: 40, identifier: "IZM"),
                          title: "Измайловские общаги",
                          locationName: "2-я Бауманская",
                          discipline: "Спорт и общаги",
                          coordinate: CLLocationCoordinate2D(latitude: 55.787980, longitude: 37.783333),
                          time: 0)
     
-    let placeSK = Place(region: CLCircularRegion(center: CLLocationCoordinate2D(latitude: 55.772227, longitude: 37.697592), radius: 100, identifier: "SK"),
+    let placeSK = Place(region: CLCircularRegion(center: CLLocationCoordinate2D(latitude: 55.772227, longitude: 37.697592), radius: 40, identifier: "SK"),
                         title: "Спортивный комплекс",
                         locationName: "2-я Бауманская",
                         discipline: "Спорт и общаги",
                         coordinate: CLLocationCoordinate2D(latitude: 55.772227, longitude: 37.697592),
                         time: 0)
     
-    let placeOB = Place(region: CLCircularRegion(center: CLLocationCoordinate2D(latitude: 55.770392, longitude: 37.688075), radius: 100, identifier: "OB"),
+    let placeOB = Place(region: CLCircularRegion(center: CLLocationCoordinate2D(latitude: 55.770392, longitude: 37.688075), radius: 40, identifier: "OB"),
                         title: "Общага на Бауманской",
                         locationName: "2-я Бауманская",
                         discipline: "Спорт и общаги",
                         coordinate: CLLocationCoordinate2D(latitude: 55.770392, longitude: 37.688075),
                         time: 0)
     
-    let placeHome = Place(region: CLCircularRegion(center: CLLocationCoordinate2D(latitude: 55.891555, longitude: 37.723244), radius: 100, identifier: "Home"),
+    let placeHome = Place(region: CLCircularRegion(center: CLLocationCoordinate2D(latitude: 55.891555, longitude: 37.723244), radius: 40, identifier: "Home"),
                           title: "Дом",
                           locationName: "Семашко",
                           discipline: "Дом",
