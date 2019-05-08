@@ -51,6 +51,8 @@ class ViewController: UIViewController {
     let locationManager = CLLocationManager()
     
     let initialLocation = CLLocation(latitude:55.765790, longitude: 37.677132)
+    
+    let mylocation = CLLocationCoordinate2D(latitude: 55.765804, longitude: 37.685734)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,7 +73,6 @@ class ViewController: UIViewController {
         locationManager.startMonitoring(for: places.placeOB.region)
         locationManager.startMonitoring(for: places.placeHome.region)
         
-     
        
         locationManager.requestAlwaysAuthorization()
         
@@ -201,6 +202,8 @@ class ViewController: UIViewController {
         mapView.addAnnotation(places.placeSK)
         mapView.addAnnotation(places.placeOB)
         mapView.addAnnotation(places.placeHome)
+        //mapView.setRegion(places.placeGZ.region, animated: true)
+        //mapView?.addOverlay(MKCircle(center: places.placeGZ.coordinate, radius: places.placeGZ.region.radius))
     }
     
     func notifyOn() {
