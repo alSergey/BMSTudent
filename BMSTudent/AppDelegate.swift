@@ -11,6 +11,8 @@ import CoreLocation
 
 let allplaces : [String: Place] = ["GZ" : places.placeGZ, "ULK" : places.placeULK, "ESM" : places.placeESM, "IZM" : places.placeIZM, "SK" : places.placeSK, "OB" : places.placeOB, "Home" : places.placeHome]
 
+let places1 : [Place] = [places.placeGZ, places.placeULK, places.placeESM, places.placeIZM, places.placeSK, places.placeOB, places.placeHome]
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -24,8 +26,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         locationManager.requestAlwaysAuthorization()
         locationManager.delegate = self
+        var destinationLocation = places.placeGZ.coordinate
         
         mytimer.invalidate()
+        for place in places1{
+            if(place.region.contains(locationManager.location?.coordinate ?? destinationLocation)){
+                print(place.locationName," OK")
+            }
+        }
     
         /*let myViewController = self.window?.rootViewController as? ViewController
         mytimer2 = Timer.scheduledTimer(withTimeInterval: 10, repeats: true, block: {
@@ -105,6 +113,6 @@ extension AppDelegate: CLLocationManagerDelegate {
             print(region.identifier)
         }
     }
-    
+  
     
 }
