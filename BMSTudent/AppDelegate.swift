@@ -26,12 +26,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         locationManager.requestAlwaysAuthorization()
         locationManager.delegate = self
-        var destinationLocation = places.placeGZ.coordinate
+        let destinationLocation = places.placeGZ.coordinate
         
         mytimer.invalidate()
-        for place in places1{
-            if(place.region.contains(locationManager.location?.coordinate ?? destinationLocation)){
+        
+        for place in places1 {
+            if (place.region.contains(locationManager.location?.coordinate ?? destinationLocation)){
                 print(place.locationName," OK")
+                let myViewController = self.window?.rootViewController as? ViewController
+                
+                mytimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: {
+                    _ in place.time = place.time + 1
+                    myViewController?.inPolygon = true
+                    myViewController?.setTimeLabel(region: place)
+                    
+                })
+            } else {
+                /*let myViewController = self.window?.rootViewController as? ViewController
+                myViewController?.sourceLocation = (locationManager.location?.coordinate)!
+                
+                mytimer2 = Timer.scheduledTimer(withTimeInterval: 10, repeats: true, block: {
+                    _ in
+                    myViewController?.inPolygon = false
+                    myViewController?.setTravelTime()
+                })*/
             }
         }
     
