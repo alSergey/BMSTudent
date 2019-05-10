@@ -79,6 +79,7 @@ class ViewController: UIViewController {
         }
         
         setExercice()
+        
         addAnnotation()
         notifyOn()
         mapView.delegate = self
@@ -119,15 +120,55 @@ class ViewController: UIViewController {
         return renderer
     }
     func setExercice(){
-        let sh = weekSh[Date().dayNumberOfWeek()!]
-        let a = getNumberOfExercise()
-        if a != -1{
-            currentTaskLabel.text = sh.array[a].name
-        }
-        else {
-            currentTaskLabel.text = "Свобода"
+        var myDaySchedule : [MyScheduleElement]
+            myDaySchedule = mySchedule["Понедельник"]!
+            switch Int(Date().dayNumberOfWeek()!-2){
+            case 0:
+                print("TODAY 0")
+                myDaySchedule = mySchedule["Понедельник"]!
+                break;
+            case 1:
+                print("TODAY 1")
+                 myDaySchedule = mySchedule["Вторник"]!
+                break;
+            case 2:
+                print("TODAY 2")
+                 myDaySchedule = mySchedule["Среда"]!
+                break;
+            case 3:
+                print("TODAY 3")
+                 myDaySchedule = mySchedule["Четверг"]!
+                break;
+            case 4:
+                print("TODAY 4")
+                 myDaySchedule = mySchedule["Пятница"]!
+                break;
+            case 5:
+                print("TODAY 5")
+                 myDaySchedule = mySchedule["Суббота"]!
+                break;
+            case 6:
+                print("TODAY 6")
+                 myDaySchedule = mySchedule["Воскресенье"]!
+                break;
+            case 7:
+                 print("TODAY 7")
+                break;
+            default:
+                print("TODAY ???")
+            }
+        
+        for i in 0...myDaySchedule.count-1{
+            print(myDaySchedule[i].title.rawValue)
+            if myDaySchedule[i].getTimeInMillis()<=getCurrentTime() && myDaySchedule[i+1].getTimeInMillis()>getCurrentTime(){
+                currentTaskLabel.text = myDaySchedule[i].title.rawValue
+            }
+            else{
+                currentTaskLabel.text = "Свобода"
+            }
         }
     }
+    
     
     func timeToString(time : Int)->String{
         var h: Int = 0
@@ -295,6 +336,12 @@ func getNumberOfExercise()->Int{
         }
     }
     return -1
+}
+func getCurrentTime()->Int{
+    let date = Date()
+    let calendar = Calendar.current
+    let curtime = Int(calendar.component(.hour, from:date)*60*60+calendar.component(.minute, from:date)*60)
+    return curtime
 }
 
 

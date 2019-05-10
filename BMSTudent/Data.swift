@@ -84,6 +84,11 @@ extension MyScheduleElement {
     func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
         return String(data: try self.jsonData(), encoding: encoding)
     }
+    func getTimeInMillis()->Int{
+        var h = Int(self.time.split(separator: ":")[0])
+        var m = Int(self.time.split(separator: ":")[1])
+        return Int(h!*3600*1000 + m!*60*1000)
+    }
 }
 
 extension Dictionary where Key == String, Value == [MyScheduleElement] {
@@ -109,6 +114,7 @@ extension Dictionary where Key == String, Value == [MyScheduleElement] {
     func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
         return String(data: try self.jsonData(), encoding: encoding)
     }
+    
 }
 
 fileprivate func newJSONDecoder() -> JSONDecoder {
