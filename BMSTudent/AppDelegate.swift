@@ -8,6 +8,9 @@
 
 import UIKit
 import CoreLocation
+import Firebase
+import FirebaseDatabase
+
 
 let allplaces : [String: Place] = ["GZ" : places.placeGZ, "ULK" : places.placeULK, "ESM" : places.placeESM, "IZM" : places.placeIZM, "SK" : places.placeSK, "OB" : places.placeOB, "Home" : places.placeHome]
 
@@ -23,6 +26,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        
+       FirebaseApp.configure()
+        
+     
         
         locationManager.requestAlwaysAuthorization()
         locationManager.delegate = self

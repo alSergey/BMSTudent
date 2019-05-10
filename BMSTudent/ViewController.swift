@@ -8,6 +8,10 @@
 import UIKit
 import MapKit
 import CoreLocation
+import Firebase
+import FirebaseDatabase
+import FirebaseAuth
+
 
 
 let mapCode = MapCode()
@@ -21,6 +25,10 @@ let weekSh = [
     Schedule(name:"Суббота"),
     Schedule(name:"Воскресенье")
 ]
+
+
+//let week = [MySchedule]()
+
 /*
  1.Добавить геофенсинг
  2.При его помощи допилить таймеры, статусы и навигацию
@@ -29,42 +37,65 @@ let weekSh = [
  5. Интегрировать расписание и статисткиу в firebase
  6. ...
  */
+let scheduleUrl = "http://flexhub.ru/static/serGEY.json";
 
 class ViewController: UIViewController {
+  
     
+    
+    var mySchedule = MySchedule() // расписание с сервера
     var inPolygon = false
-    
     var sourceLocation = CLLocationCoordinate2D(latitude:55.765790, longitude: 37.677132)
     var destinationLocation = places.placeGZ.coordinate
-
+    
     @IBOutlet var mapView: MKMapView!
     @IBOutlet var infoCard: CardInfoView!
-    
     @IBOutlet var currentTaskLabel: UILabel! //Показывает текущую пару, либо "Свобода"
-    
     @IBOutlet var univercityTimerLabel: UILabel! //Если в зоне, то суммирует время к таймеру, иначе показыает сколько добираться
-    
     @IBOutlet var taskStatusLabel: UILabel! //Показывает опаздываю я или нет
-    
     @IBOutlet var locationStatusLabel: UILabel! // Если в зоне, то суммирует время к таймеру, иначе показыает сколько добираться (Вы в бауманке/До бауманки)
     
     let locationManager = CLLocationManager()
-    
     let initialLocation = CLLocation(latitude:55.765790, longitude: 37.677132)
-    
     let mylocation = CLLocationCoordinate2D(latitude: 55.765804, longitude: 37.685734)
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setExercice()
+        // Подгрузка расписания из затычки
+        do{
+        self.mySchedule = try MySchedule(fromURL: URL(string: scheduleUrl)!)
+        print(self.mySchedule.count)
+        for a1 in self.mySchedule{
+            print("\n", a1.key, "\n")
+            for i in 0...a1.value.count-1{
+                print(a1.value[i].title," ",a1.value[i].time," ",a1.value[i].location)
+            }
+        }
+        }
+        catch{
+            
+        }
         
+        setExercice()
         addAnnotation()
         notifyOn()
-        
         mapView.delegate = self
         locationManager.delegate = self
-        
+    
+        prepareLocationManager()
+   
+        mapCode.centerMapOnLocation(location: locationManager.location ?? initialLocation,mapView: mapView)
+        mapView.showsScale = true
+        mapView.showsUserLocation = true
+        mapView.showsTraffic = true
+        sourceLocation = locationManager.location?.coordinate ?? initialLocation.coordinate
+        destinationLocation = places.placeGZ.coordinate
+    
+    }
+    func prepareLocationManager(){
+        //Ставим геофенсинг на регионы
         locationManager.startMonitoring(for: places.placeGZ.region)
         locationManager.startMonitoring(for: places.placeULK.region)
         locationManager.startMonitoring(for: places.placeESM.region)
@@ -73,32 +104,12 @@ class ViewController: UIViewController {
         locationManager.startMonitoring(for: places.placeOB.region)
         locationManager.startMonitoring(for: places.placeHome.region)
         
-       
         locationManager.requestAlwaysAuthorization()
-        
         locationManager.startMonitoringVisits()
-        // 1
         locationManager.distanceFilter = 35
-        
-        // 2
         locationManager.allowsBackgroundLocationUpdates = true
-        
-        // 3
         locationManager.startUpdatingLocation()
-        
         locationManager.requestWhenInUseAuthorization()
-        
-        
-        
-        
-        mapCode.centerMapOnLocation(location: locationManager.location ?? initialLocation,mapView: mapView)
-        
-        mapView.showsScale = true
-        mapView.showsUserLocation = true
-        mapView.showsTraffic = true
-        sourceLocation = locationManager.location?.coordinate ?? initialLocation.coordinate
-        destinationLocation = places.placeGZ.coordinate
-    
     }
     
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
@@ -134,7 +145,6 @@ class ViewController: UIViewController {
             m = time / 60 - h * 60
             s = time - 3600 * h - 60 * m
         }
-        //print(h, " ", m, " ", s )
         return String(h) + ":" + String(m) + ":" + String(s)
         
     }
@@ -222,6 +232,7 @@ class ViewController: UIViewController {
         places.placeHome.region.notifyOnEntry = true
         places.placeHome.region.notifyOnExit = true
     }
+ 
     
 }
 
@@ -285,6 +296,8 @@ func getNumberOfExercise()->Int{
     }
     return -1
 }
+
+
 
 
 

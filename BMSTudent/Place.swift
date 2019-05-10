@@ -10,7 +10,7 @@ import Foundation
 import MapKit
 import Contacts
 
-class Place: NSObject, MKAnnotation {
+class Place:NSObject,MKAnnotation {
     let region: CLCircularRegion
     let title: String?
     let identifier: String
@@ -100,4 +100,6 @@ class Places{
     init(){
         let places : [String: Place] = ["GZ" : placeGZ, "ULK" : placeULK, "ESM" : placeESM, "IZM" : placeIZM, "SK" : placeSK, "OB" : placeOB, "Home" : placeHome]
     }
+
 }
+
