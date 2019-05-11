@@ -85,8 +85,8 @@ extension MyScheduleElement {
         return String(data: try self.jsonData(), encoding: encoding)
     }
     func getTimeInMillis()->Int{
-        var h = Int(self.time.split(separator: ":")[0])
-        var m = Int(self.time.split(separator: ":")[1])
+        let h = Int(self.time.split(separator: ":")[0])
+        let m = Int(self.time.split(separator: ":")[1])
         return Int(h!*3600 + m!*60)
     }
 }

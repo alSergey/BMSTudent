@@ -9,11 +9,14 @@
 /* Begin PBXBuildFile section */
 		1B71943BC4F6255FEF83D659 /* Pods_BMSTudent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0007A498FA87D240F349D222 /* Pods_BMSTudent.framework */; };
 		219F9A336A3D0363A4945B7B /* Pods_BMSTudentUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B8C82080F08FE366AF00671 /* Pods_BMSTudentUITests.framework */; };
+		57CE9E1022875A1F0096F9C9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 57CE9E0F22875A1F0096F9C9 /* GoogleService-Info.plist */; };
+		57CE9E14228761F70096F9C9 /* ViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CE9E13228761F70096F9C9 /* ViewController2.swift */; };
+		57CE9E172287620A0096F9C9 /* myTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CE9E152287620A0096F9C9 /* myTableViewCell.swift */; };
+		57CE9E182287620A0096F9C9 /* myTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 57CE9E162287620A0096F9C9 /* myTableViewCell.xib */; };
 		84EFF92A21F5BBCF091E2CAA /* Pods_BMSTudentTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9A46586A0276DF1F33C447B /* Pods_BMSTudentTests.framework */; };
 		850BF3CA227BA504005EC3CF /* CardInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850BF3C9227BA504005EC3CF /* CardInfoView.swift */; };
 		850BF3CC227BB8DC005EC3CF /* MapCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850BF3CB227BB8DC005EC3CF /* MapCode.swift */; };
 		855C2520228439D500EB3323 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855C251F228439D500EB3323 /* Data.swift */; };
-		855C252222845D0A00EB3323 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 855C252122845D0A00EB3323 /* GoogleService-Info.plist */; };
 		858351812285E9CF007AA2CF /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 858351802285E9CF007AA2CF /* ExternalAccessory.framework */; };
 		85A755D1227B5E5E001E8FCC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A755D0227B5E5E001E8FCC /* AppDelegate.swift */; };
 		85A755D3227B5E5E001E8FCC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A755D2227B5E5E001E8FCC /* ViewController.swift */; };
@@ -49,12 +52,15 @@
 		42CAD57396FB831CE51C944B /* Pods-BMSTudentUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BMSTudentUITests.debug.xcconfig"; path = "Target Support Files/Pods-BMSTudentUITests/Pods-BMSTudentUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		4B8C82080F08FE366AF00671 /* Pods_BMSTudentUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BMSTudentUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		56D43F657A90276B170A8B74 /* Pods-BMSTudentUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BMSTudentUITests.release.xcconfig"; path = "Target Support Files/Pods-BMSTudentUITests/Pods-BMSTudentUITests.release.xcconfig"; sourceTree = "<group>"; };
+		57CE9E0F22875A1F0096F9C9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		57CE9E13228761F70096F9C9 /* ViewController2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController2.swift; sourceTree = "<group>"; };
+		57CE9E152287620A0096F9C9 /* myTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myTableViewCell.swift; sourceTree = "<group>"; };
+		57CE9E162287620A0096F9C9 /* myTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = myTableViewCell.xib; sourceTree = "<group>"; };
 		80737E828C430436807E7896 /* Pods-BMSTudentTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BMSTudentTests.release.xcconfig"; path = "Target Support Files/Pods-BMSTudentTests/Pods-BMSTudentTests.release.xcconfig"; sourceTree = "<group>"; };
 		850BF3C9227BA504005EC3CF /* CardInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardInfoView.swift; sourceTree = "<group>"; };
 		850BF3CB227BB8DC005EC3CF /* MapCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCode.swift; sourceTree = "<group>"; };
 		855C24E4227CED9D00EB3323 /* kitai.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = kitai.gpx; path = ../../Desktop/GPX_GENERATOR/kitai.gpx; sourceTree = "<group>"; };
 		855C251F228439D500EB3323 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
-		855C252122845D0A00EB3323 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		858351802285E9CF007AA2CF /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
 		858351822285E9CF007AA2CF /* BMSTudent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BMSTudent.entitlements; sourceTree = "<group>"; };
 		85A755CD227B5E5E001E8FCC /* BMSTudent.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BMSTudent.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -146,10 +152,13 @@
 		85A755CF227B5E5E001E8FCC /* BMSTudent */ = {
 			isa = PBXGroup;
 			children = (
+				57CE9E0F22875A1F0096F9C9 /* GoogleService-Info.plist */,
 				858351822285E9CF007AA2CF /* BMSTudent.entitlements */,
-				855C252122845D0A00EB3323 /* GoogleService-Info.plist */,
 				85A755D0227B5E5E001E8FCC /* AppDelegate.swift */,
 				85A755D2227B5E5E001E8FCC /* ViewController.swift */,
+				57CE9E13228761F70096F9C9 /* ViewController2.swift */,
+				57CE9E152287620A0096F9C9 /* myTableViewCell.swift */,
+				57CE9E162287620A0096F9C9 /* myTableViewCell.xib */,
 				85A755D4227B5E5E001E8FCC /* Main.storyboard */,
 				85A755D7227B5E5F001E8FCC /* Assets.xcassets */,
 				85A755D9227B5E5F001E8FCC /* LaunchScreen.storyboard */,
@@ -312,7 +321,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				85A755DB227B5E5F001E8FCC /* LaunchScreen.storyboard in Resources */,
-				855C252222845D0A00EB3323 /* GoogleService-Info.plist in Resources */,
+				57CE9E182287620A0096F9C9 /* myTableViewCell.xib in Resources */,
+				57CE9E1022875A1F0096F9C9 /* GoogleService-Info.plist in Resources */,
 				85A755D8227B5E5F001E8FCC /* Assets.xcassets in Resources */,
 				85A755D6227B5E5E001E8FCC /* Main.storyboard in Resources */,
 			);
@@ -436,6 +446,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				57CE9E14228761F70096F9C9 /* ViewController2.swift in Sources */,
+				57CE9E172287620A0096F9C9 /* myTableViewCell.swift in Sources */,
 				855C2520228439D500EB3323 /* Data.swift in Sources */,
 				85A755FF227B623B001E8FCC /* Place.swift in Sources */,
 				85A755D3227B5E5E001E8FCC /* ViewController.swift in Sources */,
@@ -619,13 +631,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = BMSTudent/BMSTudent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 5ABALJWYVX;
+				DEVELOPMENT_TEAM = VYDPJANCG8;
 				INFOPLIST_FILE = BMSTudent/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.tp.sergei;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sergey.BMSTudent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -639,13 +651,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = BMSTudent/BMSTudent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 5ABALJWYVX;
+				DEVELOPMENT_TEAM = VYDPJANCG8;
 				INFOPLIST_FILE = BMSTudent/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.tp.sergei;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sergey.BMSTudent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;

@@ -19,12 +19,12 @@ let places1 : [Place] = [places.placeGZ, places.placeULK, places.placeESM, place
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+    var window: UIWindow?
+    
     let locationManager = CLLocationManager()
     var mytimer = Timer()
     var mytimer2 = Timer()
     
-    var window: UIWindow?
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         
        FirebaseApp.configure()

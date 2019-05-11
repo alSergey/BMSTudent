@@ -49,6 +49,7 @@ class ViewController: UIViewController {
     @IBOutlet var univercityTimerLabel: UILabel! //Если в зоне, то суммирует время к таймеру, иначе показыает сколько добираться
     @IBOutlet var taskStatusLabel: UILabel! //Показывает опаздываю я или нет
     @IBOutlet var locationStatusLabel: UILabel! // Если в зоне, то суммирует время к таймеру, иначе показыает сколько добираться (Вы в бауманке/До бауманки)
+    @IBOutlet weak var groupButton: UIButton! //Выбор твоей группы
     
     let locationManager = CLLocationManager()
     let initialLocation = CLLocation(latitude:55.765790, longitude: 37.677132)
@@ -74,7 +75,7 @@ class ViewController: UIViewController {
         notifyOn()
         mapView.delegate = self
         locationManager.delegate = self
-        lastPlace.coordinate = (locationManager.location?.coordinate)!
+        lastPlace.coordinate = (locationManager.location?.coordinate) ?? CLLocationCoordinate2D(latitude:55.765790, longitude: 37.677132)
     
         prepareLocationManager()
    
@@ -146,6 +147,7 @@ class ViewController: UIViewController {
     @IBAction func onClick(_ sender: Any) {
         UIView.animate(withDuration: 0.2, animations: {
             if !changeSize{
+                self.groupButton.isHidden = false
                 self.cardInfoButton.setTitle("Скрыть", for: .normal)
                 self.setScheduleTextView()
                 self.infoCard.frame =  CGRect(x:self.infoCard.frame.minX, y: self.infoCard.frame.minY, width:self.infoCard.frame.width, height:self.infoCard.frame.height*4)
@@ -153,6 +155,7 @@ class ViewController: UIViewController {
                 changeSize = !changeSize
             }
             else{
+                self.groupButton.isHidden = true
                 self.cardInfoButton.setTitle("Показать", for: .normal)
                 self.textView.text = "Расписание"
                 self.infoCard.frame =  CGRect(x:self.infoCard.frame.minX, y: self.infoCard.frame.minY, width:self.infoCard.frame.width, height:self.infoCard.frame.height/4)
@@ -256,12 +259,12 @@ class ViewController: UIViewController {
         let time = mapCode.getRouteTime(sourceLocation: sourceLocation, destinationLocation: destinationLocation, mapView: mapView)
         
         if(!contains(place: pl, point: locationManager.location?.coordinate ?? initialLocation.coordinate )){ // тут проверка на нахождение в одном месте и присутсивие вне полигона
-            if !contains(place: ["loc":lastPlace], point: (locationManager.location?.coordinate)!){
-                 lastPlace.coordinate = (locationManager.location?.coordinate)!
-            lastPlace.coordinate = (locationManager.location?.coordinate)!
+            if !contains(place: ["loc":lastPlace], point: (locationManager.location?.coordinate) ?? CLLocationCoordinate2D(latitude:55.765790, longitude: 37.677132)){
+                 lastPlace.coordinate = (locationManager.location?.coordinate) ?? CLLocationCoordinate2D(latitude:55.765790, longitude: 37.677132)
+            //lastPlace.coordinate = (locationManager.location?.coordinate)!
               print("Переместились")
         mapView.removeOverlays(mapView.overlays)
-        sourceLocation = (locationManager.location?.coordinate)!
+        sourceLocation = (locationManager.location?.coordinate) ?? CLLocationCoordinate2D(latitude:55.765790, longitude: 37.677132)
         mapCode.createRoute(sourceLocation: sourceLocation ,destinationLocation: destinationLocation,mapView: mapView)
         locationStatusLabel.text = "Время в пути"
         univercityTimerLabel.text = timeToString(time: time)
