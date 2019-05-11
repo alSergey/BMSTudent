@@ -50,7 +50,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 })
             } else {
                 let myViewController = self.window?.rootViewController as? ViewController
-                myViewController?.sourceLocation = (locationManager.location?.coordinate)!
+                myViewController?.sourceLocation = locationManager.location?.coordinate ?? places.placeIZM.coordinate
                 
                 mytimer2 = Timer.scheduledTimer(withTimeInterval: 10, repeats: true, block: {
                     _ in
@@ -123,7 +123,7 @@ extension AppDelegate: CLLocationManagerDelegate {
        
         if region is CLCircularRegion {
             let myViewController = self.window?.rootViewController as? ViewController
-            myViewController?.sourceLocation = (locationManager.location?.coordinate)!
+            myViewController?.sourceLocation = locationManager.location?.coordinate ?? places.placeIZM.coordinate
             myViewController!.mapView.removeOverlays(myViewController!.mapView.overlays)
             mytimer2.invalidate()
             mytimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: {

@@ -35,10 +35,8 @@ func createRoute(sourceLocation : CLLocationCoordinate2D, destinationLocation : 
         
         //add route to our mapview
         mapView.addOverlay(route.polyline, level: .aboveRoads)
-        
         //setting rect of our mapview to fit the two locations
         let rect = route.polyline.boundingMapRect
-        print(route.distance , " " , route.expectedTravelTime)
         mapView.setRegion(MKCoordinateRegion(rect), animated: true)
     }
 
@@ -64,13 +62,9 @@ func createRoute(sourceLocation : CLLocationCoordinate2D, destinationLocation : 
                 }
                 return
             }
-            
             //get route and assign to our route variable
             let route = directionResonse.routes[0]
-            
-            print("res dbl ",route.expectedTravelTime)
             let res =  Int(route.expectedTravelTime)
-            print("res ",res)
             self.myTime = res
             
     }

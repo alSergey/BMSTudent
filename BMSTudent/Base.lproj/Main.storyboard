@@ -18,11 +18,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="swP-dH-vnf">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="swP-dH-vnf">
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </mapView>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="63n-Z7-Ggc" customClass="CardInfoView" customModule="BMSTudent" customModuleProvider="target">
-                                <rect key="frame" x="16" y="35" width="343" height="185"/>
+                                <rect key="frame" x="16" y="35" width="343" height="104"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Математический анализ" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0pX-ui-e9B">
@@ -59,17 +60,18 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Пары" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="COk-Em-q4C">
-                                        <rect key="frame" x="8" y="73" width="240" height="104"/>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Расписание" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="COk-Em-q4C">
+                                        <rect key="frame" x="8" y="73" width="240" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n4I-KI-tbu">
-                                        <rect key="frame" x="261" y="110" width="46" height="30"/>
+                                        <rect key="frame" x="261" y="73" width="74" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" title="Button"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <state key="normal" title="Показать"/>
                                         <connections>
                                             <action selector="onClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="f0W-YR-RRT"/>
                                         </connections>
@@ -79,15 +81,10 @@
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="swP-dH-vnf" secondAttribute="bottom" id="0wE-wB-ePF"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="swP-dH-vnf" secondAttribute="trailing" id="8FG-bl-cBH"/>
-                            <constraint firstItem="swP-dH-vnf" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="nf2-Jk-t6Y"/>
-                            <constraint firstItem="swP-dH-vnf" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="ssY-k7-lvc"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="cardInfoButton" destination="n4I-KI-tbu" id="NEn-mD-ywX"/>
                         <outlet property="currentTaskLabel" destination="0pX-ui-e9B" id="zhL-x5-VNn"/>
                         <outlet property="infoCard" destination="63n-Z7-Ggc" id="zYt-0w-7fB"/>
                         <outlet property="locationStatusLabel" destination="7ib-jj-HtK" id="k3Q-oO-KFu"/>

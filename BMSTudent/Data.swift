@@ -87,7 +87,7 @@ extension MyScheduleElement {
     func getTimeInMillis()->Int{
         var h = Int(self.time.split(separator: ":")[0])
         var m = Int(self.time.split(separator: ":")[1])
-        return Int(h!*3600*1000 + m!*60*1000)
+        return Int(h!*3600 + m!*60)
     }
 }
 
