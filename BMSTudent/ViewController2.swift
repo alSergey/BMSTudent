@@ -29,6 +29,12 @@ class ViewController2: UIViewController, UITableViewDelegate, UITableViewDataSou
         return Group.count
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+    {
+        let location = segue.destination as? ViewController
+        location?.yourgroup = yourgroup ?? "ИУ5-21Б"
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         yourgroup = Group[indexPath.row]
         yourGroup.text = yourgroup

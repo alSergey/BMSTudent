@@ -33,7 +33,9 @@ let scheduleUrl = "http://flexhub.ru/static/serGEY.json";
 
 class ViewController: UIViewController {
   
-   var heightConstraint: NSLayoutConstraint!
+
+    var yourgroup: String = "ИУ5-21Б"
+    var heightConstraint: NSLayoutConstraint!
     
     var mySchedule = MySchedule() // расписание с сервера
     var myDaySchedule : [MyScheduleElement] = [] //расписание на текущий день
