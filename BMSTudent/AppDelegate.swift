@@ -49,14 +49,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     
                 })
             } else {
-                /*let myViewController = self.window?.rootViewController as? ViewController
+                let myViewController = self.window?.rootViewController as? ViewController
                 myViewController?.sourceLocation = (locationManager.location?.coordinate)!
                 
                 mytimer2 = Timer.scheduledTimer(withTimeInterval: 10, repeats: true, block: {
                     _ in
                     myViewController?.inPolygon = false
                     myViewController?.setTravelTime()
-                })*/
+                })
             }
         }
     

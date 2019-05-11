@@ -16,8 +16,10 @@ class Place:NSObject,MKAnnotation {
     let identifier: String
     let locationName: String
     let discipline: String
-    let coordinate: CLLocationCoordinate2D
+    var coordinate: CLLocationCoordinate2D
     var time: Int
+    
+   
     
     init(region: CLCircularRegion,title: String,identifier: String, locationName: String, discipline: String, coordinate: CLLocationCoordinate2D, time: Int) {
         self.region = region
@@ -100,6 +102,7 @@ class Places{
     init(){
         let places : [String: Place] = ["GZ" : placeGZ, "ULK" : placeULK, "ESM" : placeESM, "IZM" : placeIZM, "SK" : placeSK, "OB" : placeOB, "Home" : placeHome]
     }
+    // let places : [String: Place] = ["GZ" : placeGZ, "ULK" : placeULK, "ESM" : placeESM, "IZM" : placeIZM, "SK" : placeSK, "OB" : placeOB, "Home" : placeHome]
 
 }
 

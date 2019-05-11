@@ -24,7 +24,6 @@
 		85A755F1227B5E5F001E8FCC /* BMSTudentUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A755F0227B5E5F001E8FCC /* BMSTudentUITests.swift */; };
 		85A755FF227B623B001E8FCC /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A755FE227B623B001E8FCC /* Place.swift */; };
 		85A75604227B7072001E8FCC /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85A75603227B7072001E8FCC /* MapKit.framework */; };
-		85A75606227B9608001E8FCC /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A75605227B9608001E8FCC /* Schedule.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,7 +72,6 @@
 		85A755F2227B5E5F001E8FCC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		85A755FE227B623B001E8FCC /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
 		85A75603227B7072001E8FCC /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
-		85A75605227B9608001E8FCC /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
 		8938FC3821BDFA99807A8D60 /* Pods-BMSTudentTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BMSTudentTests.debug.xcconfig"; path = "Target Support Files/Pods-BMSTudentTests/Pods-BMSTudentTests.debug.xcconfig"; sourceTree = "<group>"; };
 		DB822AA40AD47D94AE696CBA /* Pods-BMSTudent.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BMSTudent.release.xcconfig"; path = "Target Support Files/Pods-BMSTudent/Pods-BMSTudent.release.xcconfig"; sourceTree = "<group>"; };
 		F9A46586A0276DF1F33C447B /* Pods_BMSTudentTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BMSTudentTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -157,7 +155,6 @@
 				85A755D9227B5E5F001E8FCC /* LaunchScreen.storyboard */,
 				85A755DC227B5E5F001E8FCC /* Info.plist */,
 				85A755FE227B623B001E8FCC /* Place.swift */,
-				85A75605227B9608001E8FCC /* Schedule.swift */,
 				850BF3C9227BA504005EC3CF /* CardInfoView.swift */,
 				850BF3CB227BB8DC005EC3CF /* MapCode.swift */,
 				855C251F228439D500EB3323 /* Data.swift */,
@@ -442,7 +439,6 @@
 				855C2520228439D500EB3323 /* Data.swift in Sources */,
 				85A755FF227B623B001E8FCC /* Place.swift in Sources */,
 				85A755D3227B5E5E001E8FCC /* ViewController.swift in Sources */,
-				85A75606227B9608001E8FCC /* Schedule.swift in Sources */,
 				850BF3CC227BB8DC005EC3CF /* MapCode.swift in Sources */,
 				85A755D1227B5E5E001E8FCC /* AppDelegate.swift in Sources */,
 				850BF3CA227BA504005EC3CF /* CardInfoView.swift in Sources */,

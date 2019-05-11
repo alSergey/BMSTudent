@@ -59,6 +59,21 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Пары" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="COk-Em-q4C">
+                                        <rect key="frame" x="8" y="73" width="240" height="104"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n4I-KI-tbu">
+                                        <rect key="frame" x="261" y="110" width="46" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Button"/>
+                                        <connections>
+                                            <action selector="onClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="f0W-YR-RRT"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
@@ -78,6 +93,7 @@
                         <outlet property="locationStatusLabel" destination="7ib-jj-HtK" id="k3Q-oO-KFu"/>
                         <outlet property="mapView" destination="swP-dH-vnf" id="cdM-S4-AsD"/>
                         <outlet property="taskStatusLabel" destination="pZV-wM-pEH" id="WEa-5Q-upc"/>
+                        <outlet property="textView" destination="COk-Em-q4C" id="C1U-OO-bNa"/>
                         <outlet property="univercityTimerLabel" destination="Mgs-3j-Chv" id="u7b-3a-vXv"/>
                     </connections>
                 </viewController>
