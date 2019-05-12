@@ -27,10 +27,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         
-       FirebaseApp.configure()
-        
-     
-        
+        FirebaseApp.configure()
+
         locationManager.requestAlwaysAuthorization()
         locationManager.delegate = self
         let destinationLocation = places.placeGZ.coordinate
@@ -77,10 +75,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
+        mytimer2.invalidate()
         print ("background")
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
+        let myViewController = self.window?.rootViewController as? ViewController
+        myViewController?.sourceLocation = locationManager.location?.coordinate ?? places.placeIZM.coordinate
+        
+        mytimer2 = Timer.scheduledTimer(withTimeInterval: 10, repeats: true, block: {
+            _ in
+            myViewController?.inPolygon = false
+            myViewController?.setTravelTime()
+        })
         print("выход из background")
     }
 
