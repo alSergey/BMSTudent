@@ -73,6 +73,7 @@ class ViewController: UIViewController {
         setScheduleTextView()
         addAnnotation()
        
+        groupButton.isHidden = false
         
         notifyOn()
         mapView.delegate = self
@@ -149,7 +150,7 @@ class ViewController: UIViewController {
     @IBAction func onClick(_ sender: Any) {
         UIView.animate(withDuration: 0.2, animations: {
             if !changeSize{
-                self.groupButton.isHidden = false
+                //self.groupButton.isHidden = false
                 self.cardInfoButton.setTitle("Скрыть", for: .normal)
                 self.setScheduleTextView()
                 self.infoCard.frame =  CGRect(x:self.infoCard.frame.minX, y: self.infoCard.frame.minY, width:self.infoCard.frame.width, height:self.infoCard.frame.height*4)
@@ -157,7 +158,7 @@ class ViewController: UIViewController {
                 changeSize = !changeSize
             }
             else{
-                self.groupButton.isHidden = true
+                //self.groupButton.isHidden = true
                 self.cardInfoButton.setTitle("Показать", for: .normal)
                 self.textView.text = "Расписание"
                 self.infoCard.frame =  CGRect(x:self.infoCard.frame.minX, y: self.infoCard.frame.minY, width:self.infoCard.frame.width, height:self.infoCard.frame.height/4)
