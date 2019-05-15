@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1B71943BC4F6255FEF83D659 /* Pods_BMSTudent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0007A498FA87D240F349D222 /* Pods_BMSTudent.framework */; };
 		219F9A336A3D0363A4945B7B /* Pods_BMSTudentUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B8C82080F08FE366AF00671 /* Pods_BMSTudentUITests.framework */; };
+		57BDCA08228CA6A900A389BD /* ViewController3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57BDCA07228CA6A900A389BD /* ViewController3.swift */; };
 		57CE9E1022875A1F0096F9C9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 57CE9E0F22875A1F0096F9C9 /* GoogleService-Info.plist */; };
 		57CE9E14228761F70096F9C9 /* ViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CE9E13228761F70096F9C9 /* ViewController2.swift */; };
 		57CE9E172287620A0096F9C9 /* myTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CE9E152287620A0096F9C9 /* myTableViewCell.swift */; };
@@ -52,6 +53,7 @@
 		42CAD57396FB831CE51C944B /* Pods-BMSTudentUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BMSTudentUITests.debug.xcconfig"; path = "Target Support Files/Pods-BMSTudentUITests/Pods-BMSTudentUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		4B8C82080F08FE366AF00671 /* Pods_BMSTudentUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BMSTudentUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		56D43F657A90276B170A8B74 /* Pods-BMSTudentUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BMSTudentUITests.release.xcconfig"; path = "Target Support Files/Pods-BMSTudentUITests/Pods-BMSTudentUITests.release.xcconfig"; sourceTree = "<group>"; };
+		57BDCA07228CA6A900A389BD /* ViewController3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController3.swift; sourceTree = "<group>"; };
 		57CE9E0F22875A1F0096F9C9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		57CE9E13228761F70096F9C9 /* ViewController2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController2.swift; sourceTree = "<group>"; };
 		57CE9E152287620A0096F9C9 /* myTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myTableViewCell.swift; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 				85A755D0227B5E5E001E8FCC /* AppDelegate.swift */,
 				85A755D2227B5E5E001E8FCC /* ViewController.swift */,
 				57CE9E13228761F70096F9C9 /* ViewController2.swift */,
+				57BDCA07228CA6A900A389BD /* ViewController3.swift */,
 				57CE9E152287620A0096F9C9 /* myTableViewCell.swift */,
 				57CE9E162287620A0096F9C9 /* myTableViewCell.xib */,
 				85A755D4227B5E5E001E8FCC /* Main.storyboard */,
@@ -448,6 +451,7 @@
 			files = (
 				57CE9E14228761F70096F9C9 /* ViewController2.swift in Sources */,
 				57CE9E172287620A0096F9C9 /* myTableViewCell.swift in Sources */,
+				57BDCA08228CA6A900A389BD /* ViewController3.swift in Sources */,
 				855C2520228439D500EB3323 /* Data.swift in Sources */,
 				85A755FF227B623B001E8FCC /* Place.swift in Sources */,
 				85A755D3227B5E5E001E8FCC /* ViewController.swift in Sources */,
