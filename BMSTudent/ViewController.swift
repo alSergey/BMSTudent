@@ -27,7 +27,7 @@ var lastPlace = Place(region: CLCircularRegion(center: CLLocationCoordinate2D(la
 
  let pl : [String: Place] = ["GZ" : places.placeGZ, "ULK" : places.placeULK, "ESM" : places.placeESM, "IZM" : places.placeIZM, "SK" : places.placeSK, "OB" : places.placeOB, "Home" : places.placeHome]
 
-let scheduleUrl = "http://flexhub.ru/static/serGEY.json";
+//let scheduleUrl = "http://flexhub.ru/static/serGEY.json";
 
 
 
@@ -67,10 +67,10 @@ class ViewController: UIViewController {
         mapView.setUserTrackingMode(MKUserTrackingMode.follow, animated: true)
         self.navigationItem.rightBarButtonItem = buttonItem
     
-        setSchedule()
-        setExercice() // адаптировано под новые данные
+        //setSchedule()
+        //setExercice() // адаптировано под новые данные
         setTravelTime()
-        setScheduleTextView()
+        //setScheduleTextView()
         addAnnotation()
        
         groupButton.isHidden = false
@@ -107,7 +107,7 @@ class ViewController: UIViewController {
         locationManager.startUpdatingLocation()
         locationManager.requestWhenInUseAuthorization()
     }
-    func setSchedule(){
+    /*func setSchedule(){
         do{
             self.mySchedule = try MySchedule(fromURL: URL(string: scheduleUrl)!)
             print(self.mySchedule.count)
@@ -121,8 +121,8 @@ class ViewController: UIViewController {
         }
         catch{
         }
-    }
-    func setScheduleTextView(){
+    }*/
+    /*func setScheduleTextView(){
         textView.text = "Расписание \n \n"
         for i in 0...myDaySchedule.count-2{
             if i != myDaySchedule.count-1{
@@ -146,13 +146,13 @@ class ViewController: UIViewController {
                
             }
         }
-    }
+    }*/
     @IBAction func onClick(_ sender: Any) {
         UIView.animate(withDuration: 0.2, animations: {
             if !changeSize{
                 //self.groupButton.isHidden = false
                 self.cardInfoButton.setTitle("Скрыть", for: .normal)
-                self.setScheduleTextView()
+                //self.setScheduleTextView()
                 self.infoCard.frame =  CGRect(x:self.infoCard.frame.minX, y: self.infoCard.frame.minY, width:self.infoCard.frame.width, height:self.infoCard.frame.height*4)
                 self.textView.frame = CGRect(x:self.textView.frame.minX, y: self.textView.frame.minY, width:self.textView.frame.width, height:self.textView.frame.height*8)
                 changeSize = !changeSize
@@ -181,7 +181,7 @@ class ViewController: UIViewController {
         renderer.lineWidth = 4.0
         return renderer
     }
-    func setExercice(){
+    /*func setExercice(){
             myDaySchedule = mySchedule["Понедельник"]!
             switch Int(Date().dayNumberOfWeek()!-2){
             case 0:
@@ -219,7 +219,7 @@ class ViewController: UIViewController {
                 print("TODAY ???")
             }
         textView.text = "Расписание"
-    }
+    }*/
     
     
     func timeToString(time : Int)->String{
@@ -247,7 +247,7 @@ class ViewController: UIViewController {
         univercityTimerLabel.text = timeToString(time: region.time)
     }
     
-    func setDestinationLocation(){
+    /*func setDestinationLocation(){
         for i in 0...myDaySchedule.count-2{
             print(myDaySchedule[i].title.rawValue)
             if myDaySchedule[i].getTimeInMillis()<=getCurrentTime() && myDaySchedule[i+1].getTimeInMillis()>getCurrentTime(){
@@ -256,9 +256,9 @@ class ViewController: UIViewController {
             }
             
         }
-    }
+    }*/
     func setTravelTime(){
-        setDestinationLocation()
+        //setDestinationLocation()
         let time = mapCode.getRouteTime(sourceLocation: sourceLocation, destinationLocation: destinationLocation, mapView: mapView)
         
         if(!contains(place: pl, point: locationManager.location?.coordinate ?? initialLocation.coordinate )){ // тут проверка на нахождение в одном месте и присутсивие вне полигона

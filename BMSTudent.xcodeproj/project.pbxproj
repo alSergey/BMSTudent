@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		1B71943BC4F6255FEF83D659 /* Pods_BMSTudent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0007A498FA87D240F349D222 /* Pods_BMSTudent.framework */; };
 		219F9A336A3D0363A4945B7B /* Pods_BMSTudentUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B8C82080F08FE366AF00671 /* Pods_BMSTudentUITests.framework */; };
+		577F6FB42291CBCD00C5BC88 /* statPoligonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577F6FB22291CBCD00C5BC88 /* statPoligonTableViewCell.swift */; };
+		577F6FB52291CBCD00C5BC88 /* statPoligonTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 577F6FB32291CBCD00C5BC88 /* statPoligonTableViewCell.xib */; };
 		57BDCA08228CA6A900A389BD /* ViewController3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57BDCA07228CA6A900A389BD /* ViewController3.swift */; };
 		57CE9E1022875A1F0096F9C9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 57CE9E0F22875A1F0096F9C9 /* GoogleService-Info.plist */; };
 		57CE9E14228761F70096F9C9 /* ViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CE9E13228761F70096F9C9 /* ViewController2.swift */; };
@@ -53,6 +55,8 @@
 		42CAD57396FB831CE51C944B /* Pods-BMSTudentUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BMSTudentUITests.debug.xcconfig"; path = "Target Support Files/Pods-BMSTudentUITests/Pods-BMSTudentUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		4B8C82080F08FE366AF00671 /* Pods_BMSTudentUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BMSTudentUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		56D43F657A90276B170A8B74 /* Pods-BMSTudentUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BMSTudentUITests.release.xcconfig"; path = "Target Support Files/Pods-BMSTudentUITests/Pods-BMSTudentUITests.release.xcconfig"; sourceTree = "<group>"; };
+		577F6FB22291CBCD00C5BC88 /* statPoligonTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = statPoligonTableViewCell.swift; sourceTree = "<group>"; };
+		577F6FB32291CBCD00C5BC88 /* statPoligonTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = statPoligonTableViewCell.xib; sourceTree = "<group>"; };
 		57BDCA07228CA6A900A389BD /* ViewController3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController3.swift; sourceTree = "<group>"; };
 		57CE9E0F22875A1F0096F9C9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		57CE9E13228761F70096F9C9 /* ViewController2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController2.swift; sourceTree = "<group>"; };
@@ -61,7 +65,6 @@
 		80737E828C430436807E7896 /* Pods-BMSTudentTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BMSTudentTests.release.xcconfig"; path = "Target Support Files/Pods-BMSTudentTests/Pods-BMSTudentTests.release.xcconfig"; sourceTree = "<group>"; };
 		850BF3C9227BA504005EC3CF /* CardInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardInfoView.swift; sourceTree = "<group>"; };
 		850BF3CB227BB8DC005EC3CF /* MapCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCode.swift; sourceTree = "<group>"; };
-		855C24E4227CED9D00EB3323 /* kitai.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = kitai.gpx; path = ../../Desktop/GPX_GENERATOR/kitai.gpx; sourceTree = "<group>"; };
 		855C251F228439D500EB3323 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		858351802285E9CF007AA2CF /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
 		858351822285E9CF007AA2CF /* BMSTudent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BMSTudent.entitlements; sourceTree = "<group>"; };
@@ -131,7 +134,6 @@
 		85A755C4227B5E5E001E8FCC = {
 			isa = PBXGroup;
 			children = (
-				855C24E4227CED9D00EB3323 /* kitai.gpx */,
 				85A755CF227B5E5E001E8FCC /* BMSTudent */,
 				85A755E4227B5E5F001E8FCC /* BMSTudentTests */,
 				85A755EF227B5E5F001E8FCC /* BMSTudentUITests */,
@@ -170,6 +172,8 @@
 				850BF3C9227BA504005EC3CF /* CardInfoView.swift */,
 				850BF3CB227BB8DC005EC3CF /* MapCode.swift */,
 				855C251F228439D500EB3323 /* Data.swift */,
+				577F6FB22291CBCD00C5BC88 /* statPoligonTableViewCell.swift */,
+				577F6FB32291CBCD00C5BC88 /* statPoligonTableViewCell.xib */,
 			);
 			path = BMSTudent;
 			sourceTree = "<group>";
@@ -327,6 +331,7 @@
 				57CE9E182287620A0096F9C9 /* myTableViewCell.xib in Resources */,
 				57CE9E1022875A1F0096F9C9 /* GoogleService-Info.plist in Resources */,
 				85A755D8227B5E5F001E8FCC /* Assets.xcassets in Resources */,
+				577F6FB52291CBCD00C5BC88 /* statPoligonTableViewCell.xib in Resources */,
 				85A755D6227B5E5E001E8FCC /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -449,6 +454,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				577F6FB42291CBCD00C5BC88 /* statPoligonTableViewCell.swift in Sources */,
 				57CE9E14228761F70096F9C9 /* ViewController2.swift in Sources */,
 				57CE9E172287620A0096F9C9 /* myTableViewCell.swift in Sources */,
 				57BDCA08228CA6A900A389BD /* ViewController3.swift in Sources */,
