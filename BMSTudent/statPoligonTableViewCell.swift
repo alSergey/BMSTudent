@@ -17,8 +17,8 @@ class statPoligonTableViewCell: UITableViewCell {
         super.awakeFromNib()
     }
 
-    func fillNameAndTimeCell(with name: String, with time: Int) {
+    func fillNameAndTimeCell(with name: String, with time:  String) {
         nameLabel.text = name
-        timeLabel.text = String(time) + " C"
+        timeLabel.text = time
     }
 }

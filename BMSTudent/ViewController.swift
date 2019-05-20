@@ -51,7 +51,6 @@ class ViewController: UIViewController {
     @IBOutlet var univercityTimerLabel: UILabel! //Если в зоне, то суммирует время к таймеру, иначе показыает сколько добираться
     @IBOutlet var taskStatusLabel: UILabel! //Показывает опаздываю я или нет
     @IBOutlet var locationStatusLabel: UILabel! // Если в зоне, то суммирует время к таймеру, иначе показыает сколько добираться (Вы в бауманке/До бауманки)
-    @IBOutlet weak var groupButton: UIButton! //Выбор твоей группы
     
     let locationManager = CLLocationManager()
     let initialLocation = CLLocation(latitude:55.765790, longitude: 37.677132)
@@ -72,8 +71,6 @@ class ViewController: UIViewController {
         setTravelTime()
         setScheduleTextView()
         addAnnotation()
-       
-        groupButton.isHidden = false
         
         notifyOn()
         mapView.delegate = self
@@ -295,7 +292,7 @@ class ViewController: UIViewController {
         if(!contains(place: pl, point: locationManager.location?.coordinate ?? initialLocation.coordinate )){ // тут проверка на нахождение в одном месте и присутсивие вне полигона
             if !contains(place: ["loc":lastPlace], point: (locationManager.location?.coordinate) ?? CLLocationCoordinate2D(latitude:55.765790, longitude: 37.677132)){
                  lastPlace.coordinate = (locationManager.location?.coordinate) ?? CLLocationCoordinate2D(latitude:55.765790, longitude: 37.677132)
-            lastPlace.coordinate = (locationManager.location?.coordinate)!
+            lastPlace.coordinate = (locationManager.location?.coordinate) ?? places.placeGZ.coordinate
               print("Переместились")
         mapView.removeOverlays(mapView.overlays)
         sourceLocation = (locationManager.location?.coordinate) ?? CLLocationCoordinate2D(latitude:55.765790, longitude: 37.677132)

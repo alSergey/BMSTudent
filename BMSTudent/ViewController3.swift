@@ -35,7 +35,7 @@ class ViewController3: UIViewController, UITableViewDelegate, UITableViewDataSou
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let name: String = place[indexPath.row].title!
-        let time: Int = place[indexPath.row].time
+        let time: String = timeToString(time: place[indexPath.row].time)
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
         if let castedcell = cell as? statPoligonTableViewCell {
             castedcell.fillNameAndTimeCell(with: name, with: time)
@@ -77,32 +77,51 @@ class ViewController3: UIViewController, UITableViewDelegate, UITableViewDataSou
         var groupChange = false
         
         for currentGroup in Group {
-            if  currentGroup == TextField.text {
-                yourCurrentGroup = TextField.text ?? "ИУ5-21Б"
+            if  currentGroup == TextField.text?.uppercased() {
+                yourCurrentGroup = TextField.text?.uppercased() ?? "ИУ5-21Б"
                 yourGroupLabel.text = "Ваша группа: " + yourCurrentGroup
-                
-                let view2 = ViewController2()
-                view2.yourgroup = yourCurrentGroup
-                
-                
                 groupChange = true
                 }
             if (currentGroup == "ИУ5-25Б") && (groupChange == false) {
-                let alert = UIAlertController(title: "Вы неправильно ввели вашу группу, попробуйте еще раз", message: nil, preferredStyle: .alert)
-                
-                let okAction = UIAlertAction(title: "Continue", style: .default, handler: self.alertOkAction)
-                let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-                
-                alert.addAction(okAction)
-                alert.addAction(cancelAction)
-                
-                self.present(alert, animated: true)
+                wrongInputAlert()
             }
         }
         
     }
     
+    func wrongInputAlert() {
+        let alert = UIAlertController(title: "Вы неправильно ввели вашу группу, попробуйте еще раз", message: nil, preferredStyle: .alert)
+        
+        let okAction = UIAlertAction(title: "Continue", style: .default, handler: self.alertOkAction)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alert.addAction(okAction)
+        alert.addAction(cancelAction)
+        
+        self.present(alert, animated: true)
+    }
+    
     func alertOkAction(alert: UIAlertAction) {
         createGroupAlert()
+    }
+    
+    func timeToString(time : Int)->String{
+        var h: Int = 0
+        var m: Int = 0
+        var s: Int = 0
+        
+        if time < 60 {s = time}
+        else if time < 3600 {
+            m = time / 60
+            s = time - 60 * (time / 60)
+            
+        }
+        else {
+            h = time / 3600
+            m = time / 60 - h * 60
+            s = time - 3600 * h - 60 * m
+        }
+        return String(h) + ":" + String(m) + ":" + String(s)
+        
     }
 }
