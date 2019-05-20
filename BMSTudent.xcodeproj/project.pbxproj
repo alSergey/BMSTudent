@@ -12,7 +12,6 @@
 		577F6FB42291CBCD00C5BC88 /* statPoligonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577F6FB22291CBCD00C5BC88 /* statPoligonTableViewCell.swift */; };
 		577F6FB52291CBCD00C5BC88 /* statPoligonTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 577F6FB32291CBCD00C5BC88 /* statPoligonTableViewCell.xib */; };
 		57BDCA08228CA6A900A389BD /* ViewController3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57BDCA07228CA6A900A389BD /* ViewController3.swift */; };
-		57CE9E1022875A1F0096F9C9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 57CE9E0F22875A1F0096F9C9 /* GoogleService-Info.plist */; };
 		57CE9E14228761F70096F9C9 /* ViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CE9E13228761F70096F9C9 /* ViewController2.swift */; };
 		57CE9E172287620A0096F9C9 /* myTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57CE9E152287620A0096F9C9 /* myTableViewCell.swift */; };
 		57CE9E182287620A0096F9C9 /* myTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 57CE9E162287620A0096F9C9 /* myTableViewCell.xib */; };
@@ -30,6 +29,8 @@
 		85A755F1227B5E5F001E8FCC /* BMSTudentUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A755F0227B5E5F001E8FCC /* BMSTudentUITests.swift */; };
 		85A755FF227B623B001E8FCC /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A755FE227B623B001E8FCC /* Place.swift */; };
 		85A75604227B7072001E8FCC /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 85A75603227B7072001E8FCC /* MapKit.framework */; };
+		85CDD06A2291DA390051F1B5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 85CDD0692291DA390051F1B5 /* GoogleService-Info.plist */; };
+		85CDD06C2291E0090051F1B5 /* myjson.json in Resources */ = {isa = PBXBuildFile; fileRef = 85CDD06B2291E0090051F1B5 /* myjson.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,7 +59,6 @@
 		577F6FB22291CBCD00C5BC88 /* statPoligonTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = statPoligonTableViewCell.swift; sourceTree = "<group>"; };
 		577F6FB32291CBCD00C5BC88 /* statPoligonTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = statPoligonTableViewCell.xib; sourceTree = "<group>"; };
 		57BDCA07228CA6A900A389BD /* ViewController3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController3.swift; sourceTree = "<group>"; };
-		57CE9E0F22875A1F0096F9C9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		57CE9E13228761F70096F9C9 /* ViewController2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController2.swift; sourceTree = "<group>"; };
 		57CE9E152287620A0096F9C9 /* myTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myTableViewCell.swift; sourceTree = "<group>"; };
 		57CE9E162287620A0096F9C9 /* myTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = myTableViewCell.xib; sourceTree = "<group>"; };
@@ -83,6 +83,8 @@
 		85A755F2227B5E5F001E8FCC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		85A755FE227B623B001E8FCC /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
 		85A75603227B7072001E8FCC /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		85CDD0692291DA390051F1B5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		85CDD06B2291E0090051F1B5 /* myjson.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = myjson.json; path = ../../../Desktop/myjson.json; sourceTree = "<group>"; };
 		8938FC3821BDFA99807A8D60 /* Pods-BMSTudentTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BMSTudentTests.debug.xcconfig"; path = "Target Support Files/Pods-BMSTudentTests/Pods-BMSTudentTests.debug.xcconfig"; sourceTree = "<group>"; };
 		DB822AA40AD47D94AE696CBA /* Pods-BMSTudent.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BMSTudent.release.xcconfig"; path = "Target Support Files/Pods-BMSTudent/Pods-BMSTudent.release.xcconfig"; sourceTree = "<group>"; };
 		F9A46586A0276DF1F33C447B /* Pods_BMSTudentTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BMSTudentTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -156,9 +158,10 @@
 		85A755CF227B5E5E001E8FCC /* BMSTudent */ = {
 			isa = PBXGroup;
 			children = (
-				57CE9E0F22875A1F0096F9C9 /* GoogleService-Info.plist */,
+				85CDD0692291DA390051F1B5 /* GoogleService-Info.plist */,
 				858351822285E9CF007AA2CF /* BMSTudent.entitlements */,
 				85A755D0227B5E5E001E8FCC /* AppDelegate.swift */,
+				85CDD06B2291E0090051F1B5 /* myjson.json */,
 				85A755D2227B5E5E001E8FCC /* ViewController.swift */,
 				57CE9E13228761F70096F9C9 /* ViewController2.swift */,
 				57BDCA07228CA6A900A389BD /* ViewController3.swift */,
@@ -327,12 +330,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				85CDD06C2291E0090051F1B5 /* myjson.json in Resources */,
 				85A755DB227B5E5F001E8FCC /* LaunchScreen.storyboard in Resources */,
 				57CE9E182287620A0096F9C9 /* myTableViewCell.xib in Resources */,
-				57CE9E1022875A1F0096F9C9 /* GoogleService-Info.plist in Resources */,
 				85A755D8227B5E5F001E8FCC /* Assets.xcassets in Resources */,
 				577F6FB52291CBCD00C5BC88 /* statPoligonTableViewCell.xib in Resources */,
 				85A755D6227B5E5E001E8FCC /* Main.storyboard in Resources */,
+				85CDD06A2291DA390051F1B5 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -641,13 +645,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = BMSTudent/BMSTudent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = VYDPJANCG8;
+				DEVELOPMENT_TEAM = 5ABALJWYVX;
 				INFOPLIST_FILE = BMSTudent/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.sergey.BMSTudent;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sergey.BMSTudentTP;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -661,13 +665,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = BMSTudent/BMSTudent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = VYDPJANCG8;
+				DEVELOPMENT_TEAM = 5ABALJWYVX;
 				INFOPLIST_FILE = BMSTudent/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.sergey.BMSTudent;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sergey.BMSTudentTP;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;

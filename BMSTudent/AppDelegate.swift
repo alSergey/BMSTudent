@@ -58,12 +58,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     
-        /*let myViewController = self.window?.rootViewController as? ViewController
+        let myViewController = self.window?.rootViewController as? ViewController
         mytimer2 = Timer.scheduledTimer(withTimeInterval: 10, repeats: true, block: {
             _ in
             myViewController?.inPolygon = false
             myViewController?.setTravelTime()
-        })*/
+        })
         
         return true
     }

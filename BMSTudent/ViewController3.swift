@@ -80,6 +80,11 @@ class ViewController3: UIViewController, UITableViewDelegate, UITableViewDataSou
             if  currentGroup == TextField.text {
                 yourCurrentGroup = TextField.text ?? "ИУ5-21Б"
                 yourGroupLabel.text = "Ваша группа: " + yourCurrentGroup
+                
+                let view2 = ViewController2()
+                view2.yourgroup = yourCurrentGroup
+                
+                
                 groupChange = true
                 }
             if (currentGroup == "ИУ5-25Б") && (groupChange == false) {

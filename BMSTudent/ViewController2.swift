@@ -12,16 +12,20 @@ class ViewController2: UIViewController, UITableViewDelegate, UITableViewDataSou
     var Group: [String] = ["ИУ5-21Б", "ИУ5-22Б", "ИУ5-23Б", "ИУ5-24Б", "ИУ5-25Б"]
     var yourgroup: String?
 
-    @IBOutlet weak var дфиуд: UILabel!
+    @IBOutlet weak var дфиуд: UILabel! //было на русском
     @IBOutlet weak var tableView: UITableView!
     let cellIdentifier = "myTableViewCell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //yourGroup.text = Group[0]
+        дфиуд.text = yourgroup ?? "?"
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(UINib.init(nibName: "myTableViewCell", bundle: nil), forCellReuseIdentifier: cellIdentifier)
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        
+        //дфиуд.text = yourgroup ?? "?"
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

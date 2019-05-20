@@ -27,7 +27,7 @@ var lastPlace = Place(region: CLCircularRegion(center: CLLocationCoordinate2D(la
 
  let pl : [String: Place] = ["GZ" : places.placeGZ, "ULK" : places.placeULK, "ESM" : places.placeESM, "IZM" : places.placeIZM, "SK" : places.placeSK, "OB" : places.placeOB, "Home" : places.placeHome]
 
-//let scheduleUrl = "http://flexhub.ru/static/serGEY.json";
+let scheduleUrl = "http://flexhub.ru/static/serGEY.json";
 
 
 
@@ -67,10 +67,10 @@ class ViewController: UIViewController {
         mapView.setUserTrackingMode(MKUserTrackingMode.follow, animated: true)
         self.navigationItem.rightBarButtonItem = buttonItem
     
-        //setSchedule()
-        //setExercice() // адаптировано под новые данные
+        setSchedule()
+        setExercice() // адаптировано под новые данные
         setTravelTime()
-        //setScheduleTextView()
+        setScheduleTextView()
         addAnnotation()
        
         groupButton.isHidden = false
@@ -107,22 +107,53 @@ class ViewController: UIViewController {
         locationManager.startUpdatingLocation()
         locationManager.requestWhenInUseAuthorization()
     }
-    /*func setSchedule(){
+    func setSchedule(){
         do{
-            self.mySchedule = try MySchedule(fromURL: URL(string: scheduleUrl)!)
-            print(self.mySchedule.count)
+            //self.mySchedule = try MySchedule(fromURL: URL(string: scheduleUrl)!)
+            let rootRef = Database.database().reference()
+            var newItems: [MyScheduleElement] = []
+            //var myNewSchedule : MySchedule
+            print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+            print(rootRef.key)
+            print(rootRef.description())
+            var dataString: Any!
+        do{
+            rootRef.observe(.value, with: { snapshot in
+               dataString = snapshot.value as Any
+                
+              // print(dataString.debugDescription)
+                //print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",dataString.debugDescription)
+                
+            })
+             print("data ",dataString.debugDescription)
+           // let myNewSh =  try MySchedule(dataString.debugDescription)
+           // print("Count!!!!!!!!!!!!!!!!!!!!!!!!!    ",myNewSh.count)
+        }
+        catch{
+            print("Error!!!!!!!!!!!!!!!!!!!!!!!!!    ")
+        }
+            //let myData = try Data()
+        
+            if let path = Bundle.main.path(forResource: "myjson", ofType: "json")
+            {
+
+           let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
+                self.mySchedule = try MySchedule(data: data)
+            //print(self.mySchedule.count)
             for a1 in self.mySchedule{
-                print("\n", a1.key, "\n")
+                //print("\n", a1.key, "\n")
                 for i in 0...a1.value.count-1{
-                    print(a1.value[i].title," ",a1.value[i].time," ",a1.value[i].location)
-                    
+                   // print(a1.value[i].title," ",a1.value[i].time," ",a1.value[i].location)
+
                 }
             }
         }
-        catch{
         }
-    }*/
-    /*func setScheduleTextView(){
+            catch {
+                    }
+
+    }
+    func setScheduleTextView(){
         textView.text = "Расписание \n \n"
         for i in 0...myDaySchedule.count-2{
             if i != myDaySchedule.count-1{
@@ -146,7 +177,7 @@ class ViewController: UIViewController {
                
             }
         }
-    }*/
+    }
     @IBAction func onClick(_ sender: Any) {
         UIView.animate(withDuration: 0.2, animations: {
             if !changeSize{
@@ -181,7 +212,7 @@ class ViewController: UIViewController {
         renderer.lineWidth = 4.0
         return renderer
     }
-    /*func setExercice(){
+    func setExercice(){
             myDaySchedule = mySchedule["Понедельник"]!
             switch Int(Date().dayNumberOfWeek()!-2){
             case 0:
@@ -219,7 +250,7 @@ class ViewController: UIViewController {
                 print("TODAY ???")
             }
         textView.text = "Расписание"
-    }*/
+    }
     
     
     func timeToString(time : Int)->String{
@@ -247,7 +278,7 @@ class ViewController: UIViewController {
         univercityTimerLabel.text = timeToString(time: region.time)
     }
     
-    /*func setDestinationLocation(){
+    func setDestinationLocation(){
         for i in 0...myDaySchedule.count-2{
             print(myDaySchedule[i].title.rawValue)
             if myDaySchedule[i].getTimeInMillis()<=getCurrentTime() && myDaySchedule[i+1].getTimeInMillis()>getCurrentTime(){
@@ -256,15 +287,15 @@ class ViewController: UIViewController {
             }
             
         }
-    }*/
+    }
     func setTravelTime(){
-        //setDestinationLocation()
+        setDestinationLocation()
         let time = mapCode.getRouteTime(sourceLocation: sourceLocation, destinationLocation: destinationLocation, mapView: mapView)
         
         if(!contains(place: pl, point: locationManager.location?.coordinate ?? initialLocation.coordinate )){ // тут проверка на нахождение в одном месте и присутсивие вне полигона
             if !contains(place: ["loc":lastPlace], point: (locationManager.location?.coordinate) ?? CLLocationCoordinate2D(latitude:55.765790, longitude: 37.677132)){
                  lastPlace.coordinate = (locationManager.location?.coordinate) ?? CLLocationCoordinate2D(latitude:55.765790, longitude: 37.677132)
-            //lastPlace.coordinate = (locationManager.location?.coordinate)!
+            lastPlace.coordinate = (locationManager.location?.coordinate)!
               print("Переместились")
         mapView.removeOverlays(mapView.overlays)
         sourceLocation = (locationManager.location?.coordinate) ?? CLLocationCoordinate2D(latitude:55.765790, longitude: 37.677132)
@@ -277,6 +308,7 @@ class ViewController: UIViewController {
                 univercityTimerLabel.text = timeToString(time: time)
                 sourceLocation = (locationManager.location?.coordinate)!
             }
+            print("Day        !!!!!!!! ",myDaySchedule.count)
             for i in 0...myDaySchedule.count-2{
                 print(myDaySchedule[i].time)
                 print("test ",myDaySchedule[i].getTimeInMillis()," ",getCurrentTime(), " time=",time)
