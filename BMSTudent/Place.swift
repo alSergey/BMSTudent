@@ -9,7 +9,7 @@
 import Foundation
 import MapKit
 import Contacts
-//import RealmSwift
+import RealmSwift
 
 class Place:NSObject,MKAnnotation {
     let region: CLCircularRegion
@@ -107,7 +107,7 @@ class Places{
 
 }
 
-/*class placeDatabase: Object {
+class placeDatabase: Object {
     @objc dynamic var time: Int = 0
-}*/
+}
 

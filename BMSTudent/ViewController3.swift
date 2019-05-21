@@ -7,12 +7,16 @@
 //
 
 import UIKit
+import RealmSwift
 
 class ViewController3: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var Group: [String] = ["ИУ5-21Б", "ИУ5-22Б", "ИУ5-23Б", "ИУ5-24Б", "ИУ5-25Б"]
     
     let place : [Place] = [places.placeGZ, places.placeULK, places.placeESM, places.placeIZM, places.placeSK, places.placeOB, places.placeHome]
+    
+    let myrealm = try! Realm()
+    var realmArray: Results<placeDatabase>!
     
     var yourCurrentGroup: String = "ИУ5-21Б"
     let cellIdentifier = "statPoligonTableViewCell"
@@ -23,6 +27,21 @@ class ViewController3: UIViewController, UITableViewDelegate, UITableViewDataSou
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        realmArray = myrealm.objects(placeDatabase.self)
+        
+        if place.count != realmArray.count {
+            for _ in 0...place.count - realmArray.count - 1 {
+                let createRealm = placeDatabase(value: ["time": 0])
+                try! myrealm.write {
+                    myrealm.add(createRealm)
+                }
+            }
+        }
+        
+        for i in 0...place.count - 1 {
+            place[i].time = realmArray[i].time
+        }
+        
         yourGroupLabel.text = "Ваша группа: " + yourCurrentGroup
         TableView.delegate = self
         TableView.dataSource = self
@@ -35,7 +54,7 @@ class ViewController3: UIViewController, UITableViewDelegate, UITableViewDataSou
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let name: String = place[indexPath.row].title!
-        let time: String = timeToString(time: place[indexPath.row].time)
+        let time: String = timeToString(time: realmArray[indexPath.row].time)
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
         if let castedcell = cell as? statPoligonTableViewCell {
             castedcell.fillNameAndTimeCell(with: name, with: time)
@@ -44,6 +63,14 @@ class ViewController3: UIViewController, UITableViewDelegate, UITableViewDataSou
     }
     
     @IBAction func tableViewReload(_ sender: UIButton) {
+        
+        for i in 0...realmArray.count - 1 {
+            let currentRealm = realmArray[i]
+            try! myrealm.write {
+                currentRealm.time = place[i].time
+            }
+        }
+
         TableView.reloadData()
     }
     

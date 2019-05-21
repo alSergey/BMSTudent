@@ -10,7 +10,7 @@ import UIKit
 import CoreLocation
 import Firebase
 import FirebaseDatabase
-
+import RealmSwift
 
 let allplaces : [String: Place] = ["GZ" : places.placeGZ, "ULK" : places.placeULK, "ESM" : places.placeESM, "IZM" : places.placeIZM, "SK" : places.placeSK, "OB" : places.placeOB, "Home" : places.placeHome]
 
@@ -24,6 +24,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let locationManager = CLLocationManager()
     var mytimer = Timer()
     var mytimer2 = Timer()
+    
+    let myrealm = try! Realm()
+    var realmArray: Results<placeDatabase>!
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         
@@ -97,6 +100,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
        print("terminate")
+        realmArray = myrealm.objects(placeDatabase.self)
+        
+        print("Terminate = ", realmArray.count)
+        for i in 0...realmArray.count - 1 {
+            let currentRealm = realmArray[i]
+            try! myrealm.write {
+                currentRealm.time = places1[i].time
+            }
+        }
     }
 
 
