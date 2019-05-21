@@ -27,8 +27,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     let myrealm = try! Realm()
     var realmArray: Results<placeDatabase>!
+    var data = NSDate()
+    let dateformatter = DateFormatter()
+    
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        
+        dateformatter.dateFormat = "dd"
+        //data = data + 1
+       // dateformatter.s
+        
+        print("Current data = ", dateformatter.string(from: data as Date))
+        print("Current data = ", data)
         
         FirebaseApp.configure()
 
