@@ -70,7 +70,7 @@ class Places{
                          time: 0)
     
     let placeIZM = Place(region: CLCircularRegion(center: CLLocationCoordinate2D(latitude: 55.789398, longitude: 37.792557), radius: 200, identifier: "IZM"),
-                         title: "Измайловские общаги",
+                         title: "Измайловские СК и общаги",
                          identifier: "IZM",
                          locationName: "2-я Бауманская",
                          discipline: "Спорт и общаги",
@@ -92,6 +92,46 @@ class Places{
                         discipline: "Спорт и общаги",
                         coordinate: CLLocationCoordinate2D(latitude: 55.770526, longitude: 37.687419),
                         time: 0)
+    
+    let placeRKT = Place(region: CLCircularRegion(center: CLLocationCoordinate2D(latitude: 55.926661, longitude: 37.810943), radius: 120, identifier: "RKT"),
+                         title: "Ракетно-космический корпус",
+                         identifier: "RKT",
+                         locationName: "Королев",
+                         discipline: "Корпус",
+                         coordinate: CLLocationCoordinate2D(latitude: 55.926661, longitude: 37.810943),
+                         time: 0)
+    
+    let placeLESTEX = Place(region: CLCircularRegion(center: CLLocationCoordinate2D(latitude: 55.927231, longitude: 37.791869), radius: 300, identifier: "LESTEX"),
+                         title: "Лесо-технический корпус",
+                         identifier: "LESTEX",
+                         locationName: "Королев",
+                         discipline: "Корпус",
+                         coordinate: CLLocationCoordinate2D(latitude: 55.927231, longitude: 37.791869),
+                         time: 0)
+    
+    let placeAS = Place(region: CLCircularRegion(center: CLLocationCoordinate2D(latitude: 55.762997, longitude: 37.870369), radius: 120, identifier: "AS"),
+                         title: "Аэрокосмический корпус",
+                         identifier: "AS",
+                         locationName: "Реутов",
+                         discipline: "Корпус",
+                         coordinate: CLLocationCoordinate2D(latitude: 55.762997, longitude: 37.870369),
+                         time: 0)
+    
+    let placeREAIM = Place(region: CLCircularRegion(center: CLLocationCoordinate2D(latitude: 55.741062, longitude: 37.724703), radius: 170, identifier: "REAIM"),
+                         title: "Корпус РК и ПС",
+                         identifier: "REAIM",
+                         locationName: "Москва",
+                         discipline: "Корпус",
+                         coordinate: CLLocationCoordinate2D(latitude: 55.741062, longitude: 37.724703),
+                         time: 0)
+    
+    let placeTC = Place(region: CLCircularRegion(center: CLLocationCoordinate2D(latitude: 55.765559, longitude: 37.677731), radius: 100, identifier: "TC"),
+                           title: "Учебно-методический центр",
+                           identifier: "TC",
+                           locationName: "Москвас",
+                           discipline: "Корпус",
+                           coordinate: CLLocationCoordinate2D(latitude: 55.765559, longitude: 37.677731),
+                           time: 0)
     
     let placeHome = Place(region: CLCircularRegion(center: CLLocationCoordinate2D(latitude: 55.891578, longitude: 37.723226), radius: 80, identifier: "Home"),
                           title: "Дом",

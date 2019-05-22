@@ -13,7 +13,7 @@ class ViewController3: UIViewController, UITableViewDelegate, UITableViewDataSou
     
     var Group: [String] = ["ИУ5-21Б", "ИУ5-22Б", "ИУ5-23Б", "ИУ5-24Б", "ИУ5-25Б"]
     
-    let place : [Place] = [places.placeGZ, places.placeULK, places.placeESM, places.placeIZM, places.placeSK, places.placeOB, places.placeHome]
+    let place : [Place] = [places.placeGZ, places.placeULK, places.placeESM, places.placeIZM, places.placeSK, places.placeOB, places.placeRKT, places.placeLESTEX, places.placeAS, places.placeREAIM, places.placeTC, places.placeHome]
     
     let myrealm = try! Realm()
     var realmArray: Results<placeDatabase>!
@@ -70,7 +70,6 @@ class ViewController3: UIViewController, UITableViewDelegate, UITableViewDataSou
                 currentRealm.time = place[i].time
             }
         }
-
         TableView.reloadData()
     }
     
@@ -148,7 +147,9 @@ class ViewController3: UIViewController, UITableViewDelegate, UITableViewDataSou
             m = time / 60 - h * 60
             s = time - 3600 * h - 60 * m
         }
-        return String(h) + ":" + String(m) + ":" + String(s)
+        if h < 1 {return String(m) + " м " + String(s) + " с"}
+        if (h >= 1)&&(h < 100) {return String(h) + " ч " + String(m) + " м"}
+        else {return String(h) + " ч"}
         
     }
 }

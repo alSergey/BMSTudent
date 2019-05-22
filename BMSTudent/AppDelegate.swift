@@ -1,20 +1,12 @@
-//
-//  AppDelegate.swift
-//  BMSTudent
-//
-//  Created by Sergei Petrenko on 02/05/2019.
-//  Copyright © 2019 Sergei. All rights reserved.
-//
-
 import UIKit
 import CoreLocation
 import Firebase
 import FirebaseDatabase
 import RealmSwift
 
-let allplaces : [String: Place] = ["GZ" : places.placeGZ, "ULK" : places.placeULK, "ESM" : places.placeESM, "IZM" : places.placeIZM, "SK" : places.placeSK, "OB" : places.placeOB, "Home" : places.placeHome]
+let allplaces : [String: Place] = ["GZ" : places.placeGZ, "ULK" : places.placeULK, "ESM" : places.placeESM, "IZM" : places.placeIZM, "SK" : places.placeSK, "OB" : places.placeOB, "RKT" : places.placeRKT, "LESTEX" : places.placeLESTEX, "AS" : places.placeAS, "REAIM" : places.placeREAIM, "TC" : places.placeTC, "Home" : places.placeHome]
 
-let places1 : [Place] = [places.placeGZ, places.placeULK, places.placeESM, places.placeIZM, places.placeSK, places.placeOB, places.placeHome]
+let places1 : [Place] = [places.placeGZ, places.placeULK, places.placeESM, places.placeIZM, places.placeSK, places.placeOB, places.placeRKT, places.placeLESTEX, places.placeAS, places.placeREAIM, places.placeTC, places.placeHome]
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

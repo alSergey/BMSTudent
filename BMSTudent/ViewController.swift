@@ -25,7 +25,7 @@ var lastPlace = Place(region: CLCircularRegion(center: CLLocationCoordinate2D(la
                                    coordinate: CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0),
                                    time: 0)
 
- let pl : [String: Place] = ["GZ" : places.placeGZ, "ULK" : places.placeULK, "ESM" : places.placeESM, "IZM" : places.placeIZM, "SK" : places.placeSK, "OB" : places.placeOB, "Home" : places.placeHome]
+let pl : [String: Place] = ["GZ" : places.placeGZ, "ULK" : places.placeULK, "ESM" : places.placeESM, "IZM" : places.placeIZM, "SK" : places.placeSK, "OB" : places.placeOB, "RKT" : places.placeRKT, "LESTEX" : places.placeLESTEX, "AS" : places.placeAS, "REAIM" : places.placeREAIM, "TC" : places.placeTC, "Home" : places.placeHome]
 
 let scheduleUrl = "http://flexhub.ru/static/serGEY.json";
 
@@ -95,6 +95,11 @@ class ViewController: UIViewController {
         locationManager.startMonitoring(for: places.placeIZM.region)
         locationManager.startMonitoring(for: places.placeSK.region)
         locationManager.startMonitoring(for: places.placeOB.region)
+        locationManager.startMonitoring(for: places.placeRKT.region)
+        locationManager.startMonitoring(for: places.placeLESTEX.region)
+        locationManager.startMonitoring(for: places.placeAS.region)
+        locationManager.startMonitoring(for: places.placeREAIM.region)
+        locationManager.startMonitoring(for: places.placeTC.region)
         locationManager.startMonitoring(for: places.placeHome.region)
         
         locationManager.requestAlwaysAuthorization()
@@ -371,6 +376,11 @@ class ViewController: UIViewController {
         mapView.addAnnotation(places.placeIZM)
         mapView.addAnnotation(places.placeSK)
         mapView.addAnnotation(places.placeOB)
+        mapView.addAnnotation(places.placeRKT)
+        mapView.addAnnotation(places.placeLESTEX)
+        mapView.addAnnotation(places.placeAS)
+        mapView.addAnnotation(places.placeREAIM)
+        mapView.addAnnotation(places.placeTC)
         mapView.addAnnotation(places.placeHome)
         //mapView.setRegion(places.placeGZ.region, animated: true)
         //mapView?.addOverlay(MKCircle(center: places.placeGZ.coordinate, radius: places.placeGZ.region.radius))
@@ -389,6 +399,16 @@ class ViewController: UIViewController {
         places.placeSK.region.notifyOnExit = true
         places.placeOB.region.notifyOnEntry = true
         places.placeOB.region.notifyOnExit = true
+        places.placeRKT.region.notifyOnEntry = true
+        places.placeRKT.region.notifyOnExit = true
+        places.placeLESTEX.region.notifyOnEntry = true
+        places.placeLESTEX.region.notifyOnExit = true
+        places.placeAS.region.notifyOnEntry = true
+        places.placeAS.region.notifyOnExit = true
+        places.placeREAIM.region.notifyOnEntry = true
+        places.placeREAIM.region.notifyOnExit = true
+        places.placeTC.region.notifyOnEntry = true
+        places.placeTC.region.notifyOnExit = true
         places.placeHome.region.notifyOnEntry = true
         places.placeHome.region.notifyOnExit = true
     }
