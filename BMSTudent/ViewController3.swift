@@ -11,6 +11,7 @@ import RealmSwift
 
 class ViewController3: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    
     var Group: [String] = ["ИУ5-21Б", "ИУ5-22Б", "ИУ5-23Б", "ИУ5-24Б", "ИУ5-25Б"]
     
     let place : [Place] = [places.placeGZ, places.placeULK, places.placeESM, places.placeIZM, places.placeSK, places.placeOB, places.placeRKT, places.placeLESTEX, places.placeAS, places.placeREAIM, places.placeTC, places.placeHome]
@@ -22,11 +23,14 @@ class ViewController3: UIViewController, UITableViewDelegate, UITableViewDataSou
     let cellIdentifier = "statPoligonTableViewCell"
     var TextField: UITextField!
     
+    let refresh = UIRefreshControl()
+    
     @IBOutlet weak var yourGroupLabel: UILabel!
     @IBOutlet weak var TableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         realmArray = myrealm.objects(placeDatabase.self)
         
         if place.count != realmArray.count {
@@ -41,7 +45,7 @@ class ViewController3: UIViewController, UITableViewDelegate, UITableViewDataSou
         for i in 0...place.count - 1 {
             place[i].time = realmArray[i].time
         }
-        
+        refreshdata()
         yourGroupLabel.text = "Ваша группа: " + yourCurrentGroup
         TableView.delegate = self
         TableView.dataSource = self
@@ -62,7 +66,7 @@ class ViewController3: UIViewController, UITableViewDelegate, UITableViewDataSou
         return cell
     }
     
-    @IBAction func tableViewReload(_ sender: UIButton) {
+    @objc func tableViewReload() {
         
         for i in 0...realmArray.count - 1 {
             let currentRealm = realmArray[i]
@@ -71,8 +75,16 @@ class ViewController3: UIViewController, UITableViewDelegate, UITableViewDataSou
             }
         }
         TableView.reloadData()
+        
+        refresh.endRefreshing()
+        
+        
     }
     
+    func refreshdata(){
+        TableView.addSubview(refresh)
+        refresh.addTarget(self, action: #selector(tableViewReload), for: .valueChanged)
+    }
     
     
     @IBAction func yourGroupChange(_ sender: UIButton) {
@@ -152,4 +164,5 @@ class ViewController3: UIViewController, UITableViewDelegate, UITableViewDataSou
         else {return String(h) + " ч"}
         
     }
+    
 }

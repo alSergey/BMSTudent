@@ -59,6 +59,7 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        addMapTrackingButton()
         textView.isEditable = false
         mapView.showsCompass = false
         
@@ -290,6 +291,12 @@ class ViewController: UIViewController {
             
         }
     }
+    func addMapTrackingButton(){
+        let buttonItem = MKUserTrackingButton(mapView: mapView)
+        buttonItem.frame = CGRect(origin: CGPoint(x:self.view.bounds.width-52, y: self.view.bounds.height-101), size: CGSize(width: 50, height: 50))
+        
+        mapView.addSubview(buttonItem)
+    }
     func setTravelTime(){
         setDestinationLocation()
         let time = mapCode.getRouteTime(sourceLocation: sourceLocation, destinationLocation: destinationLocation, mapView: mapView)
@@ -310,12 +317,11 @@ class ViewController: UIViewController {
                 univercityTimerLabel.text = timeToString(time: time)
                 sourceLocation = (locationManager.location?.coordinate)!
             }
-            print("Day        !!!!!!!! ",myDaySchedule.count)
+            print("Days ",myDaySchedule.count)
             for i in 0...myDaySchedule.count-2{
                 print(myDaySchedule[i].time)
                 print("test ",myDaySchedule[i].getTimeInMillis()," ",getCurrentTime(), " time=",time)
                 if myDaySchedule[i].getTimeInMillis()<=getCurrentTime() && myDaySchedule[i+1].getTimeInMillis()>getCurrentTime(){
-                    print("***************")
                     if getCurrentTime()+time<myDaySchedule[i].getTimeInMillis(){
                         if myDaySchedule[i].title.rawValue == "Свобода"{
                             print("успеваете ",myDaySchedule[i].getTimeInMillis()," ",getCurrentTime(), " time=",time)
@@ -340,7 +346,6 @@ class ViewController: UIViewController {
                         }
                     }
                 }
-                
                 else{
                     print("Никуда не надо")
                     mapView.removeOverlays(mapView.overlays)
