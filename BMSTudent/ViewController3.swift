@@ -11,6 +11,7 @@ import RealmSwift
 
 class ViewController3: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+   
     
     var Group: [String] = ["ИУ5-21Б", "ИУ5-22Б", "ИУ5-23Б", "ИУ5-24Б", "ИУ5-25Б"]
     
@@ -25,11 +26,15 @@ class ViewController3: UIViewController, UITableViewDelegate, UITableViewDataSou
     
     let refresh = UIRefreshControl()
     
-    @IBOutlet weak var yourGroupLabel: UILabel!
+    
+    @IBOutlet weak var mynavigationBar: UINavigationBar!
+    @IBOutlet weak var navBarTitle: UINavigationItem!
     @IBOutlet weak var TableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        navBarTitle.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: nil, action: #selector(createGroupAlert))
         
         realmArray = myrealm.objects(placeDatabase.self)
         
@@ -46,7 +51,8 @@ class ViewController3: UIViewController, UITableViewDelegate, UITableViewDataSou
             place[i].time = realmArray[i].time
         }
         refreshdata()
-        yourGroupLabel.text = "Ваша группа: " + yourCurrentGroup
+        navBarTitle.title = yourCurrentGroup
+        //yourGroupLabel.text = "Ваша группа: " + yourCurrentGroup
         TableView.delegate = self
         TableView.dataSource = self
         TableView.register(UINib.init(nibName: "statPoligonTableViewCell", bundle: nil), forCellReuseIdentifier: cellIdentifier)
@@ -86,12 +92,7 @@ class ViewController3: UIViewController, UITableViewDelegate, UITableViewDataSou
         refresh.addTarget(self, action: #selector(tableViewReload), for: .valueChanged)
     }
     
-    
-    @IBAction func yourGroupChange(_ sender: UIButton) {
-        createGroupAlert()
-    }
-    
-    func createGroupAlert() {
+    @objc func createGroupAlert() {
         let groupAlert = UIAlertController(title: "Введите вашу группу", message: nil, preferredStyle: .alert)
         
         groupAlert.addTextField(configurationHandler: TextField)
@@ -117,7 +118,8 @@ class ViewController3: UIViewController, UITableViewDelegate, UITableViewDataSou
         for currentGroup in Group {
             if  currentGroup == TextField.text?.uppercased() {
                 yourCurrentGroup = TextField.text?.uppercased() ?? "ИУ5-21Б"
-                yourGroupLabel.text = "Ваша группа: " + yourCurrentGroup
+                navBarTitle.title = yourCurrentGroup
+                //yourGroupLabel.text = "Ваша группа: " + yourCurrentGroup
                 groupChange = true
                 }
             if (currentGroup == "ИУ5-25Б") && (groupChange == false) {

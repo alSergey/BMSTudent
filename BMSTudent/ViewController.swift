@@ -293,7 +293,7 @@ class ViewController: UIViewController {
     }
     func addMapTrackingButton(){
         let buttonItem = MKUserTrackingButton(mapView: mapView)
-        buttonItem.frame = CGRect(origin: CGPoint(x:self.view.bounds.width-52, y: self.view.bounds.height-101), size: CGSize(width: 50, height: 50))
+        buttonItem.frame = CGRect(origin: CGPoint(x:self.view.bounds.width-52, y: self.view.bounds.height-136), size: CGSize(width: 50, height: 50))
         
         mapView.addSubview(buttonItem)
     }
