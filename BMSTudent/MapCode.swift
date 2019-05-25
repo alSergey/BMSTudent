@@ -41,13 +41,11 @@ func createRoute(sourceLocation : CLLocationCoordinate2D, destinationLocation : 
     }
 
 }
-    var myTime : Int = 0
+    
     func getRouteTime(sourceLocation : CLLocationCoordinate2D, destinationLocation : CLLocationCoordinate2D, mapView: MKMapView)->Int{
+        var myTime : Int = 0
         let sourcePlaceMark = MKPlacemark(coordinate: sourceLocation )
         let destinationPlaceMark = MKPlacemark(coordinate: destinationLocation)
-        
-       
-        
         let directionRequest = MKDirections.Request()
         directionRequest.source = MKMapItem(placemark: sourcePlaceMark)
         directionRequest.destination = MKMapItem(placemark: destinationPlaceMark)
@@ -65,9 +63,10 @@ func createRoute(sourceLocation : CLLocationCoordinate2D, destinationLocation : 
             //get route and assign to our route variable
             let route = directionResonse.routes[0]
             let res =  Int(route.expectedTravelTime)
-            self.myTime = res
-            
+            myTime = res
     }
+        print("test")
+        print("res2",myTime)
         return myTime
     }
     

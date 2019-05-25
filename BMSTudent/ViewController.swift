@@ -29,12 +29,13 @@ let pl : [String: Place] = ["GZ" : places.placeGZ, "ULK" : places.placeULK, "ESM
 
 let scheduleUrl = "http://flexhub.ru/static/serGEY.json";
 
+var scheduleToday: [Any] = ["Пусто","Пусто"]
 
 
 class ViewController: UIViewController {
   
 
-    var yourgroup: String = "ИУ5-21Б"
+    var yourgroup: String = "ИУ5-25"
     var heightConstraint: NSLayoutConstraint!
     
     var mySchedule = MySchedule() // расписание с сервера
@@ -67,9 +68,7 @@ class ViewController: UIViewController {
         mapView.setUserTrackingMode(MKUserTrackingMode.follow, animated: true)
         self.navigationItem.rightBarButtonItem = buttonItem
     
-        setSchedule()
-        setExercice() // адаптировано под новые данные
-        setTravelTime()
+        //setTravelTime()
         setScheduleTextView()
         addAnnotation()
         
@@ -110,76 +109,23 @@ class ViewController: UIViewController {
         locationManager.startUpdatingLocation()
         locationManager.requestWhenInUseAuthorization()
     }
-    func setSchedule(){
-        do{
-            //self.mySchedule = try MySchedule(fromURL: URL(string: scheduleUrl)!)
-            let rootRef = Database.database().reference()
-            var newItems: [MyScheduleElement] = []
-            //var myNewSchedule : MySchedule
-            print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-            print(rootRef.key)
-            print(rootRef.description())
-            var dataString: Any!
-        do{
-            rootRef.observe(.value, with: { snapshot in
-               dataString = snapshot.value as Any
-                
-              // print(dataString.debugDescription)
-                //print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",dataString.debugDescription)
-                
-            })
-             print("data ",dataString.debugDescription)
-           // let myNewSh =  try MySchedule(dataString.debugDescription)
-           // print("Count!!!!!!!!!!!!!!!!!!!!!!!!!    ",myNewSh.count)
-        }
-        catch{
-            print("Error!!!!!!!!!!!!!!!!!!!!!!!!!    ")
-        }
-            //let myData = try Data()
-        
-            if let path = Bundle.main.path(forResource: "myjson", ofType: "json")
-            {
 
-           let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
-                self.mySchedule = try MySchedule(data: data)
-            //print(self.mySchedule.count)
-            for a1 in self.mySchedule{
-                //print("\n", a1.key, "\n")
-                for i in 0...a1.value.count-1{
-                   // print(a1.value[i].title," ",a1.value[i].time," ",a1.value[i].location)
-
-                }
-            }
-        }
-        }
-            catch {
-                    }
-
-    }
     func setScheduleTextView(){
-        textView.text = "Расписание \n \n"
-        for i in 0...myDaySchedule.count-2{
-            if i != myDaySchedule.count-1{
-                textView.text += myDaySchedule[i].title.rawValue+" "+myDaySchedule[i].time+"-"+myDaySchedule[i+1].time+"\n"
+        let ref = Database.database().reference()
+        ref.child(yourgroup  + "/" + Date().stringDayNumberOfWeek()!).observeSingleEvent(of: .value) { (snapshot) in
+            let name = snapshot.value as? [Any]
+            scheduleToday = name ?? ["Не загрузилось","Не загрузилось"]
+            let curEx = self.getCurrentExId(cTime: getCurrentTime())
+            if curEx != 0{
+                let str = scheduleToday[curEx] as? String
+                self.currentTaskLabel.text = String(str!.split(separator: "_")[0])
             }
-            else{
-                textView.text += myDaySchedule[i].title.rawValue+" "+myDaySchedule[i].time + "\n"
+            else {
+                self.currentTaskLabel.text = "Свобода"
             }
-             if myDaySchedule[i].getTimeInMillis()<=getCurrentTime() && myDaySchedule[i+1].getTimeInMillis()>getCurrentTime(){
-                currentTaskLabel.text = myDaySchedule[i].title.rawValue
-            }
-            else{
-                currentTaskLabel.text = "Свобода"
-                if getCurrentTime()>myDaySchedule[myDaySchedule.count-1].getTimeInMillis(){
-                    mapView.removeOverlays(mapView.overlays)
-                    taskStatusLabel.text = "Учебный день завершён"
-                }
-                else if getCurrentTime() < myDaySchedule[0].getTimeInMillis(){
-                    taskStatusLabel.text = "Учеба не началась"
-                }
-               
-            }
+            self.setDestinationLocation()
         }
+        
     }
     @IBAction func onClick(_ sender: Any) {
         UIView.animate(withDuration: 0.2, animations: {
@@ -199,10 +145,7 @@ class ViewController: UIViewController {
                 self.textView.frame = CGRect(x:self.textView.frame.minX, y: self.textView.frame.minY, width:self.textView.frame.width, height:self.textView.frame.height/8)
                 changeSize = !changeSize
             }
-            
-            
         }) { (success) in
-            
             print("Animation Successful!")
         }
         
@@ -215,45 +158,7 @@ class ViewController: UIViewController {
         renderer.lineWidth = 4.0
         return renderer
     }
-    func setExercice(){
-            myDaySchedule = mySchedule["Понедельник"]!
-            switch Int(Date().dayNumberOfWeek()!-2){
-            case 0:
-                print("TODAY 0")
-                myDaySchedule = mySchedule["Понедельник"]!
-                break;
-            case 1:
-                print("TODAY 1")
-                 myDaySchedule = mySchedule["Вторник"]!
-                break;
-            case 2:
-                print("TODAY 2")
-                 myDaySchedule = mySchedule["Среда"]!
-                break;
-            case 3:
-                print("TODAY 3")
-                 myDaySchedule = mySchedule["Четверг"]!
-                break;
-            case 4:
-                print("TODAY 4")
-                 myDaySchedule = mySchedule["Пятница"]!
-                break;
-            case 5:
-                print("TODAY 5")
-                 myDaySchedule = mySchedule["Суббота"]!
-                break;
-            case 6:
-                print("TODAY 6")
-                 myDaySchedule = mySchedule["Воскресенье"]!
-                break;
-            case 7:
-                 print("TODAY 7")
-                break;
-            default:
-                print("TODAY ???")
-            }
-        textView.text = "Расписание"
-    }
+   
     
     
     func timeToString(time : Int)->String{
@@ -278,25 +183,179 @@ class ViewController: UIViewController {
 
     func setTimeLabel(region:Place){
         locationStatusLabel.text = "Вы в бауманке"
-        univercityTimerLabel.text = timeToString(time: region.time)
+        self.univercityTimerLabel.text = timeToString(time: region.time)
     }
     
     func setDestinationLocation(){
-        for i in 0...myDaySchedule.count-2{
-            print(myDaySchedule[i].title.rawValue)
-            if myDaySchedule[i].getTimeInMillis()<=getCurrentTime() && myDaySchedule[i+1].getTimeInMillis()>getCurrentTime(){
-                print("Вам нужно в ",myDaySchedule[i].location.rawValue, "на ", myDaySchedule[i].title.rawValue )
-                destinationLocation = pl[myDaySchedule[i+1].location.rawValue]?.coordinate ?? initialLocation.coordinate // перепроверить индексы
-            }
+        let curEx = self.getCurrentExId(cTime: getCurrentTime())
+        mapView.removeOverlays(mapView.overlays)
+        if (curEx != -1 && curEx != scheduleToday.count){
+            print("curEx",curEx, " ", scheduleToday.count)
+            let str = scheduleToday[curEx+1] as? String
+            let tag = String(str!.split(separator: "_")[1])
             
+            print("destination ",tag)
+            destinationLocation = (pl[tag]?.coordinate)!
+            //print("c- ",locationManager.location?.coordinate ," d- ",destinationLocation)
+            
+            //let time = mapCode.getRouteTime(sourceLocation: (locationManager.location?.coordinate)!, destinationLocation: destinationLocation, mapView: mapView)
+            //print("time ",time)
+            setTimer(dl:destinationLocation)
+        
+    }
+        else  {
+            //setTimer(dl:(pl["Home"]?.coordinate)!)
+            print("no destination ")
         }
     }
+    
     func addMapTrackingButton(){
         let buttonItem = MKUserTrackingButton(mapView: mapView)
         buttonItem.frame = CGRect(origin: CGPoint(x:self.view.bounds.width-52, y: self.view.bounds.height-136), size: CGSize(width: 50, height: 50))
-        
         mapView.addSubview(buttonItem)
     }
+    
+    func getCurrentExId(cTime: Int)->Int{
+        //let cTime = getCurrentTime()
+        if cTime > timeToSeconds(h: 8, m: 30) && cTime < timeToSeconds(h: 9, m: 15){
+            print("1 пара")
+            return 1
+        }
+        else if cTime > timeToSeconds(h: 10, m: 15) && cTime < timeToSeconds(h: 11, m: 50){
+            print("2 пара")
+            return 2
+        }
+        else if cTime > timeToSeconds(h: 12, m: 0) && cTime < timeToSeconds(h: 13, m: 35){
+            print("3 пара")
+            return 3
+        }
+        else if cTime > timeToSeconds(h: 13, m: 50) && cTime < timeToSeconds(h: 15, m: 25){
+            print("4 пара")
+            return 4
+        }
+        else if cTime > timeToSeconds(h: 15, m: 40) && cTime < timeToSeconds(h: 17, m: 15){
+            print("5 пара")
+            return 5
+        }
+        else if cTime > timeToSeconds(h: 17, m: 30) && cTime < timeToSeconds(h: 19, m: 0){
+            print("6 пара")
+            return 6
+        }
+        else if cTime > timeToSeconds(h: 19, m: 15) && cTime < timeToSeconds(h: 20, m: 45){
+            print("7 пара")
+            return 7
+        }
+        
+        else{
+         return 0
+        }
+        
+    }
+    func setTimer(dl: CLLocationCoordinate2D){
+        
+        //let time = mapCode.getRouteTime(sourceLocation: (locationManager.location?.coordinate)!, destinationLocation: dl, mapView: mapView)
+        var time: Int = 0
+        let directionRequest = MKDirections.Request()
+        directionRequest.source = MKMapItem(placemark: MKPlacemark(coordinate: sourceLocation ))
+        directionRequest.destination = MKMapItem(placemark: MKPlacemark(coordinate: destinationLocation))
+        directionRequest.transportType = .walking
+        
+        let directions = MKDirections(request: directionRequest)
+        
+        directions.calculate{ (response, error) in
+            guard let directionResonse = response else {
+                if let error = error {
+                    print("we have error getting directions==\(error.localizedDescription)")
+                }
+                return
+            }
+            
+            let route = directionResonse.routes[0]
+            let res =  Int(route.expectedTravelTime)
+            time = res
+            self.locationStatusLabel.text = "Время в пути"
+            self.univercityTimerLabel.text = self.timeToString(time: res)
+            
+            if(!self.contains(place: pl, point: self.locationManager.location?.coordinate ?? self.initialLocation.coordinate )){
+                self.mapView.removeOverlays(self.mapView.overlays)
+                self.sourceLocation = (self.locationManager.location?.coordinate) ?? CLLocationCoordinate2D(latitude:55.765790, longitude: 37.677132)
+                self.mapView.addOverlay(route.polyline, level: .aboveRoads)
+                let rect = route.polyline.boundingMapRect
+                self.mapView.setRegion(MKCoordinateRegion(rect), animated: true)
+                self.locationStatusLabel.text = "Время в пути"
+                print("ставлю время в пути", time )
+                self.univercityTimerLabel.text = self.timeToString(time: time)
+            }
+            
+            
+        }
+    
+        
+        
+        
+        
+        
+//        if(!contains(place: pl, point: locationManager.location?.coordinate ?? initialLocation.coordinate )){ // тут проверка на нахождение в одном месте и присутсивие вне полигона
+//            if !contains(place: ["loc":lastPlace], point: (locationManager.location?.coordinate) ?? initialLocation.coordinate){
+//                lastPlace.coordinate = locationManager.location?.coordinate ?? initialLocation.coordinate
+//                lastPlace.coordinate = (locationManager.location?.coordinate) ?? places.placeGZ.coordinate
+//                print("Переместились")
+//                mapView.removeOverlays(mapView.overlays)
+//                sourceLocation = (locationManager.location?.coordinate) ?? CLLocationCoordinate2D(latitude:55.765790, longitude: 37.677132)
+//                mapCode.createRoute(sourceLocation: sourceLocation ,destinationLocation: destinationLocation,mapView: mapView)
+//                locationStatusLabel.text = "Время в пути"
+//                print("Время в пути", time )
+//                univercityTimerLabel.text = timeToString(time: time)
+//            }
+//            else{
+//                print("Нет перемещения")
+//                print("Время в пути", timeToString(time: time))
+//                locationStatusLabel.text = "Время в пути"
+//                univercityTimerLabel.text = timeToString(time: time)
+//                sourceLocation = (locationManager.location?.coordinate)!
+//            }
+//            print("Days ",myDaySchedule.count)
+        
+        
+//            for i in 0...myDaySchedule.count-2{
+//                print(myDaySchedule[i].time)
+//                print("test ",myDaySchedule[i].getTimeInMillis()," ",getCurrentTime(), " time=",time)
+//                if myDaySchedule[i].getTimeInMillis()<=getCurrentTime() && myDaySchedule[i+1].getTimeInMillis()>getCurrentTime(){
+//                    if getCurrentTime()+time<myDaySchedule[i].getTimeInMillis(){
+//                        if myDaySchedule[i].title.rawValue == "Свобода"{
+//                            print("успеваете ",myDaySchedule[i].getTimeInMillis()," ",getCurrentTime(), " time=",time)
+//                            taskStatusLabel.text = "Успеваете на " + myDaySchedule[i+1].title.rawValue
+//                        }
+//                        else{
+//                            print("опаздываете ",myDaySchedule[i].getTimeInMillis()," ",getCurrentTime(), " time=",time)
+//                            univercityTimerLabel.text = timeToString(time: time)
+//                            taskStatusLabel.text = "Опаздываете на " + myDaySchedule[i].title.rawValue
+//                        }
+//                    }
+//                    else{
+//                        if myDaySchedule[i].title.rawValue == "Свобода"{
+//                            print("опаздываете ",myDaySchedule[i].getTimeInMillis()," ",getCurrentTime(), " time=",time)
+//                            univercityTimerLabel.text = timeToString(time: time)
+//                            taskStatusLabel.text = "Опаздываете на " + myDaySchedule[i+1].title.rawValue
+//                        }
+//                        else{
+//                            print("опаздываете ",myDaySchedule[i].getTimeInMillis()," ",getCurrentTime(), " time=",time)
+//                            univercityTimerLabel.text = timeToString(time: time)
+//                            taskStatusLabel.text = "Опаздываете на " + myDaySchedule[i].title.rawValue
+//                        }
+//                    }
+//                }
+//                else{
+//                    print("Никуда не надо")
+//                    mapView.removeOverlays(mapView.overlays)
+//                    univercityTimerLabel.text = timeToString(time: time)
+//                }
+//            }
+        
+    }
+
+
+    /*
     func setTravelTime(){
         setDestinationLocation()
         let time = mapCode.getRouteTime(sourceLocation: sourceLocation, destinationLocation: destinationLocation, mapView: mapView)
@@ -318,6 +377,7 @@ class ViewController: UIViewController {
                 sourceLocation = (locationManager.location?.coordinate)!
             }
             print("Days ",myDaySchedule.count)
+            
             for i in 0...myDaySchedule.count-2{
                 print(myDaySchedule[i].time)
                 print("test ",myDaySchedule[i].getTimeInMillis()," ",getCurrentTime(), " time=",time)
@@ -356,6 +416,8 @@ class ViewController: UIViewController {
         
     
     }
+    */
+    
     //Проверка нахождения в одном из полигонов
     func contains(place: [String : Place], point: CLLocationCoordinate2D)->Bool{//потом будем возвращать код региона
         for pl in place{
@@ -417,10 +479,7 @@ class ViewController: UIViewController {
         places.placeHome.region.notifyOnEntry = true
         places.placeHome.region.notifyOnExit = true
     }
- 
-    
 }
-
 extension ViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         guard let annotation = annotation as? Place else { return nil }
@@ -460,10 +519,9 @@ extension ViewController: CLLocationManagerDelegate {
         }
     }
 }
-extension Date {
+extension Date {//1-воскресенье
     func dayNumberOfWeek() -> Int? {
-        return 0
-        //return Calendar.current.dateComponents([.weekday], from: self).weekday
+        return Calendar.current.dateComponents([.weekday], from: self).weekday
     }
 }
 
@@ -473,6 +531,10 @@ func getCurrentTime()->Int{
     let curtime = Int(calendar.component(.hour, from:date)*60*60+calendar.component(.minute, from:date)*60)
     return curtime
 }
+func timeToSeconds(h:Int, m:Int)->Int{
+    return h*60*60+m*60
+}
+
 
 
 

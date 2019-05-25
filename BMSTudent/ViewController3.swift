@@ -13,7 +13,7 @@ class ViewController3: UIViewController, UITableViewDelegate, UITableViewDataSou
     
    
     
-    var Group: [String] = ["ИУ5-21Б", "ИУ5-22Б", "ИУ5-23Б", "ИУ5-24Б", "ИУ5-25Б"]
+    var Group: [String] = ["ИУ5-21", "ИУ5-22", "ИУ5-23", "ИУ5-24", "ИУ5-25"]
     
     let place : [Place] = [places.placeGZ, places.placeULK, places.placeESM, places.placeIZM, places.placeSK, places.placeOB, places.placeRKT, places.placeLESTEX, places.placeAS, places.placeREAIM, places.placeTC, places.placeHome]
     
@@ -108,7 +108,7 @@ class ViewController3: UIViewController, UITableViewDelegate, UITableViewDataSou
     
     func TextField(textField: UITextField) {
         TextField = textField
-        TextField.placeholder = "ИУ5-21Б"
+        TextField.placeholder = "ИУ5-25"
     }
     
     func groupOkAction(alert: UIAlertAction) {
@@ -117,12 +117,12 @@ class ViewController3: UIViewController, UITableViewDelegate, UITableViewDataSou
         
         for currentGroup in Group {
             if  currentGroup == TextField.text?.uppercased() {
-                yourCurrentGroup = TextField.text?.uppercased() ?? "ИУ5-21Б"
+                yourCurrentGroup = TextField.text?.uppercased() ?? "ИУ5-25"
                 navBarTitle.title = yourCurrentGroup
                 //yourGroupLabel.text = "Ваша группа: " + yourCurrentGroup
                 groupChange = true
                 }
-            if (currentGroup == "ИУ5-25Б") && (groupChange == false) {
+            if (currentGroup == "ИУ5-25") && (groupChange == false) {
                 wrongInputAlert()
             }
         }

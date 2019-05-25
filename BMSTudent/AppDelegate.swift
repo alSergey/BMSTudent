@@ -25,6 +25,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         
+        FirebaseApp.configure()
+        
         dateformatter.dateFormat = "dd"
         //data = data + 1
        // dateformatter.s
@@ -32,7 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print("Current data = ", dateformatter.string(from: data as Date))
         print("Current data = ", data)
         
-        FirebaseApp.configure()
+        
 
         locationManager.requestAlwaysAuthorization()
         locationManager.delegate = self
@@ -49,6 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     _ in place.time = place.time + 1
                     myViewController?.inPolygon = true
                     myViewController?.setTimeLabel(region: place)
+                    print ("1")
                     
                 })
             } else {
@@ -58,7 +61,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 mytimer2 = Timer.scheduledTimer(withTimeInterval: 10, repeats: true, block: {
                     _ in
                     myViewController?.inPolygon = false
-                    myViewController?.setTravelTime()
+                     myViewController?.setDestinationLocation()
+                    //print ("2")
+                    //myViewController?.setTravelTime()
                 })
             }
         }
@@ -67,7 +72,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         mytimer2 = Timer.scheduledTimer(withTimeInterval: 10, repeats: true, block: {
             _ in
             myViewController?.inPolygon = false
-            myViewController?.setTravelTime()
+             myViewController?.setDestinationLocation()
+           // print ("3")
+            //myViewController?.setTravelTime()
         })
         
         return true
@@ -91,7 +98,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         mytimer2 = Timer.scheduledTimer(withTimeInterval: 10, repeats: true, block: {
             _ in
             myViewController?.inPolygon = false
-            myViewController?.setTravelTime()
+            myViewController?.setDestinationLocation()
+            print ("4")
+            //myViewController?.setTravelTime()
         })
         print("выход из background")
     }
@@ -130,7 +139,9 @@ extension AppDelegate: CLLocationManagerDelegate {
             mytimer2 = Timer.scheduledTimer(withTimeInterval: 10, repeats: true, block: {
                 _ in
                 myViewController?.inPolygon = false
-                myViewController?.setTravelTime()
+                myViewController?.setDestinationLocation()
+                print ("5")
+                //myViewController?.setTravelTime()
                 
             })
             //Для себя проверка
@@ -139,6 +150,8 @@ extension AppDelegate: CLLocationManagerDelegate {
         }
     }
     
+    
+
     //Когда пользователь входит в какой-то регион
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
        
@@ -150,7 +163,9 @@ extension AppDelegate: CLLocationManagerDelegate {
             mytimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: {
                 _ in allplaces[region.identifier]?.time = allplaces[region.identifier]!.time + 1
                 myViewController?.inPolygon = true
+                
                 myViewController?.setTimeLabel(region: allplaces[region.identifier]!)
+                print ("7")
                 
             })
             
@@ -159,6 +174,7 @@ extension AppDelegate: CLLocationManagerDelegate {
             print(region.identifier)
         }
     }
+    
   
     
 }
