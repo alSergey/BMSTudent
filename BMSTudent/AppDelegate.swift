@@ -3,16 +3,26 @@ import CoreLocation
 import Firebase
 import FirebaseDatabase
 import RealmSwift
+import UserNotifications
 
 let allplaces : [String: Place] = ["GZ" : places.placeGZ, "ULK" : places.placeULK, "ESM" : places.placeESM, "IZM" : places.placeIZM, "SK" : places.placeSK, "OB" : places.placeOB, "RKT" : places.placeRKT, "LESTEX" : places.placeLESTEX, "AS" : places.placeAS, "REAIM" : places.placeREAIM, "TC" : places.placeTC, "Home" : places.placeHome]
 
 let places1 : [Place] = [places.placeGZ, places.placeULK, places.placeESM, places.placeIZM, places.placeSK, places.placeOB, places.placeRKT, places.placeLESTEX, places.placeAS, places.placeREAIM, places.placeTC, places.placeHome]
+//Создание твоего уведомления
+extension Notification.Name {
+    public static let DtoV1TNotificationKey = Notification.Name(rawValue: "DtoV1T")
+}
+
+extension Notification.Name {
+    public static let DtoV1ZNotificationKey = Notification.Name(rawValue: "DtoV1Z")
+}
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     
+    let notificationCenter = UNUserNotificationCenter.current()
     let locationManager = CLLocationManager()
     var mytimer = Timer()
     var mytimer2 = Timer()
@@ -22,8 +32,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var data = NSDate()
     let dateformatter = DateFormatter()
     
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.alert, .sound])
+    }
+    
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        let options : UNAuthorizationOptions = [.alert , .sound, .badge]
+        notificationCenter.requestAuthorization(options: options) {
+            (didAllow, error) in
+            if !didAllow {
+                print("User has declined notifications")
+            }
+        }
         
         FirebaseApp.configure()
         
@@ -46,13 +67,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if (place.region.contains(locationManager.location?.coordinate ?? destinationLocation)){
                 print(place.locationName," OK")
                 let myViewController = self.window?.rootViewController as? ViewController
+                //Добавление информации в твое уведомление
+                let userInfo = [ "place" : place]
+                
+                let content = UNMutableNotificationContent()
+                content.title = "Вы вошли в полигон"
+                content.body = place.title ?? "Главное здание"
+                content.sound = UNNotificationSound.default
+                
+                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+                
+                let request = UNNotificationRequest(identifier: "enterPoligon", content: content, trigger: trigger)
+                
+                notificationCenter.add(request, withCompletionHandler: nil)
                 
                 mytimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: {
                     _ in place.time = place.time + 1
                     myViewController?.inPolygon = true
+                    //Отправление уведомления
+                    NotificationCenter.default.post(name: .DtoV1TNotificationKey, object: nil, userInfo: userInfo)
                     myViewController?.setTimeLabel(region: place)
-                    print ("1")
-                    
                 })
             } else {
                 let myViewController = self.window?.rootViewController as? ViewController
@@ -132,6 +166,7 @@ extension AppDelegate: CLLocationManagerDelegate {
             
             let myViewController = self.window?.rootViewController as? ViewController
             myViewController?.sourceLocation = (locationManager.location?.coordinate)!
+            NotificationCenter.default.post(name: .DtoV1ZNotificationKey, object: nil, userInfo: nil)
             myViewController?.setTimeZero()
             
             mytimer.invalidate()
@@ -157,17 +192,28 @@ extension AppDelegate: CLLocationManagerDelegate {
        
         if region is CLCircularRegion {
             let myViewController = self.window?.rootViewController as? ViewController
+            let userInfo = [ "place" : allplaces[region.identifier]]
             myViewController?.sourceLocation = locationManager.location?.coordinate ?? places.placeIZM.coordinate
-            myViewController!.mapView.removeOverlays(myViewController!.mapView.overlays)
+            //myViewController!.mapView.removeOverlays(myViewController!.mapView.overlays)
             mytimer2.invalidate()
             mytimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: {
                 _ in allplaces[region.identifier]?.time = allplaces[region.identifier]!.time + 1
                 myViewController?.inPolygon = true
-                
-                myViewController?.setTimeLabel(region: allplaces[region.identifier]!)
+                NotificationCenter.default.post(name: .DtoV1TNotificationKey, object: nil, userInfo: userInfo)
                 print ("7")
                 
             })
+            
+            let content = UNMutableNotificationContent()
+            content.title = "Вы вошли в полигон"
+            content.body = allplaces[region.identifier]?.title ?? "Главное здание"
+            content.sound = UNNotificationSound.default
+            
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+            
+            let request = UNNotificationRequest(identifier: "enterPoligon", content: content, trigger: trigger)
+            
+            notificationCenter.add(request, withCompletionHandler: nil)
             
             //Для себя проверка
             print("Enter")

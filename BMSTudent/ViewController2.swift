@@ -15,20 +15,28 @@ class ViewController2: UIViewController, UITableViewDelegate, UITableViewDataSou
     
     let refresh = UIRefreshControl()
    
-    
-    
-
+    @IBOutlet weak var navBar: UINavigationItem!
     @IBOutlet weak var tableView: UITableView!
     let cellIdentifier = "myTableViewCell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navBar.title = "ИУ5-21"
+        NotificationCenter.default.addObserver(self, selector: #selector(self.notificationReceived(_:)), name: .myNotificationKey, object: nil)
         refreshdata()
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(UINib.init(nibName: "myTableViewCell", bundle: nil), forCellReuseIdentifier: cellIdentifier)
         refreshdata()
         
+    }
+    
+    //Запись выбранной на view3 группы в yourGroup
+    //Ты сюда можешь прописать обновление tableView с новым расписанием
+    @objc func notificationReceived(_ notification: Notification) {
+        guard let text = notification.userInfo?["text"] as? String else { return }
+        yourgroup = text
+        navBar.title = yourgroup
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

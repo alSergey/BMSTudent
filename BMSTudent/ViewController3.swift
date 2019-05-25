@@ -9,6 +9,10 @@
 import UIKit
 import RealmSwift
 
+extension Notification.Name {
+    public static let myNotificationKey = Notification.Name(rawValue: "V3toV1")
+}
+
 class ViewController3: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
    
@@ -20,21 +24,18 @@ class ViewController3: UIViewController, UITableViewDelegate, UITableViewDataSou
     let myrealm = try! Realm()
     var realmArray: Results<placeDatabase>!
     
-    var yourCurrentGroup: String = "ИУ5-21Б"
+    var yourCurrentGroup: String = "ИУ5-21"
     let cellIdentifier = "statPoligonTableViewCell"
     var TextField: UITextField!
     
     let refresh = UIRefreshControl()
     
-    
-    @IBOutlet weak var mynavigationBar: UINavigationBar!
-    @IBOutlet weak var navBarTitle: UINavigationItem!
     @IBOutlet weak var TableView: UITableView!
+    @IBOutlet weak var navBar: UINavigationItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        navBarTitle.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: nil, action: #selector(createGroupAlert))
+        navBar.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target:  self, action: #selector(createGroupAlert))
         
         realmArray = myrealm.objects(placeDatabase.self)
         
@@ -51,8 +52,7 @@ class ViewController3: UIViewController, UITableViewDelegate, UITableViewDataSou
             place[i].time = realmArray[i].time
         }
         refreshdata()
-        navBarTitle.title = yourCurrentGroup
-        //yourGroupLabel.text = "Ваша группа: " + yourCurrentGroup
+        navBar.title = yourCurrentGroup
         TableView.delegate = self
         TableView.dataSource = self
         TableView.register(UINib.init(nibName: "statPoligonTableViewCell", bundle: nil), forCellReuseIdentifier: cellIdentifier)
@@ -70,6 +70,26 @@ class ViewController3: UIViewController, UITableViewDelegate, UITableViewDataSou
             castedcell.fillNameAndTimeCell(with: name, with: time)
         }
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let reset = resetAction(at: indexPath)
+        return UISwipeActionsConfiguration(actions: [reset])
+    }
+    
+    func resetAction(at indexPath: IndexPath) -> UIContextualAction {
+        let resetPlace = place[indexPath.row]
+        let action = UIContextualAction(style: .normal, title: "Сброс") { (action, view, completion) in
+            resetPlace.time = 0
+            let currentRealm = self.realmArray[indexPath.row]
+            try! self.myrealm.write {
+                currentRealm.time = resetPlace.time
+            }
+            completion(true)
+            self.TableView.reloadData()
+        }
+        action.backgroundColor = .red
+        return action
     }
     
     @objc func tableViewReload() {
@@ -118,8 +138,9 @@ class ViewController3: UIViewController, UITableViewDelegate, UITableViewDataSou
         for currentGroup in Group {
             if  currentGroup == TextField.text?.uppercased() {
                 yourCurrentGroup = TextField.text?.uppercased() ?? "ИУ5-25"
-                navBarTitle.title = yourCurrentGroup
-                //yourGroupLabel.text = "Ваша группа: " + yourCurrentGroup
+                navBar.title = yourCurrentGroup
+                let userInfo = [ "text" : yourCurrentGroup ]
+                NotificationCenter.default.post(name: .myNotificationKey, object: nil, userInfo: userInfo)
                 groupChange = true
                 }
             if (currentGroup == "ИУ5-25") && (groupChange == false) {

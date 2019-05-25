@@ -60,6 +60,10 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        //Подписка на уведомление
+        NotificationCenter.default.addObserver(self, selector: #selector(self.notificationReceivedT(_:)), name: .DtoV1TNotificationKey, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.notificationReceivedZ(_:)), name: .DtoV1ZNotificationKey, object: nil)
+        
         addMapTrackingButton()
         textView.isEditable = false
         mapView.showsCompass = false
@@ -108,6 +112,15 @@ class ViewController: UIViewController {
         locationManager.allowsBackgroundLocationUpdates = true
         locationManager.startUpdatingLocation()
         locationManager.requestWhenInUseAuthorization()
+    }
+    //Действие при приему уведомления
+    @objc func notificationReceivedT(_ notification: Notification) {
+        guard let text = notification.userInfo?["place"] as? Place else { return }
+        setTimeLabel(region: text)
+    }
+    
+    @objc func notificationReceivedZ(_ notification: Notification) {
+        setTimeZero()
     }
 
     func setScheduleTextView(){
