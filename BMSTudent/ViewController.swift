@@ -27,7 +27,6 @@ var lastPlace = Place(region: CLCircularRegion(center: CLLocationCoordinate2D(la
 
 let pl : [String: Place] = ["GZ" : places.placeGZ, "ULK" : places.placeULK, "ESM" : places.placeESM, "IZM" : places.placeIZM, "SK" : places.placeSK, "OB" : places.placeOB, "RKT" : places.placeRKT, "LESTEX" : places.placeLESTEX, "AS" : places.placeAS, "REAIM" : places.placeREAIM, "TC" : places.placeTC, "Home" : places.placeHome]
 
-let scheduleUrl = "http://flexhub.ru/static/serGEY.json";
 
 var scheduleToday: [Any] = ["Пусто","Пусто"]
 
@@ -121,6 +120,8 @@ class ViewController: UIViewController {
         guard let text = notification.userInfo?["text"] as? String else { return }
         //Группа которая передана с View3
         yourgroup = text
+        self.setScheduleTextView()
+    
         print("View1", yourgroup)
     }
     
@@ -162,6 +163,7 @@ class ViewController: UIViewController {
             if !changeSize{
                 //self.groupButton.isHidden = false
                 self.cardInfoButton.setTitle("Скрыть", for: .normal)
+                
                 //self.setScheduleTextView()
                 self.loadScheduleTodayTV()
                 self.infoCard.frame =  CGRect(x:self.infoCard.frame.minX, y: self.infoCard.frame.minY, width:self.infoCard.frame.width, height:self.infoCard.frame.height*4)
@@ -279,11 +281,30 @@ class ViewController: UIViewController {
             print("7 пара")
             return 7
         }
-        
         else{
          return 0
         }
-        
+    }
+    func getTimeOfEx(exId: Int)->Int{
+        //let cTime = getCurrentTime()
+        switch exId{
+        case 1:
+            return timeToSeconds(h: 8, m: 30)
+        case 2:
+            return timeToSeconds(h: 10, m: 15)
+        case 3:
+            return timeToSeconds(h: 12, m: 00)
+        case 4:
+            return timeToSeconds(h: 13, m: 50)
+        case 5:
+            return timeToSeconds(h: 15, m: 40)
+        case 6:
+            return timeToSeconds(h: 17, m: 30)
+        case 7:
+            return timeToSeconds(h: 19, m: 15)
+        default:
+            return 1
+        }
     }
     func setTimer(dl: CLLocationCoordinate2D){
         
@@ -319,9 +340,17 @@ class ViewController: UIViewController {
                 self.locationStatusLabel.text = "Время в пути"
                 print("ставлю время в пути", time )
                 self.univercityTimerLabel.text = self.timeToString(time: time)
+                
+                if(getCurrentTime() + time > self.getTimeOfEx(exId: self.getCurrentExId(cTime: getCurrentTime()))){
+                    self.taskStatusLabel.text = "Опаздываете на пару"
+                }
+                else{
+                    self.taskStatusLabel.text = "Успеваете на пару"
+                }
             }
             
             
+    
         }
     
         

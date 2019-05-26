@@ -16,7 +16,7 @@ class ViewController2: UIViewController, UITableViewDelegate, UITableViewDataSou
     var yourgroup: String = "ИУ5-25"
     
     var sections: [String] = ["Воскресенье","Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"]
-    var itemsInSections: [[String]] = [["", ""], ["", ""], ["", ""], ["", ""], ["", ""], ["", ""], ["", ""]]
+    var itemsInSections: [[String]] = [[""], [""], [""], [""], [""], [""], [""]]
     
     let refresh = UIRefreshControl()
    
@@ -29,14 +29,37 @@ class ViewController2: UIViewController, UITableViewDelegate, UITableViewDataSou
         super.viewDidLoad()
         navBar.title = "ИУ5-25"
         NotificationCenter.default.addObserver(self, selector: #selector(self.notificationReceived(_:)), name: .myNotificationKey, object: nil)
-        refreshdata()
-    
-
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(UINib.init(nibName: "myTableViewCell", bundle: nil), forCellReuseIdentifier: cellIdentifier)
-        refreshdata()
         
+        let ref = Database.database().reference()
+        ref.child(yourgroup).observeSingleEvent(of: .value) { (snapshot) in
+            let name = snapshot.value as? [String:[Any]]
+            //print(name)
+            for i in 1...7 {
+                var day = name![Date().stringDayNumberOfWeek(i:i)!]
+                day?.remove(at: 0)
+                print("day ",day as! [String])
+                self.itemsInSections[i-1] = day as! [String]
+                print("item ",self.itemsInSections[i-1])
+            }
+            print("items", self.itemsInSections)
+            self.tableView.reloadData()
+        }
+        refreshdata()
+    
+        
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        self.tableView.reloadData()
+        refreshdata()
+        print("will appear")
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        //self.tableView.reloadData()
+        
+        print("did appear")
     }
     
     //Запись выбранной на view3 группы в yourGroup
@@ -45,6 +68,22 @@ class ViewController2: UIViewController, UITableViewDelegate, UITableViewDataSou
         guard let text = notification.userInfo?["text"] as? String else { return }
         yourgroup = text
         navBar.title = yourgroup
+        
+        let ref = Database.database().reference()
+        ref.child(yourgroup).observeSingleEvent(of: .value) { (snapshot) in
+            let name = snapshot.value as? [String:[Any]]
+            //print(name)
+            for i in 1...7 {
+                var day = name![Date().stringDayNumberOfWeek(i:i)!]
+                day?.remove(at: 0)
+                print("day ",day as! [String])
+                self.itemsInSections[i-1] = day as! [String]
+                print("item ",self.itemsInSections[i-1])
+            }
+            print("items", self.itemsInSections)
+            self.tableView.reloadData()
+        }
+        
         refreshdata()
     }
     
@@ -97,7 +136,7 @@ class ViewController2: UIViewController, UITableViewDelegate, UITableViewDataSou
                 print("item ",self.itemsInSections[i-1])
             }
             print("items", self.itemsInSections)
-
+            self.tableView.reloadData()
         }
         tableView.reloadData()
         refresh.endRefreshing()
