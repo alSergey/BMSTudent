@@ -24,7 +24,7 @@ class ViewController3: UIViewController, UITableViewDelegate, UITableViewDataSou
     let myrealm = try! Realm()
     var realmArray: Results<placeDatabase>!
     
-    var yourCurrentGroup: String = "ИУ5-21"
+    var yourCurrentGroup: String = "ИУ5-25"
     let cellIdentifier = "statPoligonTableViewCell"
     var TextField: UITextField!
     

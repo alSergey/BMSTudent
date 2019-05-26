@@ -129,7 +129,7 @@ class ViewController: UIViewController {
             let name = snapshot.value as? [Any]
             scheduleToday = name ?? ["Не загрузилось","Не загрузилось"]
             let curEx = self.getCurrentExId(cTime: getCurrentTime())
-            if curEx != 0{
+            if curEx != 0 && curEx <= scheduleToday.count {
                 let str = scheduleToday[curEx] as? String
                 self.currentTaskLabel.text = String(str!.split(separator: "_")[0])
             }
@@ -146,6 +146,7 @@ class ViewController: UIViewController {
                 //self.groupButton.isHidden = false
                 self.cardInfoButton.setTitle("Скрыть", for: .normal)
                 //self.setScheduleTextView()
+                self.loadScheduleTodayTV()
                 self.infoCard.frame =  CGRect(x:self.infoCard.frame.minX, y: self.infoCard.frame.minY, width:self.infoCard.frame.width, height:self.infoCard.frame.height*4)
                 self.textView.frame = CGRect(x:self.textView.frame.minX, y: self.textView.frame.minY, width:self.textView.frame.width, height:self.textView.frame.height*8)
                 changeSize = !changeSize
@@ -162,9 +163,14 @@ class ViewController: UIViewController {
             print("Animation Successful!")
         }
         
-       
     }
-    
+    func loadScheduleTodayTV(){
+         self.textView.text += "\n"
+        for i in 1...scheduleToday.count-1{
+            let str = scheduleToday[i] as! String
+            self.textView.text += String(str.split(separator: "_")[0]) + "\n"
+        }
+    }
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         let renderer = MKPolylineRenderer(overlay: overlay)
         renderer.strokeColor = UIColor.blue
@@ -202,22 +208,20 @@ class ViewController: UIViewController {
     func setDestinationLocation(){
         let curEx = self.getCurrentExId(cTime: getCurrentTime())
         mapView.removeOverlays(mapView.overlays)
-        if (curEx != -1 && curEx != scheduleToday.count){
+        if (curEx != 0 && curEx < scheduleToday.count-1){
             print("curEx",curEx, " ", scheduleToday.count)
             let str = scheduleToday[curEx+1] as? String
             let tag = String(str!.split(separator: "_")[1])
             
             print("destination ",tag)
             destinationLocation = (pl[tag]?.coordinate)!
-            //print("c- ",locationManager.location?.coordinate ," d- ",destinationLocation)
-            
-            //let time = mapCode.getRouteTime(sourceLocation: (locationManager.location?.coordinate)!, destinationLocation: destinationLocation, mapView: mapView)
-            //print("time ",time)
             setTimer(dl:destinationLocation)
         
     }
-        else  {
-            //setTimer(dl:(pl["Home"]?.coordinate)!)
+    
+        else {
+            self.locationStatusLabel.text = "Таймер"
+            self.univercityTimerLabel.text = "00:00:00"
             print("no destination ")
         }
     }
@@ -286,8 +290,8 @@ class ViewController: UIViewController {
             let route = directionResonse.routes[0]
             let res =  Int(route.expectedTravelTime)
             time = res
-            self.locationStatusLabel.text = "Время в пути"
-            self.univercityTimerLabel.text = self.timeToString(time: res)
+//            self.locationStatusLabel.text = "Время в пути"
+//            self.univercityTimerLabel.text = self.timeToString(time: res)
             
             if(!self.contains(place: pl, point: self.locationManager.location?.coordinate ?? self.initialLocation.coordinate )){
                 self.mapView.removeOverlays(self.mapView.overlays)
