@@ -13,6 +13,10 @@ extension Notification.Name {
     public static let myNotificationKey = Notification.Name(rawValue: "V3toV1")
 }
 
+extension Notification.Name {
+    public static let mapPlaceNotificationKey = Notification.Name(rawValue: "V3toV1")
+}
+
 class ViewController3: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
    
@@ -72,24 +76,25 @@ class ViewController3: UIViewController, UITableViewDelegate, UITableViewDataSou
         return cell
     }
     
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let reset = resetAction(at: indexPath)
-        return UISwipeActionsConfiguration(actions: [reset])
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let userInfo = [ "place" : place[indexPath.row] ]
+        NotificationCenter.default.post(name: .mapPlaceNotificationKey, object: nil, userInfo: userInfo)
+        self.tabBarController?.selectedIndex = 0
     }
     
-    func resetAction(at indexPath: IndexPath) -> UIContextualAction {
-        let resetPlace = place[indexPath.row]
-        let action = UIContextualAction(style: .normal, title: "Сброс") { (action, view, completion) in
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let resetAction = UITableViewRowAction(style: .default, title: "Сброс") { _, indexPath in
+            let resetPlace = self.place[indexPath.row]
             resetPlace.time = 0
             let currentRealm = self.realmArray[indexPath.row]
             try! self.myrealm.write {
                 currentRealm.time = resetPlace.time
             }
-            completion(true)
-            self.TableView.reloadData()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                tableView.reloadData()
+            }
         }
-        action.backgroundColor = .red
-        return action
+        return [resetAction]
     }
     
     @objc func tableViewReload() {
@@ -128,7 +133,7 @@ class ViewController3: UIViewController, UITableViewDelegate, UITableViewDataSou
     
     func TextField(textField: UITextField) {
         TextField = textField
-        TextField.placeholder = "ИУ5-25"
+        TextField.placeholder = "ИУ5-21"
     }
     
     func groupOkAction(alert: UIAlertAction) {

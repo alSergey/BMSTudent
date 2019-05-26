@@ -46,6 +46,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
+        realmArray = myrealm.objects(placeDatabase.self)
+        
+        if places1.count != realmArray.count {
+            for _ in 0...places1.count - realmArray.count - 1 {
+                let createRealm = placeDatabase(value: ["time": 0])
+                try! myrealm.write {
+                    myrealm.add(createRealm)
+                }
+            }
+        }
+        
+        for i in 0...places1.count - 1 {
+            places1[i].time = realmArray[i].time
+        }
+        
         FirebaseApp.configure()
         
         dateformatter.dateFormat = "dd"

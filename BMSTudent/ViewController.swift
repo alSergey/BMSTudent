@@ -61,8 +61,10 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         //Подписка на уведомление
+        NotificationCenter.default.addObserver(self, selector: #selector(self.notificationReceived(_:)), name: .myNotificationKey, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.notificationReceivedT(_:)), name: .DtoV1TNotificationKey, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.notificationReceivedZ(_:)), name: .DtoV1ZNotificationKey, object: nil)
+         NotificationCenter.default.addObserver(self, selector: #selector(self.notificationReceivedM(_:)), name: .mapPlaceNotificationKey, object: nil)
        
         
         addMapTrackingButton()
@@ -115,19 +117,28 @@ class ViewController: UIViewController {
         locationManager.requestWhenInUseAuthorization()
     }
     //Действие при приему уведомления
+    @objc func notificationReceived(_ notification: Notification) {
+        guard let text = notification.userInfo?["text"] as? String else { return }
+        //Группа которая передана с View3
+        yourgroup = text
+        print("View1", yourgroup)
+    }
+    
     @objc func notificationReceivedT(_ notification: Notification) {
         guard let text = notification.userInfo?["place"] as? Place else { return }
-        guard let text2 = notification.userInfo?["text"] as? String else { return }
-        yourgroup = text2
-        print("group ", text2)
         setTimeLabel(region: text)
     }
     
     @objc func notificationReceivedZ(_ notification: Notification) {
-    
         setTimeZero()
     }
-   
+    
+    @objc func notificationReceivedM(_ notification: Notification) {
+        guard let text = notification.userInfo?["place"] as? Place else { return }
+        //let region = MKCoordinateRegion(center: text.coordinate, latitudinalMeters: CLLocationDistance(5000), longitudinalMeters: CLLocationDistance(5000))
+        //mapView.setRegion(region, animated: true)
+        mapView.setCenter(text.coordinate, animated: true)
+    }
 
     func setScheduleTextView(){
         let ref = Database.database().reference()
