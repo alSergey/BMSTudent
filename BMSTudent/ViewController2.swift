@@ -48,14 +48,10 @@ class ViewController2: UIViewController, UITableViewDelegate, UITableViewDataSou
         refreshdata()
     }
     
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return scheduleToday.count
-//    }
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
     {
         let location = segue.destination as? ViewController
-        location?.yourgroup = yourgroup ?? "ИУ5-25"
+        location?.yourgroup = yourgroup 
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

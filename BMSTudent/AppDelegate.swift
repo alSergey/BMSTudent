@@ -133,7 +133,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             _ in
             myViewController?.inPolygon = false
             myViewController?.setDestinationLocation()
-            print ("4")
+            //print ("4")
             //myViewController?.setTravelTime()
         })
         print("выход из background")
@@ -175,7 +175,7 @@ extension AppDelegate: CLLocationManagerDelegate {
                 _ in
                 myViewController?.inPolygon = false
                 myViewController?.setDestinationLocation()
-                print ("5")
+                //print ("5")
                 //myViewController?.setTravelTime()
                 
             })
@@ -200,7 +200,7 @@ extension AppDelegate: CLLocationManagerDelegate {
                 _ in allplaces[region.identifier]?.time = allplaces[region.identifier]!.time + 1
                 myViewController?.inPolygon = true
                 NotificationCenter.default.post(name: .DtoV1TNotificationKey, object: nil, userInfo: userInfo)
-                print ("7")
+                //print ("7")
                 
             })
             

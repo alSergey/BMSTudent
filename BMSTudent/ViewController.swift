@@ -63,6 +63,7 @@ class ViewController: UIViewController {
         //Подписка на уведомление
         NotificationCenter.default.addObserver(self, selector: #selector(self.notificationReceivedT(_:)), name: .DtoV1TNotificationKey, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.notificationReceivedZ(_:)), name: .DtoV1ZNotificationKey, object: nil)
+       
         
         addMapTrackingButton()
         textView.isEditable = false
@@ -116,12 +117,17 @@ class ViewController: UIViewController {
     //Действие при приему уведомления
     @objc func notificationReceivedT(_ notification: Notification) {
         guard let text = notification.userInfo?["place"] as? Place else { return }
+        guard let text2 = notification.userInfo?["text"] as? String else { return }
+        yourgroup = text2
+        print("group ", text2)
         setTimeLabel(region: text)
     }
     
     @objc func notificationReceivedZ(_ notification: Notification) {
+    
         setTimeZero()
     }
+   
 
     func setScheduleTextView(){
         let ref = Database.database().reference()
