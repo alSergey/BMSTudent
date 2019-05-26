@@ -85,6 +85,39 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
+	<key>UIApplicationShortcutItems</key>
+	<array>
+		<dict>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Расписание</string>
+			<key>UIApplicationShortcutItemSubtitle</key>
+			<string>Посмотреть расписание</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>openShedule</string>
+			<key>UIApplicationShortcutItemIconFile</key>
+			<string>order</string>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Статистика</string>
+			<key>UIApplicationShortcutItemSubtitle</key>
+			<string>Показать статистику</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>openStatistics</string>
+			<key>UIApplicationShortcutItemIconFile</key>
+			<string>combo_chart</string>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Группа</string>
+			<key>UIApplicationShortcutItemSubtitle</key>
+			<string>Поменять группу</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>changeGroup</string>
+			<key>UIApplicationShortcutItemIconFile</key>
+			<string>user_male</string>
+		</dict>
+	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

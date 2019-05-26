@@ -79,6 +79,7 @@ class ViewController3: UIViewController, UITableViewDelegate, UITableViewDataSou
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let userInfo = [ "place" : place[indexPath.row] ]
         NotificationCenter.default.post(name: .mapPlaceNotificationKey, object: nil, userInfo: userInfo)
+        tableView.reloadData()
         self.tabBarController?.selectedIndex = 0
     }
     

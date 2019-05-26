@@ -171,7 +171,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
-
+    func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
+        if shortcutItem.type == "openShedule" {
+        }
+        if shortcutItem.type == "openStatistics" {
+        }
+        if shortcutItem.type == "changeGroup" {
+        }
+    }
 }
 
 extension AppDelegate: CLLocationManagerDelegate {

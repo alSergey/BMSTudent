@@ -127,10 +127,10 @@
             </objects>
             <point key="canvasLocation" x="1351.2" y="445.56650246305418"/>
         </scene>
-        <!--Account-->
+        <!--Stat-->
         <scene sceneID="Wwy-8F-u6k">
             <objects>
-                <viewController title="Account" id="SDn-4B-Wxd" customClass="ViewController3" customModule="BMSTudent" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Stat" id="SDn-4B-Wxd" customClass="ViewController3" customModule="BMSTudent" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="cxF-P4-Mdq">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -173,11 +173,11 @@
             </objects>
             <point key="canvasLocation" x="-719" y="446"/>
         </scene>
-        <!--Аккаунт-->
+        <!--Статистика-->
         <scene sceneID="oGY-dZ-nEt">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="LcC-cC-efE" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Аккаунт" image="user_male" selectedImage="user_male" id="wdh-a2-Xxa"/>
+                    <tabBarItem key="tabBarItem" title="Статистика" image="combo_chart" selectedImage="combo_chart" id="wdh-a2-Xxa"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Lcx-3J-qP4">
                         <rect key="frame" x="0.0" y="44" width="375" height="44"/>
@@ -213,8 +213,8 @@
         </scene>
     </scenes>
     <resources>
+        <image name="combo_chart" width="30" height="30"/>
         <image name="map" width="30" height="30"/>
         <image name="order" width="30" height="30"/>
-        <image name="user_male" width="30" height="30"/>
     </resources>
 </document>
