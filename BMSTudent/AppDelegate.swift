@@ -17,6 +17,10 @@ extension Notification.Name {
     public static let DtoV1ZNotificationKey = Notification.Name(rawValue: "DtoV1Z")
 }
 
+extension Notification.Name {
+    public static let  setGroupNotificationKey = Notification.Name(rawValue: "DtoV3G")
+}
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -173,10 +177,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
         if shortcutItem.type == "openShedule" {
+            let mainStoryboardIpad : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let initialViewControlleripad : UITabBarController = mainStoryboardIpad.instantiateViewController(withIdentifier: "tabBar") as! UITabBarController
+            initialViewControlleripad.selectedIndex = 1
+            self.window = UIWindow(frame: UIScreen.main.bounds)
+            self.window?.rootViewController = initialViewControlleripad
+            self.window?.makeKeyAndVisible()
+            print("dkjfhsdklghklsdhfkdsjfksdjfksdjfkdsj")
         }
+        
         if shortcutItem.type == "openStatistics" {
+            let mainStoryboardIpad : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let initialViewControlleripad : UITabBarController = mainStoryboardIpad.instantiateViewController(withIdentifier: "tabBar") as! UITabBarController
+            initialViewControlleripad.selectedIndex = 2
+            self.window = UIWindow(frame: UIScreen.main.bounds)
+            self.window?.rootViewController = initialViewControlleripad
+            self.window?.makeKeyAndVisible()
         }
+        
         if shortcutItem.type == "changeGroup" {
+            let mainStoryboardIpad : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let initialViewControlleripad : UITabBarController = mainStoryboardIpad.instantiateViewController(withIdentifier: "tabBar") as! UITabBarController
+            initialViewControlleripad.selectedIndex = 2
+            self.window = UIWindow(frame: UIScreen.main.bounds)
+            self.window?.rootViewController = initialViewControlleripad
+            self.window?.makeKeyAndVisible()
+            NotificationCenter.default.post(name: .setGroupNotificationKey, object: nil, userInfo: nil)
         }
     }
 }

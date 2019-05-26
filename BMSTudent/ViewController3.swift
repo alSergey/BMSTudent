@@ -19,8 +19,6 @@ extension Notification.Name {
 
 class ViewController3: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-   
-    
     var Group: [String] = ["ИУ5-21", "ИУ5-22", "ИУ5-23", "ИУ5-24", "ИУ5-25"]
     
     let place : [Place] = [places.placeGZ, places.placeULK, places.placeESM, places.placeIZM, places.placeSK, places.placeOB, places.placeRKT, places.placeLESTEX, places.placeAS, places.placeREAIM, places.placeTC, places.placeHome]
@@ -39,6 +37,8 @@ class ViewController3: UIViewController, UITableViewDelegate, UITableViewDataSou
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        NotificationCenter.default.addObserver(self, selector: #selector(self.notificationReceived(_:)), name: .setGroupNotificationKey, object: nil)
+        
         navBar.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target:  self, action: #selector(createGroupAlert))
         
         realmArray = myrealm.objects(placeDatabase.self)
@@ -60,6 +60,11 @@ class ViewController3: UIViewController, UITableViewDelegate, UITableViewDataSou
         TableView.delegate = self
         TableView.dataSource = self
         TableView.register(UINib.init(nibName: "statPoligonTableViewCell", bundle: nil), forCellReuseIdentifier: cellIdentifier)
+    }
+    
+    @objc func notificationReceived(_ notification: Notification) {
+        print("createGroupAlert is ok")
+        createGroupAlert()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
