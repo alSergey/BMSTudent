@@ -55,10 +55,12 @@ class ViewController: UIViewController {
     @IBAction func walkingButtonClick(_ sender: Any) {
         mytimer.invalidate()
         transport = MKDirectionsTransportType.walking
+        print("walking")
        startTimer()
     }
     @IBAction func carButtonClick(_ sender: Any) {
         mytimer.invalidate()
+        print("car")
         transport = MKDirectionsTransportType.automobile
         startTimer()
     }
@@ -73,10 +75,10 @@ class ViewController: UIViewController {
     @IBOutlet var textView: UITextView!
     @IBOutlet var mapView: MKMapView!
     @IBOutlet var infoCard: CardInfoView!
-    @IBOutlet var currentTaskLabel: UILabel! //Показывает текущую пару, либо "Свобода"
+    @IBOutlet var currentTaskLabel: UILabel!
     @IBOutlet var univercityTimerLabel: UILabel! //Если в зоне, то суммирует время к таймеру, иначе показыает сколько добираться
     @IBOutlet var taskStatusLabel: UILabel! //Показывает опаздываю я или нет
-    @IBOutlet var locationStatusLabel: UILabel! // Если в зоне, то суммирует время к таймеру, иначе показыает сколько добираться (Вы в бауманке/До бауманки)
+    @IBOutlet var locationStatusLabel: UILabel!
     
     let locationManager = CLLocationManager()
     let initialLocation = CLLocation(latitude:55.765790, longitude: 37.677132)
@@ -101,33 +103,31 @@ class ViewController: UIViewController {
         let buttonItem = MKUserTrackingBarButtonItem(mapView: mapView)
         mapView.setUserTrackingMode(MKUserTrackingMode.follow, animated: true)
         self.navigationItem.rightBarButtonItem = buttonItem
-    
-        //setTravelTime()
+        
         setScheduleTextView()
         addAnnotation()
-        
         notifyOn()
+        
         mapView.delegate = self
         locationManager.delegate = self
+        
         lastPlace.coordinate = (locationManager.location?.coordinate) ?? CLLocationCoordinate2D(latitude:55.765790, longitude: 37.677132)
-    
         prepareLocationManager()
-   
+        
         mapCode.centerMapOnLocation(location: locationManager.location ?? initialLocation,mapView: mapView)
         mapView.showsScale = true
         mapView.showsUserLocation = true
         mapView.showsTraffic = true
+        
         sourceLocation = locationManager.location?.coordinate ?? initialLocation.coordinate
         destinationLocation = places.placeGZ.coordinate
-        
-        
         mytimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: {
             _ in
         print("loop")
            self.setDestinationLocation()
         })
-    
     }
+    
     func prepareLocationManager(){
         //Ставим геофенсинг на регионы
         locationManager.startMonitoring(for: places.placeGZ.region)
@@ -150,6 +150,7 @@ class ViewController: UIViewController {
         locationManager.startUpdatingLocation()
         locationManager.requestWhenInUseAuthorization()
     }
+    
     //Действие при приему уведомления
     @objc func notificationReceived(_ notification: Notification) {
         guard let text = notification.userInfo?["text"] as? String else { return }
@@ -211,16 +212,16 @@ class ViewController: UIViewController {
                 
                 //self.setScheduleTextView()
                 self.loadScheduleTodayTV()
-                self.infoCard.frame =  CGRect(x:self.infoCard.frame.minX, y: self.infoCard.frame.minY, width:self.infoCard.frame.width, height:self.infoCard.frame.height*4)
-                self.textView.frame = CGRect(x:self.textView.frame.minX, y: self.textView.frame.minY, width:self.textView.frame.width, height:self.textView.frame.height*8)
+                self.infoCard.frame =  CGRect(x:self.infoCard.frame.minX, y: self.infoCard.frame.minY, width:self.infoCard.frame.width, height:self.infoCard.frame.height*3)
+                self.textView.frame = CGRect(x:self.textView.frame.minX, y: self.textView.frame.minY, width:self.textView.frame.width, height:self.textView.frame.height*6)
                 changeSize = !changeSize
             }
             else{
                 //self.groupButton.isHidden = true
                 self.cardInfoButton.setTitle("Показать", for: .normal)
-                self.textView.text = "Расписание"
-                self.infoCard.frame =  CGRect(x:self.infoCard.frame.minX, y: self.infoCard.frame.minY, width:self.infoCard.frame.width, height:self.infoCard.frame.height/4)
-                self.textView.frame = CGRect(x:self.textView.frame.minX, y: self.textView.frame.minY, width:self.textView.frame.width, height:self.textView.frame.height/8)
+                self.textView.text = "Расписание на сегодня:\n"
+                self.infoCard.frame =  CGRect(x:self.infoCard.frame.minX, y: self.infoCard.frame.minY, width:self.infoCard.frame.width, height:self.infoCard.frame.height/3)
+                self.textView.frame = CGRect(x:self.textView.frame.minX, y: self.textView.frame.minY, width:self.textView.frame.width, height:self.textView.frame.height/6)
                 changeSize = !changeSize
             }
         }) { (success) in
@@ -232,7 +233,17 @@ class ViewController: UIViewController {
          self.textView.text += "\n"
         for i in 1...scheduleToday.count-1{
             let str = scheduleToday[i] as! String
-            self.textView.text += String(str.split(separator: "_")[0]) + "\n"
+            if str.contains("_") && str != "Выходной" && str != "NULL"{
+                let text2 = str.split(separator: "_")[0]
+                self.textView.text += String(text2) + " " + Date().getTimeStringOfEx(exId: i) + "\n"
+            }
+            else if str == "Выходной"{
+               self.textView.text += str + "\n"
+            }
+            else if str == "NULL"{
+                self.textView.text += "Окно" + Date().getTimeStringOfEx(exId: i) + "\n"
+            }
+            //self.textView.text += String(str.split(separator: "_")[0]) + "\n"
         }
     }
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
@@ -261,7 +272,6 @@ class ViewController: UIViewController {
             s = time - 3600 * h - 60 * m
         }
         return String(h) + ":" + String(m) + ":" + String(s)
-
     }
 
     func setTimeLabel(region:Place){
@@ -279,7 +289,6 @@ class ViewController: UIViewController {
             let str = scheduleToday[curEx+1] as? String
             if (str?.contains("-"))!{
             let tag = String(str!.split(separator: "_")[1])
-            
             print("destination ",tag)
             destinationLocation = (pl[tag]?.coordinate)!
             }
@@ -288,7 +297,6 @@ class ViewController: UIViewController {
     }
         else if getCurrentTime() < getTimeOfEx(exId: 1) && scheduleToday[1] as! String != "Свобода"{
             print("curEx (first)",curEx, " ", scheduleToday.count)
-            
             let str = scheduleToday[1] as? String
             if (str?.contains("-"))!{
             let tag = String(str!.split(separator: "_")[1])
@@ -299,8 +307,7 @@ class ViewController: UIViewController {
         }
     
         else {
-            self.locationStatusLabel.text = "Таймер"
-            self.univercityTimerLabel.text = "00:00:00"
+            setTimer(dl:destinationLocation)
             print("no destination ")
         }
     }
@@ -312,7 +319,6 @@ class ViewController: UIViewController {
     }
     
     func getCurrentExId(cTime: Int)->Int{
-        //let cTime = getCurrentTime()
         if cTime > timeToSeconds(h: 8, m: 30) && cTime < timeToSeconds(h: 9, m: 15){
             print("1 пара")
             return 1
@@ -346,7 +352,6 @@ class ViewController: UIViewController {
         }
     }
     func getTimeOfEx(exId: Int)->Int{
-        //let cTime = getCurrentTime()
         switch exId{
         case 1:
             return timeToSeconds(h: 8, m: 30)
@@ -373,7 +378,7 @@ class ViewController: UIViewController {
         let directionRequest = MKDirections.Request()
         directionRequest.source = MKMapItem(placemark: MKPlacemark(coordinate: sourceLocation ))
         directionRequest.destination = MKMapItem(placemark: MKPlacemark(coordinate: destinationLocation))
-        directionRequest.transportType =  self.transport ?? .walking
+        directionRequest.transportType =  self.transport
         
         let directions = MKDirections(request: directionRequest)
         
@@ -391,11 +396,11 @@ class ViewController: UIViewController {
 //            self.locationStatusLabel.text = "Время в пути"
 //            self.univercityTimerLabel.text = self.timeToString(time: res)
            
-            if(!self.contains(place: pl, point: self.locationManager.location?.coordinate ?? self.initialLocation.coordinate )){
+            if !self.contains(place: pl, point: self.locationManager.location?.coordinate ?? self.initialLocation.coordinate ) && getCurrentTime() > self.getTimeOfEx(exId: 1) && getCurrentTime() < self.getTimeOfEx(exId: scheduleToday.count) {
                 self.mapView.removeOverlays(self.mapView.overlays)
                 self.sourceLocation = (self.locationManager.location?.coordinate) ?? CLLocationCoordinate2D(latitude:55.765790, longitude: 37.677132)
                 self.mapView.addOverlay(route.polyline, level: .aboveRoads)
-                let rect = route.polyline.boundingMapRect
+                //let rect = route.polyline.boundingMapRect
                 //self.mapView.setRegion(MKCoordinateRegion(rect), animated: true)
                 self.locationStatusLabel.text = "Время в пути"
                 print("ставлю время в пути", time )
@@ -408,142 +413,20 @@ class ViewController: UIViewController {
                     self.taskStatusLabel.text = "Вы успеваете на пару"
                 }
             }
-            else{
-                 self.taskStatusLabel.text = "Вы успеваете на пару"
+            else if !self.contains(place: pl, point: self.locationManager.location?.coordinate ?? self.initialLocation.coordinate ) && getCurrentTime() > self.getTimeOfEx(exId: scheduleToday.count){
+                 self.taskStatusLabel.text = "Вам никуда не надо"
+                
+//                self.univercityTimerLabel.text = "00:00:00"
+//                self.locationStatusLabel.text = "Таймер"
+                
+                
             }
-            
-            
-    
-        }
-    
-        
-        
-        
-        
-        
-//        if(!contains(place: pl, point: locationManager.location?.coordinate ?? initialLocation.coordinate )){ // тут проверка на нахождение в одном месте и присутсивие вне полигона
-//            if !contains(place: ["loc":lastPlace], point: (locationManager.location?.coordinate) ?? initialLocation.coordinate){
-//                lastPlace.coordinate = locationManager.location?.coordinate ?? initialLocation.coordinate
-//                lastPlace.coordinate = (locationManager.location?.coordinate) ?? places.placeGZ.coordinate
-//                print("Переместились")
-//                mapView.removeOverlays(mapView.overlays)
-//                sourceLocation = (locationManager.location?.coordinate) ?? CLLocationCoordinate2D(latitude:55.765790, longitude: 37.677132)
-//                mapCode.createRoute(sourceLocation: sourceLocation ,destinationLocation: destinationLocation,mapView: mapView)
-//                locationStatusLabel.text = "Время в пути"
-//                print("Время в пути", time )
-//                univercityTimerLabel.text = timeToString(time: time)
-//            }
-//            else{
-//                print("Нет перемещения")
-//                print("Время в пути", timeToString(time: time))
-//                locationStatusLabel.text = "Время в пути"
-//                univercityTimerLabel.text = timeToString(time: time)
-//                sourceLocation = (locationManager.location?.coordinate)!
-//            }
-//            print("Days ",myDaySchedule.count)
-        
-        
-//            for i in 0...myDaySchedule.count-2{
-//                print(myDaySchedule[i].time)
-//                print("test ",myDaySchedule[i].getTimeInMillis()," ",getCurrentTime(), " time=",time)
-//                if myDaySchedule[i].getTimeInMillis()<=getCurrentTime() && myDaySchedule[i+1].getTimeInMillis()>getCurrentTime(){
-//                    if getCurrentTime()+time<myDaySchedule[i].getTimeInMillis(){
-//                        if myDaySchedule[i].title.rawValue == "Свобода"{
-//                            print("успеваете ",myDaySchedule[i].getTimeInMillis()," ",getCurrentTime(), " time=",time)
-//                            taskStatusLabel.text = "Успеваете на " + myDaySchedule[i+1].title.rawValue
-//                        }
-//                        else{
-//                            print("опаздываете ",myDaySchedule[i].getTimeInMillis()," ",getCurrentTime(), " time=",time)
-//                            univercityTimerLabel.text = timeToString(time: time)
-//                            taskStatusLabel.text = "Опаздываете на " + myDaySchedule[i].title.rawValue
-//                        }
-//                    }
-//                    else{
-//                        if myDaySchedule[i].title.rawValue == "Свобода"{
-//                            print("опаздываете ",myDaySchedule[i].getTimeInMillis()," ",getCurrentTime(), " time=",time)
-//                            univercityTimerLabel.text = timeToString(time: time)
-//                            taskStatusLabel.text = "Опаздываете на " + myDaySchedule[i+1].title.rawValue
-//                        }
-//                        else{
-//                            print("опаздываете ",myDaySchedule[i].getTimeInMillis()," ",getCurrentTime(), " time=",time)
-//                            univercityTimerLabel.text = timeToString(time: time)
-//                            taskStatusLabel.text = "Опаздываете на " + myDaySchedule[i].title.rawValue
-//                        }
-//                    }
-//                }
-//                else{
-//                    print("Никуда не надо")
-//                    mapView.removeOverlays(mapView.overlays)
-//                    univercityTimerLabel.text = timeToString(time: time)
-//                }
-//            }
-        
-    }
-
-
-    /*
-    func setTravelTime(){
-        setDestinationLocation()
-        let time = mapCode.getRouteTime(sourceLocation: sourceLocation, destinationLocation: destinationLocation, mapView: mapView)
-        
-        if(!contains(place: pl, point: locationManager.location?.coordinate ?? initialLocation.coordinate )){ // тут проверка на нахождение в одном месте и присутсивие вне полигона
-            if !contains(place: ["loc":lastPlace], point: (locationManager.location?.coordinate) ?? CLLocationCoordinate2D(latitude:55.765790, longitude: 37.677132)){
-                 lastPlace.coordinate = (locationManager.location?.coordinate) ?? CLLocationCoordinate2D(latitude:55.765790, longitude: 37.677132)
-            lastPlace.coordinate = (locationManager.location?.coordinate) ?? places.placeGZ.coordinate
-              print("Переместились")
-        mapView.removeOverlays(mapView.overlays)
-        sourceLocation = (locationManager.location?.coordinate) ?? CLLocationCoordinate2D(latitude:55.765790, longitude: 37.677132)
-        mapCode.createRoute(sourceLocation: sourceLocation ,destinationLocation: destinationLocation,mapView: mapView)
-        locationStatusLabel.text = "Время в пути"
-        univercityTimerLabel.text = timeToString(time: time)
-            }
-            else{
-                print("Нет перемещения")
-                univercityTimerLabel.text = timeToString(time: time)
-                sourceLocation = (locationManager.location?.coordinate)!
-            }
-            print("Days ",myDaySchedule.count)
-            
-            for i in 0...myDaySchedule.count-2{
-                print(myDaySchedule[i].time)
-                print("test ",myDaySchedule[i].getTimeInMillis()," ",getCurrentTime(), " time=",time)
-                if myDaySchedule[i].getTimeInMillis()<=getCurrentTime() && myDaySchedule[i+1].getTimeInMillis()>getCurrentTime(){
-                    if getCurrentTime()+time<myDaySchedule[i].getTimeInMillis(){
-                        if myDaySchedule[i].title.rawValue == "Свобода"{
-                            print("успеваете ",myDaySchedule[i].getTimeInMillis()," ",getCurrentTime(), " time=",time)
-                            taskStatusLabel.text = "Успеваете на " + myDaySchedule[i+1].title.rawValue
-                        }
-                        else{
-                            print("опаздываете ",myDaySchedule[i].getTimeInMillis()," ",getCurrentTime(), " time=",time)
-                            univercityTimerLabel.text = timeToString(time: time)
-                            taskStatusLabel.text = "Опаздываете на " + myDaySchedule[i].title.rawValue
-                        }
-                    }
-                    else{
-                         if myDaySchedule[i].title.rawValue == "Свобода"{
-                        print("опаздываете ",myDaySchedule[i].getTimeInMillis()," ",getCurrentTime(), " time=",time)
-                        univercityTimerLabel.text = timeToString(time: time)
-                        taskStatusLabel.text = "Опаздываете на " + myDaySchedule[i+1].title.rawValue
-                        }
-                         else{
-                            print("опаздываете ",myDaySchedule[i].getTimeInMillis()," ",getCurrentTime(), " time=",time)
-                            univercityTimerLabel.text = timeToString(time: time)
-                            taskStatusLabel.text = "Опаздываете на " + myDaySchedule[i].title.rawValue
-                        }
-                    }
-                }
-                else{
-                    print("Никуда не надо")
-                    mapView.removeOverlays(mapView.overlays)
-                    univercityTimerLabel.text = timeToString(time: time)
-                }
+            else if self.contains(place: pl, point: self.locationManager.location?.coordinate ?? self.initialLocation.coordinate ) && getCurrentTime() > self.getTimeOfEx(exId: scheduleToday.count){
+                self.taskStatusLabel.text = "Вам никуда не надо"
             }
         }
-        
-    
     }
-    */
-    
+
     //Проверка нахождения в одном из полигонов
     func contains(place: [String : Place], point: CLLocationCoordinate2D)->Bool{//потом будем возвращать код региона
         for pl in place{
@@ -575,8 +458,6 @@ class ViewController: UIViewController {
         mapView.addAnnotation(places.placeREAIM)
         mapView.addAnnotation(places.placeTC)
         mapView.addAnnotation(places.placeHome)
-        //mapView.setRegion(places.placeGZ.region, animated: true)
-        //mapView?.addOverlay(MKCircle(center: places.placeGZ.coordinate, radius: places.placeGZ.region.radius))
     }
     
     func notifyOn() {

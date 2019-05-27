@@ -229,6 +229,7 @@ extension AppDelegate: CLLocationManagerDelegate {
                 
             })
             myViewController?.setDestinationLocation()
+            myViewController?.locationStatusLabel.text = "Таймер"
             //Для себя проверка
             print("Exit")
             print(region.identifier)

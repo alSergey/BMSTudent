@@ -13,7 +13,7 @@ extension Notification.Name {
 }
 
 class ViewController2: UIViewController, UITableViewDelegate, UITableViewDataSource{
-    var scheduleToday: [Any] = ["Пусто","Пусто"]
+    //var scheduleToday: [Any] = ["Пусто","Пусто"]
     var Group: [String] = ["ИУ5-21", "ИУ5-22", "ИУ5-23", "ИУ5-24", "ИУ5-25"]
     var yourgroup: String = "ИУ5-25"
     
@@ -50,22 +50,12 @@ class ViewController2: UIViewController, UITableViewDelegate, UITableViewDataSou
             self.tableView.reloadData()
         }
         refreshdata()
-    
-        
     }
     override func viewWillAppear(_ animated: Bool) {
         self.tableView.reloadData()
         refreshdata()
-        print("will appear")
     }
-    override func viewDidAppear(_ animated: Bool) {
-        //self.tableView.reloadData()
-        
-        print("did appear")
-    }
-    
     //Запись выбранной на view3 группы в yourGroup
-    //Ты сюда можешь прописать обновление tableView с новым расписанием
     @objc func notificationReceived(_ notification: Notification) {
         guard let text = notification.userInfo?["text"] as? String else { return }
         yourgroup = text
@@ -99,12 +89,15 @@ class ViewController2: UIViewController, UITableViewDelegate, UITableViewDataSou
 
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
         let text = itemsInSections[indexPath.section][indexPath.row]
-        if text.contains("_"){
+        if text.contains("_") && text != "Выходной" && text != "NULL"{
         let text2 = text.split(separator: "_")[0]
-            cell.textLabel!.text = String(text2)
+            cell.textLabel!.text = String(text2) + " " + Date().getTimeStringOfEx(exId: indexPath.row)
         }
-        else{
-             cell.textLabel!.text = text
+        else if text == "Выходной"{
+            cell.textLabel!.text = text
+        }
+        else if text == "NULL"{
+             cell.textLabel!.text = "Окно"
         }
 
         return cell
@@ -134,7 +127,6 @@ class ViewController2: UIViewController, UITableViewDelegate, UITableViewDataSou
         let ref = Database.database().reference()
         ref.child(yourgroup).observeSingleEvent(of: .value) { (snapshot) in
             let name = snapshot.value as? [String:[Any]]
-            //print(name)
             for i in 1...7 {
                 var day = name![Date().stringDayNumberOfWeek(i:i)!]
                 day?.remove(at: 0)
@@ -153,6 +145,7 @@ class ViewController2: UIViewController, UITableViewDelegate, UITableViewDataSou
         refresh.addTarget(self, action: #selector(tableViewReload), for: .valueChanged)
         tableView.addSubview(refresh)
     }
+    
 }
 extension Date {
     func stringDayNumberOfWeek() -> String? {
@@ -185,31 +178,44 @@ extension Date {
     }
     func stringDayNumberOfWeek(i:Int) -> String? {
         switch i {
-            
         case 1:
             return "Воскресенье"
-            
         case 2:
             return "Понедельник"
-            
         case 3:
             return "Вторник"
-            
         case 4:
             return "Среда"
-            
         case 5:
             return "Четверг"
-            
         case 6:
             return "Пятница"
-            
         case 7:
             return "Суббота"
-            
         default :
             return "Среда"
-            
         }
     }
+    func getTimeStringOfEx(exId: Int)->String{
+        switch exId{
+        case 0:
+            return "8:30 - 10:00"
+        case 1:
+            return "10:15 - 11:45"
+        case 2:
+            return "12:00 - 13:30"
+        case 3:
+            return "13:50 - 15:25"
+        case 4:
+            return "15:40 - 17:15"
+        case 5:
+            return "17:30 - 19:00"
+        case 6:
+            return "19:15 - 20:45"
+        default:
+            return " "
+        }
+    }
+   
+    
 }

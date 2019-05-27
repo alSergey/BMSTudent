@@ -8,7 +8,7 @@
 
 import UIKit
 import RealmSwift
-
+import FirebaseDatabase
 extension Notification.Name {
     public static let myNotificationKey = Notification.Name(rawValue: "V3toV1")
 }
@@ -37,6 +37,17 @@ class ViewController3: UIViewController, UITableViewDelegate, UITableViewDataSou
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let ref = Database.database().reference()
+        ref.child("root").observeSingleEvent(of: .value) { (snapshot) in
+            let name = snapshot.value as? [String:[String:[Any]]]
+            print("!!!!!!!!!!!!!!!!!!!!!!",name )
+//            for a in name! {
+//                print("key", a.key)
+//            }
+    
+        }
+        
         NotificationCenter.default.addObserver(self, selector: #selector(self.notificationReceived(_:)), name: .setGroupNotificationKey, object: nil)
         
         navBar.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target:  self, action: #selector(createGroupAlert))
