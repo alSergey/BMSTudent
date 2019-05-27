@@ -395,8 +395,9 @@ class ViewController: UIViewController {
             time = res
 //            self.locationStatusLabel.text = "Время в пути"
 //            self.univercityTimerLabel.text = self.timeToString(time: res)
-           
-            if !self.contains(place: pl, point: self.locationManager.location?.coordinate ?? self.initialLocation.coordinate ) && getCurrentTime() > self.getTimeOfEx(exId: 1) && getCurrentTime() < self.getTimeOfEx(exId: scheduleToday.count) {
+            
+           // && getCurrentTime() > self.getTimeOfEx(exId: 1) &&
+            if !self.contains(place: pl, point: self.locationManager.location?.coordinate ?? self.initialLocation.coordinate ) && getCurrentTime() < self.getTimeOfEx(exId: scheduleToday.count) {
                 self.mapView.removeOverlays(self.mapView.overlays)
                 self.sourceLocation = (self.locationManager.location?.coordinate) ?? CLLocationCoordinate2D(latitude:55.765790, longitude: 37.677132)
                 self.mapView.addOverlay(route.polyline, level: .aboveRoads)
@@ -405,11 +406,22 @@ class ViewController: UIViewController {
                 self.locationStatusLabel.text = "Время в пути"
                 print("ставлю время в пути", time )
                 self.univercityTimerLabel.text = self.timeToString(time: time)
-                
-                if(getCurrentTime() + time > self.getTimeOfEx(exId: self.getCurrentExId(cTime: getCurrentTime()))){
+                if(getCurrentTime()<self.getTimeOfEx(exId: 1)){
+                    if  getCurrentTime() + time > self.getTimeOfEx(exId: 1){
                     self.taskStatusLabel.text = "Вы опаздываете на пару"
+                    print("test1")
+                    }
+                    else {
+                         print("test1.1")
+                        self.taskStatusLabel.text = "Вы успеваете на пару"
+                    }
+                }
+                else if(getCurrentTime() + time > self.getTimeOfEx(exId: self.getCurrentExId(cTime: getCurrentTime()))){
+                    self.taskStatusLabel.text = "Вы опаздываете на пару"
+                    print("test2")
                 }
                 else{
+                    print("test3")
                     self.taskStatusLabel.text = "Вы успеваете на пару"
                 }
             }

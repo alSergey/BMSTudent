@@ -14,7 +14,7 @@ extension Notification.Name {
 
 class ViewController2: UIViewController, UITableViewDelegate, UITableViewDataSource{
     //var scheduleToday: [Any] = ["Пусто","Пусто"]
-    var Group: [String] = ["ИУ5-21", "ИУ5-22", "ИУ5-23", "ИУ5-24", "ИУ5-25"]
+    var Group: [String] = []
     var yourgroup: String = "ИУ5-25"
     
     var sections: [String] = ["Воскресенье","Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"]
@@ -29,13 +29,20 @@ class ViewController2: UIViewController, UITableViewDelegate, UITableViewDataSou
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let ref = Database.database().reference()
+        ref.child("groups").observeSingleEvent(of: .value) { (snapshot) in
+            let name = snapshot.value as? [String]
+            self.Group = name ?? ["ИУ5-21", "ИУ5-22", "ИУ5-23", "ИУ5-24", "ИУ5-25"]
+            print(self.Group)
+        }
+        
         navBar.title = "ИУ5-25"
         NotificationCenter.default.addObserver(self, selector: #selector(self.notificationReceived(_:)), name: .myNotificationKey, object: nil)
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(UINib.init(nibName: "myTableViewCell", bundle: nil), forCellReuseIdentifier: cellIdentifier)
         
-        let ref = Database.database().reference()
+        //let ref = Database.database().reference()
         ref.child(yourgroup).observeSingleEvent(of: .value) { (snapshot) in
             let name = snapshot.value as? [String:[Any]]
             //print(name)

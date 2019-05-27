@@ -19,7 +19,7 @@ extension Notification.Name {
 
 class ViewController3: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    var Group: [String] = ["ИУ5-21", "ИУ5-22", "ИУ5-23", "ИУ5-24", "ИУ5-25"]
+    var Group: [String] = []
     
     let place : [Place] = [places.placeGZ, places.placeULK, places.placeESM, places.placeIZM, places.placeSK, places.placeOB, places.placeRKT, places.placeLESTEX, places.placeAS, places.placeREAIM, places.placeTC, places.placeHome]
     
@@ -39,13 +39,10 @@ class ViewController3: UIViewController, UITableViewDelegate, UITableViewDataSou
         super.viewDidLoad()
         
         let ref = Database.database().reference()
-        ref.child("root").observeSingleEvent(of: .value) { (snapshot) in
-            let name = snapshot.value as? [String:[String:[Any]]]
-            print("!!!!!!!!!!!!!!!!!!!!!!",name )
-//            for a in name! {
-//                print("key", a.key)
-//            }
-    
+        ref.child("groups").observeSingleEvent(of: .value) { (snapshot) in
+            let name = snapshot.value as? [String]
+            self.Group = name ?? ["ИУ5-21", "ИУ5-22", "ИУ5-23", "ИУ5-24", "ИУ5-25"]
+            print(self.Group)
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.notificationReceived(_:)), name: .setGroupNotificationKey, object: nil)
@@ -135,6 +132,7 @@ class ViewController3: UIViewController, UITableViewDelegate, UITableViewDataSou
     }
     
     @objc func createGroupAlert() {
+       
         let groupAlert = UIAlertController(title: "Введите вашу группу", message: nil, preferredStyle: .alert)
         
         groupAlert.addTextField(configurationHandler: TextField)
@@ -142,10 +140,18 @@ class ViewController3: UIViewController, UITableViewDelegate, UITableViewDataSou
         let okAction = UIAlertAction(title: "OK", style: .default, handler: self.groupOkAction)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
-        groupAlert.addAction(okAction)
-        groupAlert.addAction(cancelAction)
+        let ref = Database.database().reference()
+        ref.child("groups").observeSingleEvent(of: .value) { (snapshot) in
+            let name = snapshot.value as? [String]
+            self.Group = name ?? ["ИУ5-21", "ИУ5-22", "ИУ5-23", "ИУ5-24", "ИУ5-25"]
+            print(self.Group)
+            
+            groupAlert.addAction(okAction)
+            groupAlert.addAction(cancelAction)
+            
+            self.present(groupAlert, animated: true)
+        }
         
-        self.present(groupAlert, animated: true)
     }
     
     func TextField(textField: UITextField) {
@@ -156,7 +162,7 @@ class ViewController3: UIViewController, UITableViewDelegate, UITableViewDataSou
     func groupOkAction(alert: UIAlertAction) {
     
         var groupChange = false
-        
+    
         for currentGroup in Group {
             if  currentGroup == TextField.text?.uppercased() {
                 yourCurrentGroup = TextField.text?.uppercased() ?? "ИУ5-25"
@@ -174,7 +180,7 @@ class ViewController3: UIViewController, UITableViewDelegate, UITableViewDataSou
     
     func wrongInputAlert() {
         let alert = UIAlertController(title: "Вы неправильно ввели вашу группу, попробуйте еще раз", message: nil, preferredStyle: .alert)
-        
+        print("error ",self.Group)
         let okAction = UIAlertAction(title: "Continue", style: .default, handler: self.alertOkAction)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
