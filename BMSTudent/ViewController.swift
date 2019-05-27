@@ -44,6 +44,7 @@ class ViewController: UIViewController {
     var inPolygon = false
     var sourceLocation = CLLocationCoordinate2D(latitude:55.765790, longitude: 37.677132)
     var destinationLocation = places.placeGZ.coordinate
+    
     func startTimer(){
         mytimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: {
             _ in
@@ -90,6 +91,7 @@ class ViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(self.notificationReceivedT(_:)), name: .DtoV1TNotificationKey, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.notificationReceivedZ(_:)), name: .DtoV1ZNotificationKey, object: nil)
          NotificationCenter.default.addObserver(self, selector: #selector(self.notificationReceivedM(_:)), name: .mapPlaceNotificationKey, object: nil)
+        //NotificationCenter.default.addObserver(self, selector: #selector(self.notificationReceivedK(_:)), name: .mapPlaceV1NotificationKey, object: nil)
        
         
         addMapTrackingButton()
@@ -169,10 +171,20 @@ class ViewController: UIViewController {
     
     @objc func notificationReceivedM(_ notification: Notification) {
         guard let text = notification.userInfo?["place"] as? Place else { return }
-        //let region = MKCoordinateRegion(center: text.coordinate, latitudinalMeters: CLLocationDistance(5000), longitudinalMeters: CLLocationDistance(5000))
-        //mapView.setRegion(region, animated: true)
-        mapView.setCenter(text.coordinate, animated: true)
+        let region = MKCoordinateRegion(center: text.coordinate, latitudinalMeters: CLLocationDistance(1000), longitudinalMeters: CLLocationDistance(1000))
+        mapView.setRegion(region, animated: true)
+        //mapView.setCenter(text.coordinate, animated: true)
     }
+    
+    /*@objc func notificationReceivedK(_ notification: Notification) {
+        let text = (notification.userInfo!["placeIndex"]) as! String
+        print("I print vot eto =", text)
+        let myText: String = text
+        let textPlace = pl[myText]
+        //et region = MKCoordinateRegion(center: textPlace?.coordinate ?? places.placeULK.coordinate, latitudinalMeters: CLLocationDistance(1000), longitudinalMeters: CLLocationDistance(1000))
+        //mapView.setRegion(region, animated: true)
+        //mapView.setCenter(text.coordinate, animated: true)
+    }*/
 
     func setScheduleTextView(){
         let ref = Database.database().reference()

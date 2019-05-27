@@ -16,6 +16,10 @@ class myTableViewCell: UITableViewCell {
         super.awakeFromNib()
     }
 
+    func fillCellGreen() {
+        contentView.backgroundColor = .green
+    }
+    
     func fillCell(with group: String){
         groupLabel.text = group
         

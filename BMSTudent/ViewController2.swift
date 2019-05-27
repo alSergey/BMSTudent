@@ -8,7 +8,9 @@
 import UIKit
 import FirebaseDatabase
 
-
+extension Notification.Name {
+    public static let mapPlaceV1NotificationKey = Notification.Name(rawValue: "V3toV1")
+}
 
 class ViewController2: UIViewController, UITableViewDelegate, UITableViewDataSource{
     var scheduleToday: [Any] = ["Пусто","Пусто"]
@@ -93,10 +95,6 @@ class ViewController2: UIViewController, UITableViewDelegate, UITableViewDataSou
         location?.yourgroup = yourgroup 
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    
-    }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
@@ -110,6 +108,15 @@ class ViewController2: UIViewController, UITableViewDelegate, UITableViewDataSou
         }
 
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        /*let text = itemsInSections[indexPath.section][indexPath.row]
+        let userInfo = [ "placeIndex" : text.split(separator: "_")[1]]
+        print("I print eto =", text.split(separator: "_")[1])
+        NotificationCenter.default.post(name: .mapPlaceV1NotificationKey, object: nil, userInfo: userInfo)
+        tableView.reloadData()
+        self.tabBarController?.selectedIndex = 0*/
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
