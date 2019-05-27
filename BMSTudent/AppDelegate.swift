@@ -68,8 +68,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         
         dateformatter.dateFormat = "dd"
-        //data = data + 1
-       // dateformatter.s
         
         print("Current data = ", dateformatter.string(from: data as Date))
         print("Current data = ", data)
@@ -114,7 +112,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 mytimer2 = Timer.scheduledTimer(withTimeInterval: 10, repeats: true, block: {
                     _ in
                     myViewController?.inPolygon = false
+                  
                      myViewController?.setDestinationLocation()
+                    
                     //print ("2")
                     //myViewController?.setTravelTime()
                 })
@@ -223,10 +223,12 @@ extension AppDelegate: CLLocationManagerDelegate {
                 _ in
                 myViewController?.inPolygon = false
                 myViewController?.setDestinationLocation()
+                
                 //print ("5")
                 //myViewController?.setTravelTime()
                 
             })
+            myViewController?.setDestinationLocation()
             //Для себя проверка
             print("Exit")
             print(region.identifier)
@@ -242,6 +244,7 @@ extension AppDelegate: CLLocationManagerDelegate {
             let myViewController = self.window?.rootViewController as? ViewController
             let userInfo = [ "place" : allplaces[region.identifier]]
             myViewController?.sourceLocation = locationManager.location?.coordinate ?? places.placeIZM.coordinate
+            
             //myViewController!.mapView.removeOverlays(myViewController!.mapView.overlays)
             mytimer2.invalidate()
             mytimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: {
@@ -249,9 +252,10 @@ extension AppDelegate: CLLocationManagerDelegate {
                 myViewController?.inPolygon = true
                 NotificationCenter.default.post(name: .DtoV1TNotificationKey, object: nil, userInfo: userInfo)
                 //print ("7")
+                myViewController?.setDestinationLocation()
                 
             })
-            
+            myViewController?.setDestinationLocation()
             let content = UNMutableNotificationContent()
             content.title = "Вы вошли в полигон"
             content.body = allplaces[region.identifier]?.title ?? "Главное здание"

@@ -16,6 +16,7 @@ import FirebaseAuth
 
 let mapCode = MapCode()
 let places = Places()
+var mytimer : Timer = Timer()
 var changeSize = false
 var lastPlace = Place(region: CLCircularRegion(center: CLLocationCoordinate2D(latitude: 55.765886, longitude: 37.685041), radius: 190, identifier: "GZ"),
                                    title: "Последняя локация",
@@ -32,8 +33,9 @@ var scheduleToday: [Any] = ["Пусто","Пусто"]
 
 
 class ViewController: UIViewController {
-  
 
+    var transport : MKDirectionsTransportType = MKDirectionsTransportType.walking
+    
     var yourgroup: String = "ИУ5-25"
     var heightConstraint: NSLayoutConstraint!
     
@@ -42,6 +44,29 @@ class ViewController: UIViewController {
     var inPolygon = false
     var sourceLocation = CLLocationCoordinate2D(latitude:55.765790, longitude: 37.677132)
     var destinationLocation = places.placeGZ.coordinate
+    func startTimer(){
+        mytimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: {
+            _ in
+            print("loop")
+            self.setDestinationLocation()
+        })
+    }
+    @IBAction func walkingButtonClick(_ sender: Any) {
+        mytimer.invalidate()
+        transport = MKDirectionsTransportType.walking
+       startTimer()
+    }
+    @IBAction func carButtonClick(_ sender: Any) {
+        mytimer.invalidate()
+        transport = MKDirectionsTransportType.automobile
+        startTimer()
+    }
+    @IBAction func transitButtonClick(_ sender: Any) {
+        mytimer.invalidate()
+        transport = MKDirectionsTransportType.transit
+        startTimer()
+    }
+    
     
     @IBOutlet var cardInfoButton: UIButton!
     @IBOutlet var textView: UITextView!
@@ -59,6 +84,7 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         //Подписка на уведомление
         NotificationCenter.default.addObserver(self, selector: #selector(self.notificationReceived(_:)), name: .myNotificationKey, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.notificationReceivedT(_:)), name: .DtoV1TNotificationKey, object: nil)
@@ -91,6 +117,13 @@ class ViewController: UIViewController {
         mapView.showsTraffic = true
         sourceLocation = locationManager.location?.coordinate ?? initialLocation.coordinate
         destinationLocation = places.placeGZ.coordinate
+        
+        
+        mytimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: {
+            _ in
+        print("loop")
+           self.setDestinationLocation()
+        })
     
     }
     func prepareLocationManager(){
@@ -225,18 +258,33 @@ class ViewController: UIViewController {
     }
     
     func setDestinationLocation(){
+        print("setDestination")
         let curEx = self.getCurrentExId(cTime: getCurrentTime())
+        
         mapView.removeOverlays(mapView.overlays)
         if (curEx != 0 && curEx < scheduleToday.count-1){
             print("curEx",curEx, " ", scheduleToday.count)
             let str = scheduleToday[curEx+1] as? String
+            if (str?.contains("-"))!{
             let tag = String(str!.split(separator: "_")[1])
             
             print("destination ",tag)
             destinationLocation = (pl[tag]?.coordinate)!
+            }
             setTimer(dl:destinationLocation)
         
     }
+        else if getCurrentTime() < getTimeOfEx(exId: 1) && scheduleToday[1] as! String != "Свобода"{
+            print("curEx (first)",curEx, " ", scheduleToday.count)
+            
+            let str = scheduleToday[1] as? String
+            if (str?.contains("-"))!{
+            let tag = String(str!.split(separator: "_")[1])
+            print("destination (first) ",tag)
+            destinationLocation = (pl[tag]?.coordinate)!
+            }
+            setTimer(dl:destinationLocation)
+        }
     
         else {
             self.locationStatusLabel.text = "Таймер"
@@ -313,7 +361,7 @@ class ViewController: UIViewController {
         let directionRequest = MKDirections.Request()
         directionRequest.source = MKMapItem(placemark: MKPlacemark(coordinate: sourceLocation ))
         directionRequest.destination = MKMapItem(placemark: MKPlacemark(coordinate: destinationLocation))
-        directionRequest.transportType = .walking
+        directionRequest.transportType =  self.transport ?? .walking
         
         let directions = MKDirections(request: directionRequest)
         
@@ -330,23 +378,26 @@ class ViewController: UIViewController {
             time = res
 //            self.locationStatusLabel.text = "Время в пути"
 //            self.univercityTimerLabel.text = self.timeToString(time: res)
-            
+           
             if(!self.contains(place: pl, point: self.locationManager.location?.coordinate ?? self.initialLocation.coordinate )){
                 self.mapView.removeOverlays(self.mapView.overlays)
                 self.sourceLocation = (self.locationManager.location?.coordinate) ?? CLLocationCoordinate2D(latitude:55.765790, longitude: 37.677132)
                 self.mapView.addOverlay(route.polyline, level: .aboveRoads)
                 let rect = route.polyline.boundingMapRect
-                self.mapView.setRegion(MKCoordinateRegion(rect), animated: true)
+                //self.mapView.setRegion(MKCoordinateRegion(rect), animated: true)
                 self.locationStatusLabel.text = "Время в пути"
                 print("ставлю время в пути", time )
                 self.univercityTimerLabel.text = self.timeToString(time: time)
                 
                 if(getCurrentTime() + time > self.getTimeOfEx(exId: self.getCurrentExId(cTime: getCurrentTime()))){
-                    self.taskStatusLabel.text = "Опаздываете на пару"
+                    self.taskStatusLabel.text = "Вы опаздываете на пару"
                 }
                 else{
-                    self.taskStatusLabel.text = "Успеваете на пару"
+                    self.taskStatusLabel.text = "Вы успеваете на пару"
                 }
+            }
+            else{
+                 self.taskStatusLabel.text = "Вы успеваете на пару"
             }
             
             
