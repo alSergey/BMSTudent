@@ -18,7 +18,7 @@ let mapCode = MapCode()
 let places = Places()
 var mytimer : Timer = Timer()
 var changeSize = false
-var transportBool = true
+var transportBool = false
 var lastPlace = Place(region: CLCircularRegion(center: CLLocationCoordinate2D(latitude: 55.765886, longitude: 37.685041), radius: 190, identifier: "GZ"),
                                    title: "Последняя локация",
                                    identifier: "loc",

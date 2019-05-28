@@ -73,6 +73,27 @@ class ViewController3: UIViewController, UITableViewDelegate, UITableViewDataSou
                 myrealm.add(createRealm)
             }
         }
+        /*
+        places.placeGZ.time = 13000
+        places.placeULK.time = 80000
+        places.placeESM.time = 12
+        places.placeIZM.time = 1348
+        places.placeSK.time = 14777
+        places.placeOB.time = 0
+        places.placeRKT.time = 140
+        places.placeLESTEX.time = 14999000
+        places.placeAS.time = 536
+        places.placeREAIM.time = 159
+        places.placeTC.time = 586
+        places.placeHome.time = 145678
+        places.placeMail.time = 1
+        
+        for i in 0...realmArray.count - 1 {
+            let currentRealm = realmArray[i]
+            try! myrealm.write {
+                currentRealm.time = place[i].time
+            }
+        }*/
         
         refreshdata()
         yourCurrentGroup = realmGroupArray[0].yourGroup
@@ -224,6 +245,7 @@ class ViewController3: UIViewController, UITableViewDelegate, UITableViewDataSou
             m = time / 60 - h * 60
             s = time - 3600 * h - 60 * m
         }
+        if time == 0 {return String(0)}
         if h < 1 {return String(m) + " м " + String(s) + " с"}
         if (h >= 1)&&(h < 100) {return String(h) + " ч " + String(m) + " м"}
         else {return String(h) + " ч"}

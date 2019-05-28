@@ -42,7 +42,9 @@ class ViewController2: UIViewController, UITableViewDelegate, UITableViewDataSou
         
         realmGroupArray = myrealm.objects(groupDatabase.self)
         yourgroup = realmGroupArray[0].yourGroup
-        navBar.title = yourgroup
+        
+        let weekday = Calendar.current.component(.weekday, from: Date())
+        navBar.title = stringDayNumberOfWeek(i: weekday)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.notificationReceived(_:)), name: .myNotificationKey, object: nil)
         tableView.dataSource = self
@@ -167,6 +169,27 @@ class ViewController2: UIViewController, UITableViewDelegate, UITableViewDataSou
     func refreshdata(){
         refresh.addTarget(self, action: #selector(tableViewReload), for: .valueChanged)
         tableView.addSubview(refresh)
+    }
+    
+    func stringDayNumberOfWeek(i:Int) -> String? {
+        switch i {
+        case 1:
+            return "Воскресенье"
+        case 2:
+            return "Понедельник"
+        case 3:
+            return "Вторник"
+        case 4:
+            return "Среда"
+        case 5:
+            return "Четверг"
+        case 6:
+            return "Пятница"
+        case 7:
+            return "Суббота"
+        default :
+            return "Среда"
+        }
     }
     
 }
