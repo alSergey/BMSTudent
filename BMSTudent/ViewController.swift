@@ -18,6 +18,7 @@ let mapCode = MapCode()
 let places = Places()
 var mytimer : Timer = Timer()
 var changeSize = false
+var transportBool = true
 var lastPlace = Place(region: CLCircularRegion(center: CLLocationCoordinate2D(latitude: 55.765886, longitude: 37.685041), radius: 190, identifier: "GZ"),
                                    title: "Последняя локация",
                                    identifier: "loc",
@@ -34,6 +35,7 @@ var scheduleToday: [Any] = ["Пусто","Пусто"]
 
 class ViewController: UIViewController {
 
+    @IBOutlet var transportButton: UIButton!
     var transport : MKDirectionsTransportType = MKDirectionsTransportType.walking
     
     let myrealm = try! Realm()
@@ -55,23 +57,26 @@ class ViewController: UIViewController {
             self.setDestinationLocation()
         })
     }
-    @IBAction func walkingButtonClick(_ sender: Any) {
-        mytimer.invalidate()
-        transport = MKDirectionsTransportType.walking
-        print("walking")
-       startTimer()
+    @IBAction func transportButton(_ sender: Any) {
+        var image: UIImage
+         mytimer.invalidate()
+        if transportBool{
+            image = UIImage(named: "happy.png")!
+            transport = MKDirectionsTransportType.walking
+            print("walking")
+             transportBool = !transportBool
+        }
+        else {
+            image = UIImage(named: "car.png")!
+            print("car")
+            transport = MKDirectionsTransportType.automobile
+            transportBool = !transportBool
+        }
+        transportButton.setImage(image, for: UIControl.State.normal)
+         startTimer()
     }
-    @IBAction func carButtonClick(_ sender: Any) {
-        mytimer.invalidate()
-        print("car")
-        transport = MKDirectionsTransportType.automobile
-        startTimer()
-    }
-    @IBAction func transitButtonClick(_ sender: Any) {
-        mytimer.invalidate()
-        transport = MKDirectionsTransportType.transit
-        startTimer()
-    }
+    
+
     
     
     @IBOutlet var cardInfoButton: UIButton!
@@ -86,7 +91,8 @@ class ViewController: UIViewController {
     let locationManager = CLLocationManager()
     let initialLocation = CLLocation(latitude:55.765790, longitude: 37.677132)
     let mylocation = CLLocationCoordinate2D(latitude: 55.765804, longitude: 37.685734)
-
+    
+   
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -99,14 +105,14 @@ class ViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(self.notification(_:)), name: .mapPlaceV1NotificationKey, object: nil)
         realmGroupArray = myrealm.objects(groupDatabase.self)
         yourgroup = realmGroupArray[0].yourGroup
-        
         addMapTrackingButton()
         textView.isEditable = false
         mapView.showsCompass = false
-        
         let buttonItem = MKUserTrackingBarButtonItem(mapView: mapView)
         mapView.setUserTrackingMode(MKUserTrackingMode.follow, animated: true)
         self.navigationItem.rightBarButtonItem = buttonItem
+        
+        
         
         setScheduleTextView()
         addAnnotation()
@@ -184,11 +190,11 @@ class ViewController: UIViewController {
     
     @objc func notification(_ notification: Notification) {
         let text = notification.userInfo?["placeIndex"]
-        print("I print vot eto =", text)
+        print("I print vot eto =", text as Any)
         let myText: String! = text as? String
         print(myText)
         let textPlace = pl[myText ?? "GZ"]
-        print(textPlace)
+        print(textPlace as Any)
         let region = MKCoordinateRegion(center: textPlace?.coordinate ?? places.placeULK.coordinate, latitudinalMeters: CLLocationDistance(1000), longitudinalMeters: CLLocationDistance(1000))
         mapView.setRegion(region, animated: true)
         //mapView.setCenter(text.coordinate, animated: true)
@@ -213,22 +219,26 @@ class ViewController: UIViewController {
     }
     @IBAction func onClick(_ sender: Any) {
         UIView.animate(withDuration: 0.2, animations: {
+            var k: CGFloat = 2
+            if scheduleToday.count > 5{
+                k = 3
+            }
             if !changeSize{
                 //self.groupButton.isHidden = false
                 self.cardInfoButton.setTitle("Скрыть", for: .normal)
-                
-                //self.setScheduleTextView()
+               
                 self.loadScheduleTodayTV()
-                self.infoCard.frame =  CGRect(x:self.infoCard.frame.minX, y: self.infoCard.frame.minY, width:self.infoCard.frame.width, height:self.infoCard.frame.height*3)
-                self.textView.frame = CGRect(x:self.textView.frame.minX, y: self.textView.frame.minY, width:self.textView.frame.width, height:self.textView.frame.height*6)
+        
+                self.infoCard.frame =  CGRect(x:self.infoCard.frame.minX, y: self.infoCard.frame.minY, width:self.infoCard.frame.width, height:self.infoCard.frame.height * k)
+                self.textView.frame = CGRect(x:self.textView.frame.minX, y: self.textView.frame.minY, width:self.textView.frame.width, height:self.textView.frame.height * (k * 2))
                 changeSize = !changeSize
             }
             else{
                 //self.groupButton.isHidden = true
                 self.cardInfoButton.setTitle("Показать", for: .normal)
                 self.textView.text = "Расписание на сегодня:\n"
-                self.infoCard.frame =  CGRect(x:self.infoCard.frame.minX, y: self.infoCard.frame.minY, width:self.infoCard.frame.width, height:self.infoCard.frame.height/3)
-                self.textView.frame = CGRect(x:self.textView.frame.minX, y: self.textView.frame.minY, width:self.textView.frame.width, height:self.textView.frame.height/6)
+                self.infoCard.frame =  CGRect(x:self.infoCard.frame.minX, y: self.infoCard.frame.minY, width:self.infoCard.frame.width, height:self.infoCard.frame.height/k)
+                self.textView.frame = CGRect(x:self.textView.frame.minX, y: self.textView.frame.minY, width:self.textView.frame.width, height:self.textView.frame.height/(k*2))
                 changeSize = !changeSize
             }
         }) { (success) in
