@@ -33,6 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     let myrealm = try! Realm()
     var realmArray: Results<placeDatabase>!
+    var realmGroupArray: Results<groupDatabase>!
     var data = NSDate()
     let dateformatter = DateFormatter()
     
@@ -50,7 +51,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
+        
         realmArray = myrealm.objects(placeDatabase.self)
+        realmGroupArray = myrealm.objects(groupDatabase.self)
         
         if places1.count != realmArray.count {
             for _ in 0...places1.count - realmArray.count - 1 {
@@ -63,6 +66,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         for i in 0...places1.count - 1 {
             places1[i].time = realmArray[i].time
+        }
+        
+        if realmGroupArray.count < 1 {
+            let createRealm = groupDatabase(value: ["yourGroup": "ИУ5-25"])
+            try! myrealm.write {
+                myrealm.add(createRealm)
+            }
         }
         
         FirebaseApp.configure()
