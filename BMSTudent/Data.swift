@@ -8,6 +8,7 @@
 
 import Foundation
 import MapKit
+import RealmSwift
 
 typealias MySchedule = [String: [MyScheduleElement]]
 
@@ -131,4 +132,8 @@ fileprivate func newJSONEncoder() -> JSONEncoder {
         encoder.dateEncodingStrategy = .iso8601
     }
     return encoder
+}
+
+class groupDatabase: Object {
+    @objc dynamic var yourGroup: String = "ИУ5-25"
 }

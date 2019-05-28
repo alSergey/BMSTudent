@@ -11,7 +11,7 @@ import CoreLocation
 import Firebase
 import FirebaseDatabase
 import FirebaseAuth
-
+import RealmSwift
 
 
 let mapCode = MapCode()
@@ -26,7 +26,7 @@ var lastPlace = Place(region: CLCircularRegion(center: CLLocationCoordinate2D(la
                                    coordinate: CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0),
                                    time: 0)
 
-let pl : [String: Place] = ["GZ" : places.placeGZ, "ULK" : places.placeULK, "ESM" : places.placeESM, "IZM" : places.placeIZM, "SK" : places.placeSK, "OB" : places.placeOB, "RKT" : places.placeRKT, "LESTEX" : places.placeLESTEX, "AS" : places.placeAS, "REAIM" : places.placeREAIM, "TC" : places.placeTC, "Home" : places.placeHome]
+let pl : [String: Place] = ["GZ" : places.placeGZ, "ULK" : places.placeULK, "ESM" : places.placeESM, "IZM" : places.placeIZM, "SK" : places.placeSK, "OB" : places.placeOB, "RKT" : places.placeRKT, "LESTEX" : places.placeLESTEX, "AS" : places.placeAS, "REAIM" : places.placeREAIM, "TC" : places.placeTC, "Home" : places.placeHome, "Mail": places.placeMail]
 
 
 var scheduleToday: [Any] = ["Пусто","Пусто"]
@@ -35,6 +35,9 @@ var scheduleToday: [Any] = ["Пусто","Пусто"]
 class ViewController: UIViewController {
 
     var transport : MKDirectionsTransportType = MKDirectionsTransportType.walking
+    
+    let myrealm = try! Realm()
+    var realmGroupArray: Results<groupDatabase>!
     
     var yourgroup: String = "ИУ5-25"
     var heightConstraint: NSLayoutConstraint!
@@ -93,8 +96,9 @@ class ViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(self.notificationReceivedT(_:)), name: .DtoV1TNotificationKey, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.notificationReceivedZ(_:)), name: .DtoV1ZNotificationKey, object: nil)
          NotificationCenter.default.addObserver(self, selector: #selector(self.notificationReceivedM(_:)), name: .mapPlaceNotificationKey, object: nil)
-        //NotificationCenter.default.addObserver(self, selector: #selector(self.notificationReceivedK(_:)), name: .mapPlaceV1NotificationKey, object: nil)
-       
+        NotificationCenter.default.addObserver(self, selector: #selector(self.notification(_:)), name: .mapPlaceV1NotificationKey, object: nil)
+        realmGroupArray = myrealm.objects(groupDatabase.self)
+        yourgroup = realmGroupArray[0].yourGroup
         
         addMapTrackingButton()
         textView.isEditable = false
@@ -142,6 +146,7 @@ class ViewController: UIViewController {
         locationManager.startMonitoring(for: places.placeREAIM.region)
         locationManager.startMonitoring(for: places.placeTC.region)
         locationManager.startMonitoring(for: places.placeHome.region)
+        locationManager.startMonitoring(for: places.placeMail.region)
         
         locationManager.requestAlwaysAuthorization()
         locationManager.startMonitoringVisits()
@@ -177,15 +182,17 @@ class ViewController: UIViewController {
         //mapView.setCenter(text.coordinate, animated: true)
     }
     
-    /*@objc func notificationReceivedK(_ notification: Notification) {
-        let text = (notification.userInfo!["placeIndex"]) as! String
+    @objc func notification(_ notification: Notification) {
+        let text = notification.userInfo?["placeIndex"]
         print("I print vot eto =", text)
-        let myText: String = text
-        let textPlace = pl[myText]
-        //et region = MKCoordinateRegion(center: textPlace?.coordinate ?? places.placeULK.coordinate, latitudinalMeters: CLLocationDistance(1000), longitudinalMeters: CLLocationDistance(1000))
-        //mapView.setRegion(region, animated: true)
+        let myText: String! = text as? String
+        print(myText)
+        let textPlace = pl[myText ?? "GZ"]
+        print(textPlace)
+        let region = MKCoordinateRegion(center: textPlace?.coordinate ?? places.placeULK.coordinate, latitudinalMeters: CLLocationDistance(1000), longitudinalMeters: CLLocationDistance(1000))
+        mapView.setRegion(region, animated: true)
         //mapView.setCenter(text.coordinate, animated: true)
-    }*/
+    }
 
     func setScheduleTextView(){
         let ref = Database.database().reference()
@@ -469,7 +476,8 @@ class ViewController: UIViewController {
         mapView.addAnnotation(places.placeAS)
         mapView.addAnnotation(places.placeREAIM)
         mapView.addAnnotation(places.placeTC)
-        mapView.addAnnotation(places.placeHome)
+        //mapView.addAnnotation(places.placeHome)
+        mapView.addAnnotation(places.placeMail)
     }
     
     func notifyOn() {
@@ -497,6 +505,8 @@ class ViewController: UIViewController {
         places.placeTC.region.notifyOnExit = true
         places.placeHome.region.notifyOnEntry = true
         places.placeHome.region.notifyOnExit = true
+        places.placeMail.region.notifyOnEntry = true
+        places.placeMail.region.notifyOnExit = true
     }
 }
 extension ViewController: MKMapViewDelegate {

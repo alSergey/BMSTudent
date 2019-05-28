@@ -61,6 +61,39 @@
 	<string>For testing</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>need location</string>
+	<key>UIApplicationShortcutItems</key>
+	<array>
+		<dict>
+			<key>UIApplicationShortcutItemIconFile</key>
+			<string>order</string>
+			<key>UIApplicationShortcutItemSubtitle</key>
+			<string>Посмотреть расписание</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Расписание</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>openShedule</string>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemIconFile</key>
+			<string>combo_chart</string>
+			<key>UIApplicationShortcutItemSubtitle</key>
+			<string>Показать статистику</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Статистика</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>openStatistics</string>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemIconFile</key>
+			<string>user_male</string>
+			<key>UIApplicationShortcutItemSubtitle</key>
+			<string>Поменять группу</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Группа</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>changeGroup</string>
+		</dict>
+	</array>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>audio</string>
@@ -84,39 +117,6 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-	</array>
-	<key>UIApplicationShortcutItems</key>
-	<array>
-		<dict>
-			<key>UIApplicationShortcutItemTitle</key>
-			<string>Расписание</string>
-			<key>UIApplicationShortcutItemSubtitle</key>
-			<string>Посмотреть расписание</string>
-			<key>UIApplicationShortcutItemType</key>
-			<string>openShedule</string>
-			<key>UIApplicationShortcutItemIconFile</key>
-			<string>order</string>
-		</dict>
-		<dict>
-			<key>UIApplicationShortcutItemTitle</key>
-			<string>Статистика</string>
-			<key>UIApplicationShortcutItemSubtitle</key>
-			<string>Показать статистику</string>
-			<key>UIApplicationShortcutItemType</key>
-			<string>openStatistics</string>
-			<key>UIApplicationShortcutItemIconFile</key>
-			<string>combo_chart</string>
-		</dict>
-		<dict>
-			<key>UIApplicationShortcutItemTitle</key>
-			<string>Группа</string>
-			<key>UIApplicationShortcutItemSubtitle</key>
-			<string>Поменять группу</string>
-			<key>UIApplicationShortcutItemType</key>
-			<string>changeGroup</string>
-			<key>UIApplicationShortcutItemIconFile</key>
-			<string>user_male</string>
-		</dict>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>

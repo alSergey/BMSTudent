@@ -7,15 +7,19 @@
 //
 import UIKit
 import FirebaseDatabase
+import RealmSwift
 
 extension Notification.Name {
-    public static let mapPlaceV1NotificationKey = Notification.Name(rawValue: "V3toV1")
+    public static let mapPlaceV1NotificationKey = Notification.Name(rawValue: "V3toV2")
 }
 
 class ViewController2: UIViewController, UITableViewDelegate, UITableViewDataSource{
     //var scheduleToday: [Any] = ["Пусто","Пусто"]
     var Group: [String] = []
     var yourgroup: String = "ИУ5-25"
+    
+    let myrealm = try! Realm()
+    var realmGroupArray: Results<groupDatabase>!
     
     var sections: [String] = ["Воскресенье","Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"]
     var itemsInSections: [[String]] = [[""], [""], [""], [""], [""], [""], [""]]
@@ -36,7 +40,10 @@ class ViewController2: UIViewController, UITableViewDelegate, UITableViewDataSou
             print(self.Group)
         }
         
-        navBar.title = "ИУ5-25"
+        realmGroupArray = myrealm.objects(groupDatabase.self)
+        yourgroup = realmGroupArray[0].yourGroup
+        navBar.title = yourgroup
+        
         NotificationCenter.default.addObserver(self, selector: #selector(self.notificationReceived(_:)), name: .myNotificationKey, object: nil)
         tableView.dataSource = self
         tableView.delegate = self
@@ -110,13 +117,22 @@ class ViewController2: UIViewController, UITableViewDelegate, UITableViewDataSou
         return cell
     }
     
+    /*func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let resetAction = UITableViewRowAction(style: .default, title: "Сброс") { _, indexPath in
+            let cell = tableView.dequeueReusableCell(withIdentifier: self.cellIdentifier, for: indexPath)
+            cell.contentView.backgroundColor = .green
+            }
+        return [resetAction]
+    }*/
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        /*let text = itemsInSections[indexPath.section][indexPath.row]
-        let userInfo = [ "placeIndex" : text.split(separator: "_")[1]]
+        let text = itemsInSections[indexPath.section][indexPath.row]
+        let text2 = String(text.split(separator: "_")[1]) as String
+        let userInfo = [ "placeIndex" : text2]
         print("I print eto =", text.split(separator: "_")[1])
         NotificationCenter.default.post(name: .mapPlaceV1NotificationKey, object: nil, userInfo: userInfo)
         tableView.reloadData()
-        self.tabBarController?.selectedIndex = 0*/
+        self.tabBarController?.selectedIndex = 0
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {

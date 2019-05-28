@@ -140,6 +140,15 @@ class Places{
                           discipline: "Дом",
                           coordinate: CLLocationCoordinate2D(latitude: 55.891578, longitude: 37.723226),
                           time: 0)
+    
+    let placeMail = Place(region: CLCircularRegion(center: CLLocationCoordinate2D(latitude: 55.796931, longitude: 37.537847), radius: 120, identifier: "Mail"),
+                          title: "Mail.ru",
+                          identifier: "Mail",
+                          locationName: "Москва",
+                          discipline: "Mail",
+                          coordinate: CLLocationCoordinate2D(latitude: 55.796931, longitude: 37.537847),
+                          time: 0)
+    
     init(){
         let places : [String: Place] = ["GZ" : placeGZ, "ULK" : placeULK, "ESM" : placeESM, "IZM" : placeIZM, "SK" : placeSK, "OB" : placeOB, "Home" : placeHome]
     }

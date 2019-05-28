@@ -9,6 +9,7 @@
 import UIKit
 import RealmSwift
 import FirebaseDatabase
+
 extension Notification.Name {
     public static let myNotificationKey = Notification.Name(rawValue: "V3toV1")
 }
@@ -21,10 +22,11 @@ class ViewController3: UIViewController, UITableViewDelegate, UITableViewDataSou
     
     var Group: [String] = []
     
-    let place : [Place] = [places.placeGZ, places.placeULK, places.placeESM, places.placeIZM, places.placeSK, places.placeOB, places.placeRKT, places.placeLESTEX, places.placeAS, places.placeREAIM, places.placeTC, places.placeHome]
+    let place : [Place] = [places.placeGZ, places.placeULK, places.placeESM, places.placeIZM, places.placeSK, places.placeOB, places.placeRKT, places.placeLESTEX, places.placeAS, places.placeREAIM, places.placeTC, places.placeHome, places.placeMail]
     
     let myrealm = try! Realm()
     var realmArray: Results<placeDatabase>!
+    var realmGroupArray: Results<groupDatabase>!
     
     var yourCurrentGroup: String = "ИУ5-25"
     let cellIdentifier = "statPoligonTableViewCell"
@@ -47,9 +49,10 @@ class ViewController3: UIViewController, UITableViewDelegate, UITableViewDataSou
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.notificationReceived(_:)), name: .setGroupNotificationKey, object: nil)
         
-        navBar.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target:  self, action: #selector(createGroupAlert))
+        navBar.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "ball_point_pen"), style: .done, target: self, action: #selector(createGroupAlert))
         
         realmArray = myrealm.objects(placeDatabase.self)
+        realmGroupArray = myrealm.objects(groupDatabase.self)
         
         if place.count != realmArray.count {
             for _ in 0...place.count - realmArray.count - 1 {
@@ -63,7 +66,16 @@ class ViewController3: UIViewController, UITableViewDelegate, UITableViewDataSou
         for i in 0...place.count - 1 {
             place[i].time = realmArray[i].time
         }
+        
+        if realmGroupArray.count < 1 {
+            let createRealm = groupDatabase(value: ["yourGroup": "ИУ5-25"])
+            try! myrealm.write {
+                myrealm.add(createRealm)
+            }
+        }
+        
         refreshdata()
+        yourCurrentGroup = realmGroupArray[0].yourGroup
         navBar.title = yourCurrentGroup
         TableView.delegate = self
         TableView.dataSource = self
@@ -119,11 +131,9 @@ class ViewController3: UIViewController, UITableViewDelegate, UITableViewDataSou
                 currentRealm.time = place[i].time
             }
         }
+        
         TableView.reloadData()
-        
         refresh.endRefreshing()
-        
-        
     }
     
     func refreshdata(){
@@ -170,6 +180,10 @@ class ViewController3: UIViewController, UITableViewDelegate, UITableViewDataSou
                 let userInfo = [ "text" : yourCurrentGroup ]
                 NotificationCenter.default.post(name: .myNotificationKey, object: nil, userInfo: userInfo)
                 groupChange = true
+                let currentRealm = realmGroupArray[0]
+                try! myrealm.write {
+                    currentRealm.yourGroup = yourCurrentGroup
+                }
                 }
             if (currentGroup == "ИУ5-25") && (groupChange == false) {
                 wrongInputAlert()
