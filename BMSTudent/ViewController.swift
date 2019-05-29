@@ -1,10 +1,3 @@
-//
-//  ViewController.swift
-//  BMSTudent
-//
-//  Created by Sergei Petrenko on 02/05/2019.
-//  Copyright © 2019 Sergei. All rights reserved.
-//
 import UIKit
 import MapKit
 import CoreLocation
@@ -37,13 +30,10 @@ class ViewController: UIViewController {
 
     @IBOutlet var transportButton: UIButton!
     var transport : MKDirectionsTransportType = MKDirectionsTransportType.walking
-    
     let myrealm = try! Realm()
     var realmGroupArray: Results<groupDatabase>!
-    
     var yourgroup: String = "ИУ5-25"
     var heightConstraint: NSLayoutConstraint!
-    
     var mySchedule = MySchedule() // расписание с сервера
     var myDaySchedule : [MyScheduleElement] = [] //расписание на текущий день
     var inPolygon = false
@@ -77,8 +67,6 @@ class ViewController: UIViewController {
     }
     
 
-    
-    
     @IBOutlet var cardInfoButton: UIButton!
     @IBOutlet var textView: UITextView!
     @IBOutlet var mapView: MKMapView!
@@ -98,11 +86,11 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         //Подписка на уведомление
-        NotificationCenter.default.addObserver(self, selector: #selector(self.notificationReceived(_:)), name: .myNotificationKey, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.notificationReceived(_:)), name: .changeGroupNotificationKey, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.notificationReceivedT(_:)), name: .DtoV1TNotificationKey, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.notificationReceivedZ(_:)), name: .DtoV1ZNotificationKey, object: nil)
-         NotificationCenter.default.addObserver(self, selector: #selector(self.notificationReceivedM(_:)), name: .mapPlaceNotificationKey, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.notification(_:)), name: .mapPlaceV1NotificationKey, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.notificationReceivedM(_:)), name: .mapPlaceNotificationKey, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.notification(_:)), name: .mapPlaceSheduleNotificationKey, object: nil)
         realmGroupArray = myrealm.objects(groupDatabase.self)
         yourgroup = realmGroupArray[0].yourGroup
         addMapTrackingButton()
@@ -111,9 +99,6 @@ class ViewController: UIViewController {
         let buttonItem = MKUserTrackingBarButtonItem(mapView: mapView)
         mapView.setUserTrackingMode(MKUserTrackingMode.follow, animated: true)
         self.navigationItem.rightBarButtonItem = buttonItem
-        
-        
-        
         setScheduleTextView()
         addAnnotation()
         notifyOn()
@@ -185,7 +170,6 @@ class ViewController: UIViewController {
         guard let text = notification.userInfo?["place"] as? Place else { return }
         let region = MKCoordinateRegion(center: text.coordinate, latitudinalMeters: CLLocationDistance(1000), longitudinalMeters: CLLocationDistance(1000))
         mapView.setRegion(region, animated: true)
-        //mapView.setCenter(text.coordinate, animated: true)
     }
     
     @objc func notification(_ notification: Notification) {
@@ -197,7 +181,6 @@ class ViewController: UIViewController {
         print(textPlace as Any)
         let region = MKCoordinateRegion(center: textPlace?.coordinate ?? places.placeULK.coordinate, latitudinalMeters: CLLocationDistance(1000), longitudinalMeters: CLLocationDistance(1000))
         mapView.setRegion(region, animated: true)
-        //mapView.setCenter(text.coordinate, animated: true)
     }
 
     func setScheduleTextView(){
@@ -260,7 +243,6 @@ class ViewController: UIViewController {
             else if str == "NULL"{
                 self.textView.text += "Окно" + Date().getTimeStringOfEx(exId: i) + "\n"
             }
-            //self.textView.text += String(str.split(separator: "_")[0]) + "\n"
         }
     }
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
@@ -269,9 +251,6 @@ class ViewController: UIViewController {
         renderer.lineWidth = 4.0
         return renderer
     }
-   
-    
-    
     func timeToString(time : Int)->String{
         var h: Int = 0
         var m: Int = 0
@@ -281,7 +260,6 @@ class ViewController: UIViewController {
         else if time < 3600 {
             m = time / 60
             s = time - 60 * (time / 60)
-
         }
         else {
             h = time / 3600
@@ -389,8 +367,6 @@ class ViewController: UIViewController {
         }
     }
     func setTimer(dl: CLLocationCoordinate2D){
-        
-        //let time = mapCode.getRouteTime(sourceLocation: (locationManager.location?.coordinate)!, destinationLocation: dl, mapView: mapView)
         var time: Int = 0
         let directionRequest = MKDirections.Request()
         directionRequest.source = MKMapItem(placemark: MKPlacemark(coordinate: sourceLocation ))
@@ -410,16 +386,10 @@ class ViewController: UIViewController {
             let route = directionResonse.routes[0]
             let res =  Int(route.expectedTravelTime)
             time = res
-//            self.locationStatusLabel.text = "Время в пути"
-//            self.univercityTimerLabel.text = self.timeToString(time: res)
-            
-           // && getCurrentTime() > self.getTimeOfEx(exId: 1) &&
             if !self.contains(place: pl, point: self.locationManager.location?.coordinate ?? self.initialLocation.coordinate ) && getCurrentTime() < self.getTimeOfEx(exId: scheduleToday.count) {
                 self.mapView.removeOverlays(self.mapView.overlays)
                 self.sourceLocation = (self.locationManager.location?.coordinate) ?? CLLocationCoordinate2D(latitude:55.765790, longitude: 37.677132)
                 self.mapView.addOverlay(route.polyline, level: .aboveRoads)
-                //let rect = route.polyline.boundingMapRect
-                //self.mapView.setRegion(MKCoordinateRegion(rect), animated: true)
                 self.locationStatusLabel.text = "Время в пути"
                 print("ставлю время в пути", time )
                 self.univercityTimerLabel.text = self.timeToString(time: time)
@@ -444,11 +414,6 @@ class ViewController: UIViewController {
             }
             else if !self.contains(place: pl, point: self.locationManager.location?.coordinate ?? self.initialLocation.coordinate ) && getCurrentTime() > self.getTimeOfEx(exId: scheduleToday.count){
                  self.taskStatusLabel.text = "Вам никуда не надо"
-                
-//                self.univercityTimerLabel.text = "00:00:00"
-//                self.locationStatusLabel.text = "Таймер"
-                
-                
             }
             else if self.contains(place: pl, point: self.locationManager.location?.coordinate ?? self.initialLocation.coordinate ) && getCurrentTime() > self.getTimeOfEx(exId: scheduleToday.count){
                 self.taskStatusLabel.text = "Вам никуда не надо"

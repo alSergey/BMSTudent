@@ -1,11 +1,3 @@
-//
-//  Place.swift
-//  BMSTudent
-//
-//  Created by Sergei Petrenko on 02/05/2019.
-//  Copyright © 2019 Sergei. All rights reserved.
-//
-
 import Foundation
 import MapKit
 import Contacts
@@ -19,8 +11,6 @@ class Place:NSObject,MKAnnotation {
     let discipline: String
     var coordinate: CLLocationCoordinate2D
     var time: Int
-    
-   
     
     init(region: CLCircularRegion,title: String,identifier: String, locationName: String, discipline: String, coordinate: CLLocationCoordinate2D, time: Int) {
         self.region = region
@@ -36,6 +26,7 @@ class Place:NSObject,MKAnnotation {
     var subtitle: String? {
         return locationName
     }
+    
     func mapItem() -> MKMapItem {
         let addressDict = [CNPostalAddressStreetKey: subtitle!]
         let placemark = MKPlacemark(coordinate: coordinate, addressDictionary: addressDict)
@@ -44,6 +35,8 @@ class Place:NSObject,MKAnnotation {
         return mapItem
     }
 }
+
+
 class Places{
     let placeGZ = Place(region: CLCircularRegion(center: CLLocationCoordinate2D(latitude: 55.765886, longitude: 37.685041), radius: 190, identifier: "GZ"),
                         title: "Главное здание",
@@ -148,12 +141,6 @@ class Places{
                           discipline: "Mail",
                           coordinate: CLLocationCoordinate2D(latitude: 55.796931, longitude: 37.537847),
                           time: 0)
-    
-    init(){
-        let places : [String: Place] = ["GZ" : placeGZ, "ULK" : placeULK, "ESM" : placeESM, "IZM" : placeIZM, "SK" : placeSK, "OB" : placeOB, "Home" : placeHome]
-    }
-    // let places : [String: Place] = ["GZ" : placeGZ, "ULK" : placeULK, "ESM" : placeESM, "IZM" : placeIZM, "SK" : placeSK, "OB" : placeOB, "Home" : placeHome]
-
 }
 
 class placeDatabase: Object {

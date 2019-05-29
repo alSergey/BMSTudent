@@ -1,11 +1,3 @@
-//
-//  myTableViewCell.swift
-//  BMSTudent
-//
-//  Created by Сергей Алехин on 11/05/2019.
-//  Copyright © 2019 Sergei. All rights reserved.
-//
-
 import UIKit
 
 class myTableViewCell: UITableViewCell {
@@ -15,14 +7,10 @@ class myTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
     }
-
-    func fillCellGreen() {
-        contentView.backgroundColor = .green
-    }
     
+    // Заполнение TableViewCell
     func fillCell(with group: String){
         groupLabel.text = group
-        
     }
     
 }

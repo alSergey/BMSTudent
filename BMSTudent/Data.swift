@@ -1,11 +1,3 @@
-//
-//  Data.swift
-//  BMSTudent
-//
-//  Created by Sergei Petrenko on 09/05/2019.
-//  Copyright © 2019 Sergei. All rights reserved.
-//
-
 import Foundation
 import MapKit
 import RealmSwift
@@ -42,8 +34,6 @@ enum Title: String, Codable {
     case свобода = "Свобода"
     case физика = "Физика"
 }
-
-// MARK: Convenience initializers and mutators
 
 extension MyScheduleElement {
     convenience init(data: Data) throws {

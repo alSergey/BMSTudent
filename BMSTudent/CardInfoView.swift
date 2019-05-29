@@ -1,11 +1,3 @@
-//
-//  CardInfoView.swift
-//  BMSTudent
-//
-//  Created by Sergei Petrenko on 03/05/2019.
-//  Copyright © 2019 Sergei. All rights reserved.
-//
-
 import UIKit
 
 class CardInfoView: UIView {
